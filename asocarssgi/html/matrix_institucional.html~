@@ -4,4 +4,4 @@
 <input type="submit" value="Submit" />
 </form>
 Descargar el archivo
-<a href = "{{STATIC_URL}}Download/MATRIZ_INSTITUCIONAL.xlsx">Matriz Institucional</a>
+<a href = "{{STATIC_URL}}MATRIZ_INSTITUCIONAL.xlsx">Matriz Institucional</a>
