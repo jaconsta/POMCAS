@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Javie Constain', 'asocars85@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -79,6 +79,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    '/home/javier/apps/python/POMCAS',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -110,6 +111,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    "/home/javier/apps/python/POMCAS/asocarssgi/html/",
 )
 
 INSTALLED_APPS = (
