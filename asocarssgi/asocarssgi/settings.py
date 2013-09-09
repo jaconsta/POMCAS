@@ -36,6 +36,10 @@ LANGUAGE_CODE = 'es-co'
 
 SITE_ID = 1
 
+#Makes Django URL relocatable.
+FORCE_SCRIPT_NAME = '/proyecto85'
+SUB_SITE = '/proyecto85'
+
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -71,7 +75,8 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'C:/Users/ASOCARS_I7/Documents/GitHub/POMCAS/asocarssgi/static/',
+    #'C:/Users/ASOCARS_I7/Documents/GitHub/POMCAS/asocarssgi/static/',
+    '/home/pomcas/POMCAS/asocarssgi/static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -113,7 +118,8 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #"/home/javier/apps/python/POMCAS/asocarssgi/html/",
-    "C:/Users/ASOCARS_I7/Documents/GitHub/POMCAS/asocarssgi/html",
+    #"C:/Users/ASOCARS_I7/Documents/GitHub/POMCAS/asocarssgi/html",
+    "/home/pomcas/POMCAS/asocarssgi/html",
 )
 
 INSTALLED_APPS = (

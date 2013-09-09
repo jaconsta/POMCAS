@@ -1,15 +1,13 @@
 from django.conf.urls import patterns, include, url
+import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'asocarssgi.views.home', name='home'),
-    # url(r'^asocarssgi/', include('asocarssgi.foo.urls')),
     url(r'^matrix/institucional/', 'matriz_institucional.views.upload_matrix', name='matrix_institucional_home'),
-    url(r'^matrix/institucional/upload', 'matriz_institucional.views.upload_matrix', name='matrix_institucional_upload'),
+    url(r'^pmatrix/institucional/upload', 'matriz_institucional.views.upload_matrix', name='matrix_institucional_upload'),
     url(r'^login/', 'usuarios.views.loginuser', name='start_sesion'),
     url(r'^logout/', 'usuarios.views.logoutuser', name='close_sesion'),
     url(r'^adduser/', 'usuarios.views.newuser', name = 'create_user'),
@@ -19,4 +17,5 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    #(r'^%s/' % settings.SUB_SITE, include('asocarssgi.urls_subsite')),
 )

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 import xlrd
 
+from asocarssgi import default_names
 from .forms import UploadFileForm
 from .models import *
 
@@ -17,7 +18,7 @@ def excel_store(upfile):
     I think it s better to first store the  file
     '''
     name = upfile.name
-    with open('C:/Users/ASOCARS_I7/Documents/Matrix_loaded/%s'%(name), 'wb') as destination:      #('/tmp/%s'%(name), 'wb') as destination:
+    with open('/home/pomcas/Matrix_loaded/%s'%(name), 'wb') as destination:      #('/tmp/%s'%(name), 'wb') as destination:
         for chunk in upfile.chunks():
             destination.write(chunk)
     return name
@@ -27,7 +28,7 @@ def soporte_store(upfile):
 
     '''
     name = upfile.name
-    with open('C:/Users/ASOCARS_I7/Documents/Matrix_loaded/%s'%(name), 'wb') as destination:      #('/tmp/%s'%(name), 'wb') as destination:
+    with open('/home/pomcas/Matrix_loaded/%s'%(name), 'wb') as destination:      #('/tmp/%s'%(name), 'wb') as destination:
     	destination.write(upfile.read())
     return
 
@@ -35,12 +36,12 @@ def excel_process(upfile):
     '''
     And after being stored, read and process it.
     '''
-    matrix = 'C:/Users/ASOCARS_I7/Documents/Matrix_loaded/%s'%(upfile)    #'/tmp/%s'%(upfile)
+    matrix = '/home/pomcas/Matrix_loaded/%s'%(upfile)    #'/tmp/%s'%(upfile)
     book = xlrd.open_workbook(matrix)
     print book.sheet_by_index(1).name
     return
 
-@login_required(login_url = '/login/')
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def upload_matrix(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
