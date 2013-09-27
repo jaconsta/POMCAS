@@ -53,7 +53,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/var/contrato85/'#'/home/pomcas/Matrix_loaded/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -64,7 +64,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/home/pomcas/POMCAS/asocarssgi/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -85,7 +85,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    '/home/javier/apps/python/POMCAS',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -119,7 +118,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     #"/home/javier/apps/python/POMCAS/asocarssgi/html/",
     #"C:/Users/ASOCARS_I7/Documents/GitHub/POMCAS/asocarssgi/html",
-    "/home/pomcas/POMCAS/asocarssgi/html",
+    '/home/pomcas/POMCAS/asocarssgi/html',
 )
 
 INSTALLED_APPS = (
@@ -131,7 +130,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'matriz_institucional',
+    'matriz_cartografica',
     'excelparams',
+    'sortedscripts',
+    'regist_carga',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

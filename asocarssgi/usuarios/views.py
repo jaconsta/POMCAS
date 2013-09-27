@@ -27,7 +27,7 @@ def loginuser(request):
 	    if user.is_active:
 		login(request, user)
 		#Success page
-		return HttpResponseRedirect('%s/' %(default_names.SUB_SITE))
+		return HttpResponseRedirect('%s' %(default_names.SUB_SITE))
 	    else:
 		#Disabled account
 		error = 'La cuenta se encuentra deshabilitada.'
@@ -36,8 +36,8 @@ def loginuser(request):
 	    error = 'Usuario y/o clave incorrectos'
     else:
 	form = loginform()
-    return render_to_response(('%s/login.html' %(default_names.SUB_SITE)), {'form':form, 'error': error}, context_instance = RequestContext(request))
+    return render_to_response(('login.html'), {'form':form, 'error': error}, context_instance = RequestContext(request))
 
 def logoutuser(request):
     logout(request)
-    return HttpResponseRedirect('%s/' %(default_names.SUB_SITE))
+    return HttpResponseRedirect('%s' %(default_names.SUB_SITE))
