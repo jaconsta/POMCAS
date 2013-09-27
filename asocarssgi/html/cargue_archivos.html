@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Protocolo de cargue de la Matriz de Diagnóstico institucional</title>
+</head>
+<body>
+<img src="http://asocars.org.co/images/logo_2012_Custom.png" alt="Asocars_logo" style = "margin-left:150px;"></img>
+<h1>Herramienta de Cargue Matrices</h1>
+<h2>Matriz de Diagnóstico intitucional</h2>
+<h3>Favor Subir el Archivo de Matriz y el archivo Comprimide Soportes a continuación</h3>
+<form action="proyecto85/b/" method="post" enctype = "multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Cargar Matriz" />
+</form>
+</br>
+<h3>Si no dispone de la matriz o le han recomendado volverla a diligenciar. </h3>
+Descargar el archivo
+{% load staticfiles %}
+<a href = "/static/Download/MATRIZ_INSTITUCIONAL.xlsx">Matriz Institucional</a>
+
+</body>
+</html>
