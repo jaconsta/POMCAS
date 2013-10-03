@@ -15,6 +15,14 @@ class matrcartogb(models.Model):
     cartcuno = models.CharField(u'Cuenca para la que fue adquirida, Nombre', max_length = 100, null = True, blank = True)
     cartvali = models.BooleanField(u'La matriz es valida', default = False)
 
+class cartoginven(models.Model):
+    cartuser = models.ForeighKey(User)
+    cartplan = models.CharField(u'Numeración de la plancha', max_length = 50)
+    cartform = models.CharField(u'Formato', max_length = 10)
+    cartesca = models.IntegerField(u'Escala')
+    cartfano = models.SmallIntegerField(u'Año. Fuente')
+    carteano = models.SmallIntegerField(u'Año. Elaboración')
+
 class areaspomcab(models.Model):
     arpopomc = models.CharField(max_length = 50)
     arponcar = models.CharField(max_length = 50)

@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'matriz_cartografica',
     'excelparams',
     'sortedscripts',
+    'regist_carga',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

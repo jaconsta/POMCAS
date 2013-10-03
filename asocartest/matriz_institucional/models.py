@@ -266,7 +266,7 @@ class minstplanific(models.Model):
     miplpgaa = models.CharField(u'Adopcion PGAR. Tipo de acto administrativo',
                                max_length = 75)
     miplpgno = models.PositiveIntegerField(u'Adopcion PGAR. Numero')
-    miplpgda = models.DateField(u'Adopcion PGAR. Fecha')
+    miplpgda = models.DateField(u'Adopcion PGAR. Fecha', null = True, blank = True)
     miplpamj = models.CharField(u'Prospectiva ambiental de la jurisdicción',
                                max_length = 1000)
     mipldiag = models.CharField(u'Diagnostico ambiental', max_length = 1000)
@@ -373,7 +373,7 @@ class minsprespomca(models.Model):
     miprprco = models.ForeignKey('minspresupues', verbose_name = u'Presupuesto')
     miprprpr = models.CharField(u'Proyecto', max_length = 200)
     miprprfi = models.CharField(u'Fuente de Financiación', max_length = 200)
-    miprprva = models.PositiveIntegerField(u'Valor')
+    miprprva = models.BigIntegerField(u'Valor')
     miprprcu = models.CharField(u'Cuencas', max_length = 200)
     miprpras = models.BooleanField(u'ASOCARS',)
 
@@ -504,7 +504,7 @@ class minssoptechrs(models.Model):
     misthrpg = models.CharField(u'Posgrado', max_length = 150, null = True)
     misthrca = models.CharField(u'Cargo', max_length = 150)
     misthrtv = models.CharField(u'Tipo de Vinculación', max_length = 150)
-    misthrtd = models.PositiveIntegerField(u'Tiempo de dedicación')
+    misthrtd = models.FloatField(u'Tiempo de dedicación', null = True, blank = True)
     misthrfr = models.CharField(u'Otras funciones no relacionadas', max_length = 150)
 
 class minsrecurhuma(models.Model):
@@ -559,7 +559,7 @@ class minsrhvinpomc(models.Model):
     mirhpopc = models.CharField(u'Proceso', max_length = 8)
     mirhpono = models.CharField(u'Nombre', max_length = 120)
     mirhpopr = models.CharField(u'Profesión', max_length = 120) 
-    mirhpoec = models.CharField(u'Estudios complementarios',max_length = 120, 
+    mirhpoec = models.CharField(u'Estudios complementarios',max_length = 250, 
                          null = True, blank = True) 
     mirhpoca = models.CharField(u'Cargo', max_length = 120) 
     mirhpotv = models.CharField(u'Tipo de vinculación', max_length = 50) 
@@ -569,9 +569,9 @@ class minsrhvinpomc(models.Model):
     mirhpotd = models.PositiveSmallIntegerField(u'Tiempo de dedicación', 
                          null = True, blank = True)
     mirhporo = models.CharField(u'Rol / Función en el preaprestamiento', 
-                         max_length = 120, null = True, blank = True) 
+                         max_length = 250, null = True, blank = True) 
     mirhpoot = models.CharField(u'Otras Funciones relacionadas con el POMCA ', 
-                         max_length = 120, null = True, blank = True) 
+                         max_length = 250, null = True, blank = True) 
     mirhpote = models.CharField(u'Temática a la que se encuentra adscrito', 
                          max_length = 120, null = True, blank = True) 
  

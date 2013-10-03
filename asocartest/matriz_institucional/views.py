@@ -321,7 +321,7 @@ def excel_process(excel_addr):
                     or sheet.cell_value(colx = 8, rowx = rowini) != ''
                     or sheet.cell_value(colx = 9, rowx = rowini) != ''
                 ):
-                    coordina = sheet.cell_value(colx = 3, rowx = rowini)
+                    coordina = sheet.cell_value(colx = 3, rowx = rowini)[0:124]
                     librenomb = ValidBlankInt(sheet.cell_value(colx = 6, rowx = rowini))
                         #librenomb = 0
                     carreadmi = ValidBlankInt(sheet.cell_value(colx = 7, rowx = rowini))
@@ -420,7 +420,8 @@ def excel_process(excel_addr):
                     print u'No hay inidicativo de región: %s'%(teleindi)
                     telindi = 0
                 try:
-                    telefon = int(sheet.cell_value(colx = 5, rowx = rowini))
+                    telefon = sheet.cell_value(colx = 5, rowx = rowini)
+                    int(telefon)
                 except ValueError: 
                     print u'No ingresó teléfono o el formato es inválido: %s'%(telefon)
                     telefon = 0
@@ -505,12 +506,22 @@ def excel_process(excel_addr):
             pgartitulo = sheet.cell_value(colx = 2, rowx = 12)
             pgarperiodo = sheet.cell_value(colx = 6, rowx = 12)
             pgartipoact = sheet.cell_value(colx = 1, rowx = 18)
+            if pgartipoact == '':
+                print u'PGAR. No hay información de acto administrativo %s'%(pgartipoact)
+                print u'Se permite continuar con el proceso'
             pgarnumeact = sheet.cell_value(colx = 3, rowx = 18)
-            dia = int(sheet.cell_value(colx = 4, rowx = 18))
-            mes_s = sheet.cell_value(colx = 5, rowx = 18)
-            mes = Month[mes_s]
-            anno = int(sheet.cell_value(colx = 7, rowx = 18))
-            pgarfecha = datetime.date(anno, mes, dia)
+            if pgarnumeact == '':
+                print u'PGAR. No hay información de número de acto %s'%(pgarnumeact)
+                pgarnumeact = 0
+            try:
+                dia = int(sheet.cell_value(colx = 4, rowx = 18))
+                mes_s = sheet.cell_value(colx = 5, rowx = 18)
+                mes = Month[mes_s]
+                anno = int(sheet.cell_value(colx = 7, rowx = 18))
+                pgarfecha = datetime.date(anno, mes, dia)
+            except ValueError:
+                print u'No se ha especificado un valor válido para la fecha'
+                pgarfecha  = None
             #I suppose people might place more than one resolution then i'll verify
             # As I'm not sure if it will allow symbols
             if sheet.cell_value(colx = 1, rowx = 20) == '': #!= 'PROSPECTIVA AMBIENTAL DE LA JURISDICCIÓN':
@@ -571,13 +582,13 @@ def excel_process(excel_addr):
             metas = ''
             tmp = '' #A temporary storage variable
             while sheet.cell_value(colx = 5, rowx = rowini) != '' and rowini :
-                metas = sheet.cell_value(colx = 5, rowx = rowini)[0:499] 
+                metas = (u'%s'%(sheet.cell_value(colx = 5, rowx = rowini)))[0:499] 
                 #Get proyectos
-                tmp = sheet.cell_value(colx = 3, rowx = rowini)[0:499] 
+                tmp = (u'%s'%(sheet.cell_value(colx = 3, rowx = rowini)))[0:499] 
                 if tmp != '':
                     proyectos = tmp 
                 #Get programas
-                tmp = sheet.cell_value(colx = 1, rowx = rowini)[0:499] 
+                tmp = (u'%s'%(sheet.cell_value(colx = 1, rowx = rowini)))[0:499] 
                 if tmp != '':
                     programas = tmp
                 metaspai = minsplanpaime(
@@ -759,7 +770,7 @@ def excel_process(excel_addr):
                 )
                 pcinfo.save()
                 rowini += 1
-                return rowini
+            return rowini    
         def SetSopTecPeople(sheet, soptec, sistema, rowini):
             nombre = sheet.cell_value(colx = 1 , rowx = rowini)
             profesion = sheet.cell_value(colx = 5, rowx = rowini)
@@ -767,6 +778,11 @@ def excel_process(excel_addr):
             cargo = sheet.cell_value(colx = 7, rowx = rowini)
             tipovincula = sheet.cell_value(colx = 8, rowx = rowini)
             tiempodedic = sheet.cell_value(colx = 10, rowx = rowini)
+            try:
+                tiempodedic = float(tiempodedic)
+            except ValueError:
+                print u'Se esperaba un número, llegó: %s'%(tiempodedic)    
+                tiempodedic = None
             otrasfuncio = sheet.cell_value(colx = 11, rowx = rowini)
             personal = minssoptechrs(
                 misotehr = soptec,
@@ -779,6 +795,119 @@ def excel_process(excel_addr):
                 misthrtd = tiempodedic,
                 misthrfr = otrasfuncio,
             )
+            personal.save()
+        def SetSIRH(sheet, soptec, rowini):
+            sirhexis = sheet.cell_value(colx = 5, rowx = rowini)
+            sirhnomb = sheet.cell_value(colx = 8, rowx = rowini)
+            rowini += 3
+            sirhdesc = sheet.cell_value(colx = 5, rowx = rowini)[0:499]
+            rowini += 4
+            sirhhweb = sheet.cell_value(colx = 5, rowx = rowini)
+            sirhwurl = sheet.cell_value(colx = 8, rowx = rowini)
+            rowini += 2
+            soptec.missrhex = sirhexis
+            soptec.missrhns = sirhnomb
+            soptec.missrhde = sirhdesc
+            soptec.missrhwe = sirhhweb
+            soptec.missrhru = sirhwurl
+            soptec.save()
+            return rowini
+        def SetLA(sheet, soptec, rowini):
+            laexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]
+            if laexist:
+                rowini += 4 
+                laacredit = Conditional[sheet.cell_value(colx = 8, rowx = rowini)]
+                if laacredit:
+                    rowini += 7
+                    entidad = sheet.cell_value(colx = 1, rowx = rowini)
+                    resolucion = sheet.cell_value(colx = 5, rowx = rowini)
+                    dia = int(sheet.cell_value(colx = 6, rowx = rowini))
+                    mes_s = sheet.cell_value(colx = 7, rowx = rowini)
+                    mes = Month[mes_s]
+                    anno = int(sheet.cell_value(colx = 9, rowx = rowini))
+                    fecha = datetime.date(anno, mes, dia)
+                    rowini += 2
+                    parametros = sheet.cell_value(colx = 1, rowx = rowini)[0:999]
+                    proceso = sheet.cell_value(colx = 5, rowx = rowini)[0:999]
+                    rowini += 2
+                soptec.laacr = laacredit
+            else:
+                convenios = Conditional[sheet.cell_value(colx = 8, rowx = rowini)]
+                if convenios:
+                    cualconve = sheet.cell_value(colx = 8, rowx = rowini)
+                    soptec.mislacoc = cualconve
+                soptec.mislacon = convenios
+                rowini +=15
+            soptec.laexi = laexist
+            soptec.save()
+            return rowini
+        def SetRMA(sheet, soptec, rowini = 113):
+            rmaexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]
+            if rmaexist:
+                rowini += 4
+                asocrmn = Conditional[sheet.cell_value(colx = 6, rowx = rowini)]
+                cualrmn = sheet.cell_value(colx = 8, rowx = rowini)
+                rowini += 3
+                estacio = sheet.cell_value(colx = 6, rowx = rowini)
+                paramet = sheet.cell_value(colx = 11, rowx = rowini)
+                #Set the db objetc
+                soptec.misrmana = asocrmn 
+                soptec.misrmano = cualrmn
+                soptec.misrmaed = estacio 
+                soptec.misrmapm = paramet 
+                rowini += 2
+            else: 
+                conveni = sheet.cell_value(colx = 8, rowx = rowini)
+                cuancon = sheet.cell_value(colx = 8, rowx = rowini)
+                #Set the db objetc
+                soptec.misrmaco = conveni
+                soptec.misrmacc = cuancon
+                rowini += 9
+                return rowini 
+            #Set the db objetc
+            soptec.misrmaex = rmaexist
+            soptec.save()
+            return rowini
+        def SetRMC(sheet, soptec, rowini = 151):
+            rmcexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]  
+            if rmcexist:
+                rowini += 4
+                estaciones = sheet.cell_value(colx = 6, rowx = rowini)  
+                parametros = sheet.cell_value(colx = 11, rowx = rowini)  
+                #Set the db objetc
+                soptec.misrmced = estaciones
+                soptec.misrmcpm = parametros
+                rowini += 2
+            else:
+                convenios = sheet.cell_value(colx = 9, rowx = rowini)  
+                cualconve = sheet.cell_value(colx = 11, rowx = rowini)  
+                #Set the db objetc
+                soptec.misrmcco = convenios
+                soptec.misrmccc = cualconve
+                rowini += 6
+            soptec.misrmcex = rmcexist
+            soptec.save()
+            return rowini
+        def SetRMH(sheet, soptec, rowini = 186):
+            rmhexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]  
+            if rmhexist:
+                rowini += 4
+                estaciones = sheet.cell_value(colx = 6, rowx = rowini)  
+                parametros = sheet.cell_value(colx = 11, rowx = rowini)  
+                #Set the db objetc
+                soptec.misrmhed = estaciones
+                soptec.misrmhpm = parametros
+                rowini += 2
+            else:
+                convenios = sheet.cell_value(colx = 9, rowx = rowini)  
+                cualconve = sheet.cell_value(colx = 11, rowx = rowini)  
+                #Set the db objetc
+                soptec.misrmhco = convenios
+                soptec.misrmhcc = cualconve
+                rowini += 6
+            soptec.misrmhex = rmhexist
+            soptec.save()
+            return rowini
         infosistems = SetHaveSig(sheet, main_id)
         #If there is SIG
         if infosistems.missigex != 'No disponible' or infosistems.missigex != '': 
@@ -788,13 +917,15 @@ def excel_process(excel_addr):
                 print u'Al parecer la información de los quipos de computo no se encuentra en a posición necesaria'   
                 print u'El proceso no continúa'
                 return
-            rowini = SetSigpc(sheet, soptec = infosistems)
+            rowini = 17
+            rowini = SetSigpc(sheet, soptec = infosistems, rowini = rowini)
             #Find word PERSONAL for the people involved
             while (u'%s'%(sheet.cell_value(colx = 1, rowx = rowini))).find('PERSONA') and (u'%s'%(sheet.cell_value(colx = 1, rowx = rowini))).find('GEOGR'):
                 rowini += 1
             #Make sure the spaces are respected
             rowini += 2
             if sheet.cell_value(colx = 1, rowx = rowini) == 'NOMBRE':
+                rowini += 1
                 while sheet.cell_value(colx = 1, rowx = rowini) != '':
                     SetSopTecPeople(sheet, soptec = infosistems, sistema = 'SIG', rowini = rowini)
                     rowini += 1
@@ -804,17 +935,120 @@ def excel_process(excel_addr):
                 return
         else:
         #Find SIRH
+            print u'No tiene SIG'
             rowini = 20
-        while sheet.cell_value(colx = 1, rowx = rowini).find('RECURSO'):
-            print sheet.cell_value(colx = 1, rowx = rowini)
-
+        try:    
+            while 'RECURSO' not in sheet.cell_value(colx = 1, rowx = rowini):#.find('RECURSO'):
+                rowini += 1
+        except IndexError:
+            print u'No se encontró Información del SIRH'
+            rowini = 30        
+        #If there is SIRH 
+        rowini += 2
+        if sheet.cell_value(colx = 5, rowx = rowini) == 'SI':
+            rowini = SetSIRH(sheet, soptec = infosistems, rowini = rowini)
+        else:
+            print u'No tiene SIRH'
+            rowini += 10
+        #LA is right next to SIRH but make sure not modified
+        rowini += 1
+        try:
+            while sheet.cell_value(colx = 1, rowx = rowini) != 'LABORATORIO DE AGUAS':
+                rowini += 1
+        except IndexError:
+            print u'No se encontró Información del LA'
+            print u'No se continuará con el proceso'
+            return
+        rowini += 2
+        if sheet.cell_value(colx = 5, rowx = rowini) == 'SI':
+            rowini = SetLA(sheet, soptec = infosistems, rowini = rowini)
+            #It assumes the cells hasnt been erased
+            #Checks just in case some space has been added or removed
+            while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
+                rowini += 2
+            rowini += 1    
+            while sheet.cell_value(colx = 1, rowx = rowini) != '':
+                SetSopTecPeople(sheet, soptec = infosistems, sistema = 'LA', rowini = rowini)
+                rowini += 1
+        else:
+            print u'No tiene LA'
+        #Find RMA
+        try:
+            while 'AMBIENTAL' not in sheet.cell_value(colx = 1, rowx = rowini):
+                rowini += 1
+        except IndexError:
+            print u'No se encontró Información del RMA'
+            print u'No se continuará con el proceso'
+            return
+        rowini += 2
+        if sheet.cell_value(colx = 5, rowx = rowini) == 'SI':
+            rowini = SetRMA(sheet, soptec = infosistems, rowini = rowini)
+            #It assumes the cells hasnt been erased
+            #Checks just in case some space has been added or removed
+            while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
+                rowini += 1
+            rowini += 1    
+            while sheet.cell_value(colx = 1, rowx = rowini) != '':
+                SetSopTecPeople(sheet, soptec = infosistems, sistema = 'RMA', rowini = rowini)
+                rowini += 1
+        else:
+            print u'No tiene RMA'
+        #Find RMC
+        try:
+            while 'CLIMATOL' not in sheet.cell_value(colx = 1, rowx = rowini):
+                rowini += 1
+        except IndexError:
+            print u'No se encontró Información del RMC'
+            print u'No se continuará con el proceso'
+            return
+        rowini += 2
+        if sheet.cell_value(colx = 5, rowx = rowini) == 'SI':
+            rowini = SetRMC(sheet, soptec = infosistems, rowini = rowini)
+            #It assumes the cells hasnt been erased
+            #Checks just in case some space has been added or removed
+            while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
+                rowini += 1
+            rowini += 1    
+            while sheet.cell_value(colx = 1, rowx = rowini) != '':
+                SetSopTecPeople(sheet, soptec = infosistems, sistema = 'RMC', rowini = rowini)
+                rowini += 1
+        else:
+            print u'No tiene RMC'
+        #Find RMH
+        try:
+            while 'HIDROL' not in sheet.cell_value(colx = 1, rowx = rowini):
+                rowini += 1
+        except IndexError:
+            print u'No se encontró Información del RMA'
+            print u'No se continuará con el proceso'
+            return
+        rowini += 2
+        if sheet.cell_value(colx = 5, rowx = rowini) == 'SI':
+            rowini = SetRMH(sheet, soptec = infosistems, rowini = rowini)
+            #It assumes the cells hasnt been erased
+            #Checks just in case some space has been added or removed
+            while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
+                rowini += 1
+            rowini += 1    
+            while sheet.cell_value(colx = 1, rowx = rowini) != '':
+                SetSopTecPeople(sheet, soptec = infosistems, sistema = 'RMH', rowini = rowini)
+                rowini += 1
+        else:
+            print u'No tiene RMH'
     def SetPomcas(sheet, main_id):
         def SetPomcaComission(sheet, main_id):
             comitexists = sheet.cell_value(colx = 4, rowx = 13)
             comitexist = Conditional[comitexists]
             if comitexist:
                 comiteacto = sheet.cell_value(colx = 1, rowx = 18)
+                if comiteacto == '':
+                    print u'No hay valor para el acto del comité: %s'%(comiteacto)
+                    print u'Se permite continuar con el proceso'
                 comitenume = sheet.cell_value(colx = 3, rowx = 18)
+                if comitenume == '':
+                    print u'No hay valor para el Número de acto %s'%(comitenume)
+                    print u'Se permite continuar con el proceso'
+                    comitenume = 0
                 try:
                     dia = int(sheet.cell_value(colx = 4, rowx = 18))
                     mes_s = sheet.cell_value(colx = 5, rowx = rowini)
@@ -846,22 +1080,27 @@ def excel_process(excel_addr):
             return comitepomca
         def SetPomcaFuncion(sheet, pomca, rowini = 26):
             def SetWorkers(sheet, pomca, dependency, rowini):
-                nombre = sheet.cell_value(colx = 1, rowx = rowini)
-                profesion = sheet.cell_value(colx = 2, rowx = rowini)
-                estudios = sheet.cell_value(colx = 3, rowx = rowini)
-                cargo =  sheet.cell_value(colx = 4, rowx = rowini)
+                nombre = sheet.cell_value(colx = 1, rowx = rowini)[0:119]
+                profesion = sheet.cell_value(colx = 2, rowx = rowini)[0:119]
+                estudios = sheet.cell_value(colx = 3, rowx = rowini)[0:249]
+                cargo =  sheet.cell_value(colx = 4, rowx = rowini)[0:119]
                 vinculacion = sheet.cell_value(colx = 5, rowx = rowini)
                 subdireccion = sheet.cell_value(colx = 6, rowx = rowini)
-                coordinacion = sheet.cell_value(colx = 7, rowx = rowini)
+                coordinacion = sheet.cell_value(colx = 7, rowx = rowini)[0:119]
                 if dependency == 'INVOTEM':
                     tiempo = None
                     rol = None
                     funciones = None
                     tematica = sheet.cell_value(colx = 8, rowx = rowini)
                 else:
-                    tiempo = sheet.cell_value(colx = 8, rowx = rowini)
-                    rol = sheet.cell_value(colx = 9, rowx = rowini)
-                    funciones = sheet.cell_value(colx = 10, rowx = rowini)
+                    try:
+                        tiempo = sheet.cell_value(colx = 8, rowx = rowini)
+                        int(tiempo)
+                    except ValueError:
+                        print u'Se esperaba un número. Llega: %s'%(tiempo)
+                        tiempo = None
+                    rol = sheet.cell_value(colx = 9, rowx = rowini)[0:249]
+                    funciones = sheet.cell_value(colx = 10, rowx = rowini)[0:249]
                     tematica = None
                 funcionario = minsrhvinpomc(
                     mirhpomc = pomca,
@@ -932,52 +1171,69 @@ def excel_process(excel_addr):
     Conditional = {'SI':True, 'NO':False, '':False}
     #Open the excel
     excel_file = xlrd.open_workbook('/var/contrato85/matrix/%s'%(excel_addr))#,  encoding_override="utf-8")
+    print 'Inicio del proceso: %s'%(datetime.datetime.now())
+    print u'Se hará una validación rápida del archivo'
+    #excel_file = xlrd.open_workbook('/tmp/%s'%(excel_addr))#,  encoding_override="utf-8")
     #Validate the matrix fills the minimun structure required
     if not ValidMatrix(excel_file):
         return u'La matriz no cumple con los requisitos mínimos'
     #Open '1' sheet: Datos Generales
     #This sheet is static
     #It has attached objects
+    print u'Validación Datos Generales'
     excel_sheet = excel_file.sheet_by_index(1)
     excel_id = SetDatosgen(excel_sheet)
     #Open '0' sheet: Portada
     #This sheet is static
+    print u'Validación Portada'
     excel_sheet = excel_file.sheet_by_index(0)
     SetPortada(excel_sheet, excel_id)
     #Open '2' sheet: Estructura Directiva
     #This sheet is Dymanic 
+    print u'Validación Estructura Directiva'
     excel_sheet = excel_file.sheet_by_index(2)
     SetEstrcDir(excel_sheet, excel_id)
     #Open '3' sheet: Organizacion
     #This sheet starts whith Static fields and ends Truly dynamic
+    print u'Validación Organización'
     excel_sheet = excel_file.sheet_by_index(3)
     SetOrganiza(excel_sheet, excel_id)
     #Open '4' sheet: Descentralizacion
     #This sheet has one logical field and dynamic scalable 
+    print u'Validación Descentralización'
     excel_sheet = excel_file.sheet_by_index(4)
     SetDescentr(excel_sheet, excel_id)
     #Open '5' sheet: Planeacion
     #This sheet starts static, continues dymanic with some static
     #  fields and ends dynamic and logic
+    print u'Validación Planeación'
     excel_sheet = excel_file.sheet_by_index(5)
     SetPlaneaci(excel_sheet, excel_id)
     #Open '6' sheet: Presupuesto
     #This sheet starts whith Static fields and ends dynamic
+    print u'Validación Presupuesto'
     excel_sheet = excel_file.sheet_by_index(6)
     SetPresupue(excel_sheet, excel_id)
     #Open '7' sheet: Sop Tec
     #This sheet has many logic and dynamic fields
     #Left to last
+    print u'Validación Soporte Técnico'
     excel_sheet = excel_file.sheet_by_index(7)
     SetSopTec(excel_sheet, excel_id)
     #Open '8' sheet: POMCAS
     #This sheet starts whith Static fields and ends dynamic
+    print u'Validación POMCAS'
     excel_sheet = excel_file.sheet_by_index(8)
     SetPomcas(excel_sheet, excel_id)
+    print u'Validación Culminada Revisar Cargue en base de datos'
+    print 'Fin del proceso: %s'%(datetime.datetime.now())
 
 
 @login_required(login_url = '/login/')
 def upload_matrix(request):
+    '''
+    DEPRECATED
+    '''
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
