@@ -1,7 +1,0 @@
-<form action="/matrix/institucional/" method="post" enctype = "multipart/form-data">
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
-Descargar el archivo
-<a href = "{{STATIC_URL}}MATRIZ_INSTITUCIONAL.xlsx">Matriz Institucional</a>
