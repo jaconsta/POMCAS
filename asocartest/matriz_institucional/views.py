@@ -49,67 +49,94 @@ def excel_process(excel_addr):
     '''
     def ValidMatrix(book):
         def ValidBook():
-            tabs = ['PORTADA', 'DATOS GENERALES', 'EST DIRECTIVA',
-                   'ORGANIZACIÓN', 'DESCENTRALIZACIÓN, PLANEACIÓN',
-                    'PRESUPESTO', 'SOP TÉC', 'POMCAS', 'LISTAS']
+            tabs = [u'PORTADA', u'DATOS GENERALES', u'EST DIRECTIVA',
+                   u'ORGANIZACI\xd3N', u'DESCENTRALIZACI\xd3N', u'PLANEACI\xd3N',
+                    u'PRESUPUESTO', u'SOP T\xc9C', u'POMCAS', u'LISTAS']
             pestanas = book.sheet_names()
-            return tabs != pestanas
+            return tabs == pestanas
         def ValidPestCer():
             pestana = book.sheet_by_index(0)
-            if pestana.cell_value(colx = 3, rowx = 42) != 'DESDE' or len(pestana.cell_value(colx = 1, rowx = 48)) == 57:
-                return
+            if pestana.cell_value(colx = 3, rowx = 42) != u'DESDE' or len(pestana.cell_value(colx = 1, rowx = 48)) == 57:
+                return True 
         def ValidPestUno():
             pestana = book.sheet_by_index(1)
-            if pestana.cell_value(colx = 1, rowx = 18) != 'NOMBRE DE LA CORPORACIÓN' or pestana.cell_value(colx = 7, rowx = 29) != 'A' or pestana.cell_value(colx = 9, rowx = 149) != 'Volver':
-                return
+            if pestana.cell_value(colx = 1, rowx = 18) != u'NOMBRE DE LA CORPORACIÓN' or pestana.cell_value(colx = 7, rowx = 29) != u'A' or pestana.cell_value(colx = 9, rowx = 149) != u'Volver':
+                return False
+            else:
+                return True
         def ValidPestDos():
             pestana = book.sheet_by_index(2)
-            if pestana.cell_value(colx = 1, rowx = 10) != '': # or
-                return
+            if pestana.cell_value(colx = 1, rowx = 10) == '': # or
+                return True
+            else:
+                return False
         def ValidPestTre():
             pestana = book.sheet_by_index(3)
-            if pestana.cell_value(colx = 4, rowx = 14) != 'MES' or pestana.cell_value(colx = 1, rowx = 10) != 'ASESORES DE DIRECCIÓN': 
-                return
+            if pestana.cell_value(colx = 4, rowx = 14) != u'MES' or pestana.cell_value(colx = 1, rowx = 10) != u'ASESORES DE DIRECCIÓN': 
+                return True
+            else:
+                return False
         def ValidPestCua():
             pestana = book.sheet_by_index(4)
-            if pestana.cell_value(colx = 9, rowx = 5) != 'Volver' or pestana.cell_value(colx = 1, rowx = 14) != 'OFICINAS TERRITORIALES - REGIONALES': #or
-                return
+            if pestana.cell_value(colx = 9, rowx = 5) != u'Volver' or pestana.cell_value(colx = 1, rowx = 14) != u'OFICINAS TERRITORIALES - REGIONALES': #or
+                return False
+            else:
+                return True
         def ValidPestCin():
             pestana = book.sheet_by_index(5)
             if pestana.cell_value(colx = 1, rowx = 12) != 'TITULO DEL PGAR' or pestana.cell_value(colx = 1, rowx = 25) != 'ESTRATEGIAS':
-                return
+                return False 
+            else:
+                return True
         def ValidPestSei():
             pestana = book.sheet_by_index(6)
             if pestana.cell_value(colx = 4, rowx = 23) != 'MES':
-                return
+                return False
+            else:
+                return True
         def ValidPestSie():
             pestana = book.sheet_by_index(7)
             if pestana.cell_value(colx = 4, rowx = 16) != 'RAM':
-                return
+                return False
+            else:
+                return True
         def ValidPestOch():
             pestana = book.sheet_by_index(8)
             if pestana.cell_value(colx = 4, rowx = 28) != 'CARGO':
-                return
+                return False
+            else:
+                return True
         if not ValidBook():
-            return 'El orden de las pestañas no es el adecuado'
+            print u'El orden de las pestañas no es el adecuado'
+            return False
         if not ValidPestCer():
-            return 'La pestaña PORTADA parece tener campos en la posición equivocada, favor corregir.' 
+            print u'La pestaña PORTADA parece tener campos en la posición equivocada, favor corregir.' 
+            return False
         if not ValidPestUno():
-            return 'La pestaña DATOS GENERALES parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña DATOS GENERALES parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestDos():
-            return 'La pestaña EST DIRECTIVA parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña EST DIRECTIVA parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestTre():
-            return 'La pestaña ORGANIZACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña ORGANIZACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestCua():
-            return 'La pestaña DESCENTRALIZACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña DESCENTRALIZACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestCin():
-            return 'La pestaña PLANEACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña PLANEACIÓN parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestSei():
-            return 'La pestaña PRESUPUESTO parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña PRESUPUESTO parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestSie():
-            return 'La pestaña SOP TEC parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña SOP TEC parece tener campos en la posición equivocada, favor corregir.'
+            return False
         if not ValidPestOch():
-            return 'La pestaña POMCAS parece tener campos en la posición equivocada, favor corregir.'
+            print u'La pestaña POMCAS parece tener campos en la posición equivocada, favor corregir.'
+            return False
+        return True
             
     def ValidBlankInt(value):
         if value == '':
@@ -129,7 +156,7 @@ def excel_process(excel_addr):
               nit += i
         sigla = sheet.cell_value(colx = 4, rowx = 22)
         direccion = sheet.cell_value(colx = 4, rowx = 24)
-        ciudad = sheet.cell_value(colx = 4, rowx = 27)
+        ciudad = sheet.cell_value(colx = 4, rowx = 27)[0:19]
         horariode = sheet.cell_value(colx = 5, rowx = 29)
         horariode = xlrd.xldate_as_tuple(horariode,0)
         horariohasta = sheet.cell_value(colx = 8, rowx = 29)
@@ -137,6 +164,11 @@ def excel_process(excel_addr):
         diade = sheet.cell_value(colx = 5, rowx = 31)
         diahasta = sheet.cell_value(colx = 8, rowx = 31)
         telefindi = sheet.cell_value(colx = 5, rowx = 33)
+        try:
+            int(telefindi)
+        except ValueError:
+            print 'El numero de indicativo es ivalido'
+            telefindi = 0
         telefono = sheet.cell_value(colx = 6, rowx = 33)
         pagweb = sheet.cell_value(colx = 4, rowx = 35)
         email = sheet.cell_value(colx = 4, rowx = 37)
@@ -211,9 +243,9 @@ def excel_process(excel_addr):
             )
             mayors.save()
         def SetDirectCo(sheet, estructura, rowini = 21):
-            sector = sheet.cell_value(colx = 2, rowx = rowini)
-            consejero = sheet.cell_value(colx = 4, rowx = rowini)
-            entidad = sheet.cell_value(colx = 6, rowx = rowini)
+            sector = sheet.cell_value(colx = 2, rowx = rowini)[0:19]
+            consejero = sheet.cell_value(colx = 4, rowx = rowini)[0:74]
+            entidad = sheet.cell_value(colx = 6, rowx = rowini)[0:99]
             #Set in DB
             directors = minstedcondi(
                 miesddir = estructura,
@@ -262,19 +294,39 @@ def excel_process(excel_addr):
             organigr = 'get the address'
             tipoact = sheet.cell_value(colx = 1, rowx = 15)
             numeact = sheet.cell_value(colx = 2, rowx = 15)
-            dia = int(sheet.cell_value(colx = 3, rowx = 15))
-            mes_s = sheet.cell_value(colx = 4, rowx = 15)
-            mes = Month[mes_s]
-            anno = int(sheet.cell_value(colx = 5, rowx = 15))
-            fechacrea = datetime.date(anno, mes, dia)
+            try: 
+                dia = int(sheet.cell_value(colx = 3, rowx = 15))
+                mes_s = sheet.cell_value(colx = 4, rowx = 15)
+                mes = Month[mes_s]
+                anno = int(sheet.cell_value(colx = 5, rowx = 15))
+                fechacrea = datetime.date(anno, mes, dia)
+            except ValueError:
+                print u'No se ha especificado un valor válido para la fecha'
+                fechacrea = None
             finanpro = sheet.cell_value(colx = 7, rowx = 15)
-	    if finanpro == '':
+            try:
+                if finanpro == '':
+                    finanpro = 0
+                int(finanpro)
+            except ValueError:
+                print u'El valor de financiación debe ser un número: %s'%(finanpro)
                 finanpro = 0
             finannac = sheet.cell_value(colx = 8, rowx = 15)
-            if finannac == '':
+            try:
+                if finannac == '':
+                    finannac = 0
+                int(finannac)
+            except ValueError:
+                print u'El valor de financiación debe ser un número: %s'%(finannac)
                 finannac = 0
+                int(finannac)
             finanfoc = sheet.cell_value(colx = 9, rowx = 15)
-            if finanfoc == '':
+            try:
+                if finanfoc == '':
+                    finanfoc = 0
+                int(finanfoc)
+            except ValueError:
+                print u'El valor de financiación debe ser un número: %s'%(finanfoc)
                 finanfoc = 0
             planta = minstorganiz(
                 mieocorp = databasi,
@@ -292,6 +344,11 @@ def excel_process(excel_addr):
             nombre =  sheet.cell_value(colx = 1, rowx = rowini)
             rol = sheet.cell_value(colx = 4, rowx = rowini)[0:999]
             extens = ValidBlankInt(sheet.cell_value(colx = 7, rowx = rowini))
+            if extens == '':
+                extens = 0
+            elif int(extens) >= 32767:
+                print u'La extensión %s no parece válida'%(extens )
+                extens = 0
             email = sheet.cell_value(colx = 8, rowx = rowini)
             asesores = minesorasesd(
                 miesoras = organiz,
@@ -312,6 +369,8 @@ def excel_process(excel_addr):
                     while(str(sheet.cell_value(colx = 1, rowx = rowini)) == keyword):
                         rowini += 1
                 except UnicodeEncodeError:
+                    pass
+                except IndexError:
                     pass
                 return rowini
             def SetCorrdinac(sheet, subdireccion, rowini):
@@ -337,6 +396,8 @@ def excel_process(excel_addr):
                     )
                     coordinaciones.save()
                     rowini += 1
+                    if rowini+1 >= sheet.nrows:
+                        break
                 return rowini
             rowini = GetNextItem(rowini = rowini)
             subnombre = sheet.cell_value(colx = 3, rowx = rowini)
@@ -344,9 +405,17 @@ def excel_process(excel_addr):
             if (subnombre == '' or subnombre == None):
                 return sheet.nrows+10
             subextens = ValidBlankInt(sheet.cell_value(colx = 9, rowx = rowini))
+            if subextens == '':
+                subextens = 0
+            elif int(subextens) >= 32767:
+                print u'La extensión %s no parece válida'%(subextens)
+                subextens = 0
             #find next element: As a non blank field
             rowini = GetNextItem(rowini = rowini)
             subdirect = sheet.cell_value(colx = 3, rowx = rowini)
+            if subdirect== '' or subdirect == u'NA':
+                print u'Fila %s. No hay datos'%(rowini)
+                return
             subdivinc = sheet.cell_value(colx = 8, rowx = rowini)
             rowini = GetNextItem(rowini = rowini)
             subdiubic = sheet.cell_value(colx = 3, rowx = rowini)
@@ -384,8 +453,10 @@ def excel_process(excel_addr):
         except UnicodeEncodeError:
             pass
         rowini += 1
-        while (rowini <= sheet.nrows):
+        while (rowini+1 <= sheet.nrows):
             rowini = SetSubdirec(sheet, organiz = organig, rowini = rowini)
+            if rowini == None:
+                break
     def SetDescentr(sheet, main_id):
         def SetDescen(sheet, main_id):
             tiene = True
@@ -410,6 +481,9 @@ def excel_process(excel_addr):
         def SetDescenOffice(sheet, regions):
             def SetOfficeTerrit(sheet, region, rowini):
                 oficina = sheet.cell_value(colx = 3, rowx = rowini)
+                if oficina == '' or oficina == 'NA':
+                    print 'Fila %s. No hay datos'%(rowini)
+                    return
                 rowini += 3
                 direcci = sheet.cell_value(colx = 3, rowx = rowini)
                 ciudad = sheet.cell_value(colx = 7, rowx = rowini)
@@ -491,7 +565,13 @@ def excel_process(excel_addr):
             #Iterate over offices
             while rowini <= (sheet.nrows-4):
                 if sheet.cell_value(colx = 1, rowx = rowini) == 'NOMBRE DE LA OFICINA TERRITORIAL' and sheet.cell_value(colx = 3, rowx = rowini) != '':
-                    rowini = SetOfficeTerrit(sheet, region = regions, rowini = rowini)
+                    try:
+                        rowini = SetOfficeTerrit(sheet, region = regions, rowini = rowini)
+                        if rowini == None:
+                            break
+                    except ValueError:
+                        print u'Fila %s'%rowini
+                        print u'Revisar. Aparentemente las filas han sido alteradas'
                 rowini += 1
         tieneofic = Conditional[sheet.cell_value(colx = 5, rowx = 10)]
         if tieneofic:
@@ -618,56 +698,57 @@ def excel_process(excel_addr):
         SetPaiMetas(sheet, pgar = pgar, rowini = rowini)
     def SetPresupue(sheet, main_id):
         def SetEjecPresu(sheet, main_id):
+            error = u''
             presupadj = 'get the address'
             gastproye = sheet.cell_value(colx = 4, rowx = 13)
             if type(gastproye) != int:
                 if  gastproye != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 gastproye = 0
             gastejecu = sheet.cell_value(colx = 6, rowx = 13)
             if type(gastejecu) != int:
                 if gastejecu  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 gastejecu = 0
             inveproye = sheet.cell_value(colx = 4, rowx = 14)
             if type(inveproye) != int:
                 if inveproye  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 inveproye = 0
             inveejecu = sheet.cell_value(colx = 6, rowx = 14)
             if type(inveejecu) != int:
                 if inveejecu  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 inveejecu = 0
             servproye = sheet.cell_value(colx = 4, rowx = 15)
             if type(servproye) != int:
                 if servproye  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 servproye = 0
             servejecu = sheet.cell_value(colx = 6, rowx = 15)
             if type(servejecu) != int:
                 if servejecu  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 servejecu = 0
             fcarproye = sheet.cell_value(colx = 4, rowx = 16)
             if type(fcarproye) != int:
                 if fcarproye  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 fcarproye = 0
             fcarejecu = sheet.cell_value(colx = 6, rowx = 16)
             if type(fcarejecu) != int:
                 if fcarejecu  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 fcarejecu = 0
             fcaaproye = sheet.cell_value(colx = 4, rowx = 17)
             if type(fcaaproye) != int:
                 if fcaaproye  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 fcaaproye = 0
             fcaaejecu = sheet.cell_value(colx = 6, rowx = 17)
             if type(fcaaejecu) != int:
                 if fcaaejecu  != '':
-                    error += 'El formato de numero es incorrecto'
+                    error += u'El formato de numero es incorrecto\n'
                 fcaaejecu = 0
             presupuesto = minspresupues(
                 miplanpr = main_id,
@@ -684,6 +765,7 @@ def excel_process(excel_addr):
                 miplgfae = fcaaejecu 
             )
             presupuesto.save()
+            print error
             return presupuesto
         def SetActAdPres(sheet, budget):
             #I validated that it starts on row 24
@@ -691,12 +773,16 @@ def excel_process(excel_addr):
             while sheet.cell_value(colx = 1, rowx = rowini) != '':
                 tipoacto = sheet.cell_value(colx = 1, rowx = rowini)
                 numeacto = sheet.cell_value(colx = 2, rowx = rowini)
-                dia = int(sheet.cell_value(colx = 3, rowx = rowini))
-                mes_s = sheet.cell_value(colx = 4, rowx = rowini)
-                mes = Month[mes_s]
-                anno = int(sheet.cell_value(colx = 5, rowx = rowini))
-                fecha = datetime.date(anno, mes, dia)
-                accion = sheet.cell_value(colx= 6, rowx = rowini)
+                try:
+                    dia = int(sheet.cell_value(colx = 3, rowx = rowini))
+                    mes_s = sheet.cell_value(colx = 4, rowx = rowini)
+                    mes = Month[mes_s]
+                    anno = int(sheet.cell_value(colx = 5, rowx = rowini))
+                    fecha = datetime.date(anno, mes, dia)
+                except ValueError:
+                    print u'No se ha especificado un valor válido para la fecha'
+                    fecha  = None
+                accion = sheet.cell_value(colx= 6, rowx = rowini)[1:199]
                 actoadmin = minspresactad(
                     mipraaco = budget,
                     mipraati = tipoacto,
@@ -714,13 +800,14 @@ def excel_process(excel_addr):
             #Maybe the chart ends here
             rowini += 1
             if rowini >= sheet.nrows:
+                print u'No se encontró presupuesto poyectado'
                 return
             #Fill db
             while sheet.cell_value(colx = 1, rowx = rowini) != '':
-                proyecto = sheet.cell_value(colx = 1, rowx = rowini)
-                fuentefinan =  sheet.cell_value(colx = 2, rowx = rowini)
+                proyecto = sheet.cell_value(colx = 1, rowx = rowini)[0:199]
+                fuentefinan =  sheet.cell_value(colx = 2, rowx = rowini)[0:199]
                 valor = sheet.cell_value(colx = 4, rowx = rowini)
-                cuencas = sheet.cell_value(colx = 5, rowx = rowini)
+                cuencas = sheet.cell_value(colx = 5, rowx = rowini)[0:199]
                 asocars = Conditional[sheet.cell_value(colx = 6, rowx = rowini)]
                 presupomca = minsprespomca(
                     miprprco = budget,
@@ -772,18 +859,18 @@ def excel_process(excel_addr):
                 rowini += 1
             return rowini    
         def SetSopTecPeople(sheet, soptec, sistema, rowini):
-            nombre = sheet.cell_value(colx = 1 , rowx = rowini)
-            profesion = sheet.cell_value(colx = 5, rowx = rowini)
-            posgrado = sheet.cell_value(colx = 6, rowx = rowini)
-            cargo = sheet.cell_value(colx = 7, rowx = rowini)
-            tipovincula = sheet.cell_value(colx = 8, rowx = rowini)
+            nombre = sheet.cell_value(colx = 1 , rowx = rowini)[0:149]
+            profesion = sheet.cell_value(colx = 5, rowx = rowini)[0:149]
+            posgrado = sheet.cell_value(colx = 6, rowx = rowini)[0:149]
+            cargo = sheet.cell_value(colx = 7, rowx = rowini)[0:149]
+            tipovincula = sheet.cell_value(colx = 8, rowx = rowini)[0:149]
             tiempodedic = sheet.cell_value(colx = 10, rowx = rowini)
             try:
                 tiempodedic = float(tiempodedic)
             except ValueError:
                 print u'Se esperaba un número, llegó: %s'%(tiempodedic)    
                 tiempodedic = None
-            otrasfuncio = sheet.cell_value(colx = 11, rowx = rowini)
+            otrasfuncio = sheet.cell_value(colx = 11, rowx = rowini)[0:149]
             personal = minssoptechrs(
                 misotehr = soptec,
                 misthrcl = sistema,
@@ -816,7 +903,7 @@ def excel_process(excel_addr):
             laexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]
             if laexist:
                 rowini += 4 
-                laacredit = Conditional[sheet.cell_value(colx = 8, rowx = rowini)]
+                laacredit = Conditional[sheet.cell_value(colx = 8, rowx = rowini).upper()]
                 if laacredit:
                     rowini += 7
                     entidad = sheet.cell_value(colx = 1, rowx = rowini)
@@ -848,8 +935,8 @@ def excel_process(excel_addr):
                 asocrmn = Conditional[sheet.cell_value(colx = 6, rowx = rowini)]
                 cualrmn = sheet.cell_value(colx = 8, rowx = rowini)
                 rowini += 3
-                estacio = sheet.cell_value(colx = 6, rowx = rowini)
-                paramet = sheet.cell_value(colx = 11, rowx = rowini)
+                estacio = sheet.cell_value(colx = 6, rowx = rowini)[0:149]
+                paramet = sheet.cell_value(colx = 11, rowx = rowini)[0:149]
                 #Set the db objetc
                 soptec.misrmana = asocrmn 
                 soptec.misrmano = cualrmn
@@ -872,8 +959,8 @@ def excel_process(excel_addr):
             rmcexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]  
             if rmcexist:
                 rowini += 4
-                estaciones = sheet.cell_value(colx = 6, rowx = rowini)  
-                parametros = sheet.cell_value(colx = 11, rowx = rowini)  
+                estaciones = sheet.cell_value(colx = 6, rowx = rowini)[0:149]  
+                parametros = sheet.cell_value(colx = 11, rowx = rowini)[0:149]  
                 #Set the db objetc
                 soptec.misrmced = estaciones
                 soptec.misrmcpm = parametros
@@ -892,8 +979,8 @@ def excel_process(excel_addr):
             rmhexist = Conditional[sheet.cell_value(colx = 5, rowx = rowini)]  
             if rmhexist:
                 rowini += 4
-                estaciones = sheet.cell_value(colx = 6, rowx = rowini)  
-                parametros = sheet.cell_value(colx = 11, rowx = rowini)  
+                estaciones = sheet.cell_value(colx = 6, rowx = rowini)[0:149]  
+                parametros = sheet.cell_value(colx = 11, rowx = rowini)[0:149]    
                 #Set the db objetc
                 soptec.misrmhed = estaciones
                 soptec.misrmhpm = parametros
@@ -965,7 +1052,7 @@ def excel_process(excel_addr):
             #It assumes the cells hasnt been erased
             #Checks just in case some space has been added or removed
             while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
-                rowini += 2
+                rowini += 1
             rowini += 1    
             while sheet.cell_value(colx = 1, rowx = rowini) != '':
                 SetSopTecPeople(sheet, soptec = infosistems, sistema = 'LA', rowini = rowini)
@@ -1030,9 +1117,12 @@ def excel_process(excel_addr):
             while sheet.cell_value(colx = 1, rowx = rowini) != 'NOMBRE':
                 rowini += 1
             rowini += 1    
-            while sheet.cell_value(colx = 1, rowx = rowini) != '':
-                SetSopTecPeople(sheet, soptec = infosistems, sistema = 'RMH', rowini = rowini)
-                rowini += 1
+            try:
+                while sheet.cell_value(colx = 1, rowx = rowini) != '':
+                    SetSopTecPeople(sheet, soptec = infosistems, sistema = 'RMH', rowini = rowini)
+                    rowini += 1
+            except IndexError:
+                print u'Se alcanzó el final del archivo'
         else:
             print u'No tiene RMH'
     def SetPomcas(sheet, main_id):
@@ -1051,9 +1141,9 @@ def excel_process(excel_addr):
                     comitenume = 0
                 try:
                     dia = int(sheet.cell_value(colx = 4, rowx = 18))
-                    mes_s = sheet.cell_value(colx = 5, rowx = rowini)
+                    mes_s = sheet.cell_value(colx = 5, rowx = 18)
                     mes = Month[mes_s]
-                    anno = int(sheet.cell_value(colx = 7, rowx = rowini))
+                    anno = int(sheet.cell_value(colx = 7, rowx = 18))
                     fecha = datetime.date(anno, mes, dia)
                 except ValueError:
                     print u'No se ha especificado un valor válido para la fecha'
@@ -1125,7 +1215,11 @@ def excel_process(excel_addr):
             rowini = 26
             while sheet.nrows > (rowini+1): #cell_value(colx = 1, rowx = rowini)
                 proceso = ''
-                text = sheet.cell_value(colx = 1, rowx = rowini)
+                try:
+                    text = sheet.cell_value(colx = 1, rowx = rowini)
+                except IndexError:
+                    print u'Se llegó inesperadamente al final de la pestaña'
+                    return
                 if 'RESPONSABLES' in text:
                     if 'POMCAS' in text:
                         proceso = 'RESPOMC'
@@ -1159,8 +1253,13 @@ def excel_process(excel_addr):
                     else:
                         print 'Parecen haberse borrado más campos de los debidos. row %s'%(rowini)
                 rowini += 1
+                if sheet.nrows < (rowini+2):
+                    break
         pomcasrh = SetPomcaComission(sheet, main_id = main_id)
-        SetPomcaFuncion(sheet, pomca = pomcasrh)
+        try:
+            SetPomcaFuncion(sheet, pomca = pomcasrh)
+        except IndexError:
+            print 'Se llegó inesperadamente al final del archivo'
 
     Month = {'Enero':1, 'Febrero':2, 'Marzo':3,
             'Abril': 4, 'Mayo':5, 'Junio':6,
@@ -1176,7 +1275,8 @@ def excel_process(excel_addr):
     #excel_file = xlrd.open_workbook('/tmp/%s'%(excel_addr))#,  encoding_override="utf-8")
     #Validate the matrix fills the minimun structure required
     if not ValidMatrix(excel_file):
-        return u'La matriz no cumple con los requisitos mínimos'
+        print u'La matriz no cumple con los requisitos mínimos'
+        return False
     #Open '1' sheet: Datos Generales
     #This sheet is static
     #It has attached objects

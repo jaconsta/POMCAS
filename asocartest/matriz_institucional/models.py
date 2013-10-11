@@ -145,14 +145,14 @@ class minstorganiz(models.Model):
         - Title: Estructura organizativa de la Corporación
     '''
     mieocorp = models.ForeignKey('minstdatgene', verbose_name = 'empresa')     #Corporation
-    mieoorga = models.ImageField(upload_to = 'img/business/', 
+    mieoorga = models.ImageField(u'Organigrama de la organización', upload_to = 'img/business/', 
                             height_field = None, width_field = None, null = True, blank = True)    #Organization chart
-    mieoaata = models.CharField(max_length = 125)     #Type of act
-    mieoaano = models.IntegerField()                  #Act number
-    mieoaada = models.DateField()                     #Act Date
-    mieofnrp = models.BigIntegerField()
-    mieofnrn = models.BigIntegerField()
-    mieofnfc = models.BigIntegerField()
+    mieoaata = models.CharField(u'Tipo de acto administrativo', max_length = 125)     #Type of act
+    mieoaano = models.CharField(u'Número de acto', max_length = 125)                  #Act number
+    mieoaada = models.DateField(u'Fecha del acto')                     #Act Date
+    mieofnrp = models.BigIntegerField(u'Financiación con recursos própios')
+    mieofnrn = models.BigIntegerField(u'Financiación con recursos de la nación')
+    mieofnfc = models.BigIntegerField(u'Financiación con recurdos del Fondo de Adaptación')
 
 class minesorasesd(models.Model):
     '''
@@ -265,7 +265,7 @@ class minstplanific(models.Model):
     miplpgpe = models.CharField(u'Periodo del PGAR', max_length = 75)
     miplpgaa = models.CharField(u'Adopcion PGAR. Tipo de acto administrativo',
                                max_length = 75)
-    miplpgno = models.PositiveIntegerField(u'Adopcion PGAR. Numero')
+    miplpgno = models.CharField(u'Adopcion PGAR. Numero', max_length = 50)
     miplpgda = models.DateField(u'Adopcion PGAR. Fecha', null = True, blank = True)
     miplpamj = models.CharField(u'Prospectiva ambiental de la jurisdicción',
                                max_length = 1000)

@@ -9,10 +9,11 @@ class minstportada(models.Model):
         - Tab: Portada
         - Title: Datos generales sobre el diligenciamiento de la matriz
     '''	
-    mipofede = models.DateField()
-    mipofeha = models.DateField()
-    mipoprof = models.CharField(max_length = 250)
-    mipodesc = models.TextField()
+    mipodatg = models.ForeignKey('minstdatgene', verbose_name=u'Datos Generales')
+    mipofede = models.DateField(u'Fecha inicio de diligenciamiento')
+    mipofeha = models.DateField(u'Fecha final de diligenciamiento')
+    mipoprof = models.CharField(u'Profesional que diligencia', max_length = 250)
+    mipodesc = models.TextField(u'Descripcion general del proceso')
 
 class minstdatgene(models.Model):    
     '''
@@ -42,11 +43,11 @@ class minstdatgene(models.Model):
     )   
     midglogo = models.ImageField(u'Logo', upload_to = 'img/business/', 
                             height_field = None, width_field = None, null = True, blank = True) #Corporation logo
-    midgrazs = models.CharField(u'Nombre de la corporación', max_length = 50)    #Corporation Name
+    midgrazs = models.CharField(u'Nombre de la corporación', max_length = 100)    #Corporation Name
     midgenit = models.IntegerField(u'NIT')                #NIT
     midgnitd = models.IntegerField(u'NIT DV')                #Headquarters Address
     midginit = models.CharField(u'Sigla', max_length = 20)    #Initials
-    midgaddr = models.CharField(u'dirección de sede principal', max_length = 50)    #Headquarters address
+    midgaddr = models.CharField(u'dirección de sede principal', max_length = 100)    #Headquarters address
     midgcity = models.CharField(u'Ciudad', max_length = 20)    #City
     midgssop = models.TimeField(u'Horario de atención. De')                   #Service schedule, openning
     midgsscl = models.TimeField(u'A')                   #Service schedule, close
@@ -56,6 +57,7 @@ class minstdatgene(models.Model):
     midgapdt = models.CharField(u'A', max_length = 3,
                                 choices = WEEKDAYS_ES,
                                 default = FRIDAY)   #Public Attention days, to
+    midgphin = models.SmallIntegerField(u'Indicativo Ciudad')
     midgphon = models.IntegerField(u'Teléfono (PBX)')                #Phone (PBX)
     midgwebp = models.URLField(u'Página Web')                    #Webpage
     midgmail = models.EmailField(u'Correo electrónico de contacto')                  #email contact.
@@ -124,8 +126,8 @@ class minstedcondi(models.Model):
     '''
     miesddir = models.ForeignKey('minstestdire')      #Corpation Directive Structure
     miesdsec = models.CharField(u'Sector representado', max_length = 20)    #Represented sector
-    miesdcna = models.CharField(u'Nombre de consejo', max_length = 32)    #Council Name
-    miesdent = models.CharField(u'Entidad / Empresa / Gremio', max_length = 50)    #Entity, Business, guild
+    miesdcna = models.CharField(u'Nombre de consejo', max_length = 75)    #Council Name
+    miesdent = models.CharField(u'Entidad / Empresa / Gremio', max_length = 100)    #Entity, Business, guild
 
     class Meta:
         verbose_name = 'Conformación del consejo directivo'
@@ -143,14 +145,14 @@ class minstorganiz(models.Model):
         - Title: Estructura organizativa de la Corporación
     '''
     mieocorp = models.ForeignKey('minstdatgene', verbose_name = 'empresa')     #Corporation
-    mieoorga = models.ImageField(upload_to = 'img/business/', 
+    mieoorga = models.ImageField(u'Organigrama de la organización', upload_to = 'img/business/', 
                             height_field = None, width_field = None, null = True, blank = True)    #Organization chart
-    mieoaata = models.CharField(max_length = 125)     #Type of act
-    mieoaano = models.IntegerField()                  #Act number
-    mieoaada = models.DateField()                     #Act Date
-    mieofnrp = models.PositiveIntegerField()
-    mieofnrn = models.PositiveIntegerField()
-    mieofnfc = models.PositiveIntegerField()
+    mieoaata = models.CharField(u'Tipo de acto administrativo', max_length = 125)     #Type of act
+    mieoaano = models.CharField(u'Número de acto', max_length = 125)                  #Act number
+    mieoaada = models.DateField(u'Fecha del acto')                     #Act Date
+    mieofnrp = models.BigIntegerField(u'Financiación con recursos própios')
+    mieofnrn = models.BigIntegerField(u'Financiación con recursos de la nación')
+    mieofnfc = models.BigIntegerField(u'Financiación con recurdos del Fondo de Adaptación')
 
 class minesorasesd(models.Model):
     '''
@@ -162,8 +164,8 @@ class minesorasesd(models.Model):
         - SubTitle: Asesores de dirección
     '''
     miesoras = models.ForeignKey('minstorganiz')
-    mieoadno = models.CharField(max_length = 125) 
-    mieoadro = models.CharField(max_length = 125) 
+    mieoadno = models.CharField(max_length = 1000) 
+    mieoadro = models.CharField(max_length = 1000) 
     mieoadex = models.PositiveSmallIntegerField()
     mieoadco = models.EmailField()
 
@@ -212,6 +214,10 @@ class minstdescentr(models.Model):
     midesofi = models.BooleanField()
     midesmap = models.ImageField(upload_to = 'img/business/', 
                             height_field = None, width_field = None, null = True, blank = True)
+    midescri = models.CharField(u'Criterio de regionalizacion de la oficina territorial',
+            max_length = 1000, null = True, blank = True)
+    midesfun = models.CharField(u'Funciones Asignadas a la oficina',
+            max_length = 1000, null = True, blank = True)
 
 class midesceoficte(models.Model):
     '''
@@ -222,26 +228,26 @@ class midesceoficte(models.Model):
         - Title: Estructura organizativa de las coporaciones (Should be changed?)
         - Subtitle: Oficinas territoriales - Regionales
     '''
-    midodesc = models.ForeignKey('minstdescentr')
-    midocrit = models.CharField(max_length = 250)
-    midofunc = models.CharField(max_length = 500)
-    midonomb = models.CharField(max_length = 125)
-    midodire = models.CharField(max_length = 200)
-    midocity = models.CharField(max_length = 75)
-    midotcou = models.PositiveSmallIntegerField(default = 75)
-    midotind = models.PositiveSmallIntegerField()
-    mitotelf = models.PositiveIntegerField()
-    midotext = models.PositiveSmallIntegerField(null = True, blank = True)
-    midomail = models.EmailField()
-    midojuri = models.PositiveIntegerField()
-    midojuri = models.PositiveSmallIntegerField()
-    midonore = models.CharField(max_length = 200)
-    midotivi = models.CharField(max_length = 75)
-    midocarg = models.CharField(max_length = 125)
-    midopvln = models.PositiveSmallIntegerField()
-    midopvca = models.PositiveSmallIntegerField()
-    midopvpr = models.PositiveSmallIntegerField()
-    midopvco = models.PositiveSmallIntegerField()
+    midodesc = models.ForeignKey('minstdescentr', related_name=u'Estructura de descentralizacion')
+    #midocrit = models.CharField(max_length = 250)
+    #midofunc = models.CharField(max_length = 500)
+    midonomb = models.CharField(u'Nombre de la oficina territorial', max_length = 125)
+    midodire = models.CharField(u'Direccion', max_length = 200)
+    midocity = models.CharField(u'Ciudad o Municipio', max_length = 75)
+    midotcou = models.PositiveSmallIntegerField(u'Pais', default = 75)
+    midotind = models.PositiveSmallIntegerField(u'Indicativo de la region')
+    mitotelf = models.PositiveIntegerField(u'Numero telefonico')
+    midotext = models.PositiveSmallIntegerField(u'Extension', null = True, blank = True)
+    midomail = models.EmailField(u'Correo electronico')
+    midojuri = models.FloatField(u'Jurisdiccion de la territorial')
+    midonumu = models.PositiveSmallIntegerField(u'Numero de municipios')
+    midonore = models.CharField(u'Nombre del responsable', max_length = 200)
+    midotivi = models.CharField(u'Tipo de vinculacion', max_length = 75)
+    midocarg = models.CharField(u'Cargo', max_length = 125)
+    midopvln = models.PositiveSmallIntegerField(u'Personal Libre nombramiento')
+    midopvca = models.PositiveSmallIntegerField(u'Personal Carrera administrativa')
+    midopvpr = models.PositiveSmallIntegerField(u'Personal Provisionales')
+    midopvco = models.PositiveSmallIntegerField(u'Contratistas')
 
 class minstplanific(models.Model):
     '''
@@ -250,58 +256,72 @@ class minstplanific(models.Model):
         - Form: Matriz Institucional
         - Tab: Planeación
         - Title: Instrumentos de planificación de la corporación
+        - Subtitle: Plan de Gestion Ambiental regional PGAR 
     '''
     miplanif = models.ForeignKey('minstdatgene', verbose_name = u'empresa')     #Corporation
-    miplpgar = models.FileField(u'Plan de gestión ambiental regional PGAR', 
+    miplpgar = models.FileField(u'Plan de gestion ambiental regional PGAR', 
                                upload_to = 'doc/business/', null = True, blank = True)
-    mipltipg = models.CharField(u'Título de PGAR',max_length = 200)
-    miprpgpe = models.CharField(u'Periodo del PGAR', max_length = 75)
-    miplpgaa = models.CharField(u'Adopción PGAR. Tipo de acto administrativo',
+    mipltipg = models.CharField(u'Titulo de PGAR',max_length = 200)
+    miplpgpe = models.CharField(u'Periodo del PGAR', max_length = 75)
+    miplpgaa = models.CharField(u'Adopcion PGAR. Tipo de acto administrativo',
                                max_length = 75)
-    miplpgno = models.PositiveIntegerField(u'Adopción PGAR. Número')
-    miplpgda = models.DateField(u'Adopción PGAR. Fecha')
+    miplpgno = models.CharField(u'Adopcion PGAR. Numero', max_length = 50)
+    miplpgda = models.DateField(u'Adopcion PGAR. Fecha', null = True, blank = True)
     miplpamj = models.CharField(u'Prospectiva ambiental de la jurisdicción',
-                               max_length = 200)
-    mipldiag = models.CharField(u'Diagnóstico ambiental', max_length = 200)
-    miplaaiv = models.FileField(u'Plan de acción institucional', 
-                               upload_to = 'doc/business/')
-    miplaait = models.CharField(u'Título del plan de acción',max_length = 200)
-    miplaaip = models.CharField(u'Periodo del plán de acción',
-                               max_length = 75)
-    miplaiaa = models.CharField(u'Adopción plan de acción. Acto administrativo',
-                                max_length = 75)
-    miplaino = models.PositiveIntegerField('Adopción plan de acción. Número')
-    miplaida = models.DateField(u'Adopción plan de acción. Fecha')
+                               max_length = 1000)
+    mipldiag = models.CharField(u'Diagnostico ambiental', max_length = 1000)
+    #Created in a new table to adjunst  to the dinamyc content
+    #miplaaiv = models.FileField(u'Plan de acción institucional', 
+    #                           upload_to = 'doc/business/')
+    #miplaait = models.CharField(u'Titulo del plan de accion',max_length = 200)
+    #miplaaip = models.CharField(u'Periodo del plan de accion',
+    #                           max_length = 75)
+    #miplaiaa = models.CharField(u'Adopcion plan de accion. Acto administrativo',
+    #                            max_length = 75)
+    #miplaino = models.PositiveIntegerField('Adopcion plan de accion. Numero')
+    #miplaida = models.DateField(u'Adopcion plan de accion. Fecha')
 
 class minstplanpgar(models.Model):
     '''
     
     Characterization:
         - Form: Matriz Institucional
-        - Tab: Planeación
+        - Tab: Planeacion
         - Title: Instrumentos de planificación de la corporación
         - Subtitle: Plan de Gestión Ambiental Regional - PGAR
             Relacionar los componentes del PGAR correspondientes a procesos de POMCAS
     '''
-    miplanpg = models.ForeignKey('minstplanific', verbose_name=u'Planificación institucional')
-    miplpges = models.CharField(u'Estrategias', max_length = 200)
-    miplpgse = models.CharField(u'Mecanismos de seguimiento y evaluación',
-                               max_length = 200)
+    miplanpg = models.ForeignKey('minstplanific', verbose_name=u'Planificacion institucional')
+    miplpges = models.CharField(u'Estrategias', max_length = 500)
+    miplpgse = models.CharField(u'Mecanismos de seguimiento y evaluacion',
+                               max_length = 500)
 
-class minsplanplaci(models.Model):
+class minstplanpdai(models.Model):
+    miplapai = models.ForeignKey('minstplanific', verbose_name = 'Planeacion')
+    miplaaiv = models.FileField(u'Plan de acción institucional', 
+                               upload_to = 'doc/business/')
+    miplaait = models.CharField(u'Titulo del plan de accion',max_length = 200)
+    miplaaip = models.CharField(u'Periodo del plan de accion',
+                               max_length = 75)
+    miplaiaa = models.CharField(u'Adopcion plan de accion. Acto administrativo',
+                                max_length = 75)
+    miplaino = models.PositiveIntegerField('Adopcion plan de accion. Numero')
+    miplaida = models.DateField(u'Adopcion plan de accion. Fecha')
+
+class minsplanpaime(models.Model):
     '''
     
     Characterization:
         - Form: Matriz Institucional
-        - Tab: Planeación
+        - Tab: Planeacion
         - Title: Instrumentos de planificación de la corporación
-        - Subtitle: Plan de acción institucional
+        - Subtitle: Plan de accion institucional
             Relacional las metas correspondientes a procesos de POMCAS
     '''
     miplanai = models.ForeignKey('minstplanific', verbose_name=u'Planificación institucional')
-    miplaipr = models.CharField(u'Programas', max_length = 200)
-    miplaipj = models.CharField(u'Proyectos', max_length = 200)
-    miplaimt = models.CharField(u'Metas', max_length = 200)
+    miplaipr = models.CharField(u'Programas', max_length = 500)
+    miplaipj = models.CharField(u'Proyectos', max_length = 500)
+    miplaimt = models.CharField(u'Metas', max_length = 500)
 
 class minspresupues(models.Model):
     '''
@@ -313,6 +333,8 @@ class minspresupues(models.Model):
             Ejecución presupuestal 2012
     '''
     miplanpr = models.ForeignKey('minstdatgene', verbose_name = u'empresa')     #Corporation
+    #miplpres = models.FileField(u'Presupuesto', 
+    #                           upload_to = 'doc/business/', null = True, blank = True)
     miplprgp = models.PositiveIntegerField(u'Gastos de funcionamiento. Proyectado')
     miplgrge = models.PositiveIntegerField(u'Gastos de funcionamiento. Ejecutado')
     miplgrip = models.PositiveIntegerField(u'Inversión. Proyectado')
@@ -350,9 +372,9 @@ class minsprespomca(models.Model):
     '''
     miprprco = models.ForeignKey('minspresupues', verbose_name = u'Presupuesto')
     miprprpr = models.CharField(u'Proyecto', max_length = 200)
-    miprprpr = models.CharField(u'Fuente de Financiación', max_length = 200)
-    miprprva = models.PositiveIntegerField(u'Valor')
-    miprprcu = models.PositiveIntegerField(u'Cuencas')
+    miprprfi = models.CharField(u'Fuente de Financiación', max_length = 200)
+    miprprva = models.BigIntegerField(u'Valor')
+    miprprcu = models.CharField(u'Cuencas', max_length = 200)
     miprpras = models.BooleanField(u'ASOCARS',)
 
 class minssopotecni(models.Model):
@@ -371,40 +393,74 @@ class minssopotecni(models.Model):
 
     '''
     misoptec = models.ForeignKey('minstdatgene', verbose_name = u'empresa')     #Corporation
-    missigex = models.CharField(u'Existe en la Corporación un SIG', max_length = 50)
-    missigre = models.CharField(u'Nombre del Responsable SIG', max_length = 150)
-    missiget = models.PositiveSmallIntegerField(u'Responsable SIG, Extensión')
-    missrhex = models.BooleanField(u'Existe en la Corporación SIRH?')
-    missrhns = models.CharField(u'Nombre del Sistema SIRH', max_length = 150)
-    missrhde = models.CharField(u'Breve descripción del sistema SIRH', max_length = 500)
-    missrhwe = models.BooleanField(u'Disponible para consulta vía Web el SIRH?')
-    missrhur = models.URLField(u'Dirección electrónica del SIRH', null = True, blank = True)
-    mislaexi = models.BooleanField(u'Existe en la Corporación un LA?')
-    mislacon = models.NullBooleanField(u'Si no tiene LA, Tiene convenios con entidades para el uso de LA?')
-    mislacoc = models.CharField('Especifique el convenio de LA', max_length = 150, null = True, blank = True)
-    mislaacr = models.NullBooleanField(u'Si tiene LA, Se encuentra acreditado el LA?')
-    mislaaea = models.CharField(u'Entidad acreditadora del LA', max_length = 150, null = True, blank = True)
-    mislares = models.CharField(u'Número de resolución del LA', max_length = 50, null = True, blank = True)
-    misladat = models.DateField(u'Fecha de Acreditación del LA', null = True, blank = True)
-    mislapar = models.CharField(u'Parámetros acreditados del LA', max_length = 200, null = True, blank = True)
-    mislapro = models.CharField(u'Procesos acreditados del LA', max_length = 200, null = True, blank = True)
-    misrmaex = models.BooleanField(u'La Corporación dispone de RMA?')
-    misrmaco = models.NullBooleanField(u'Si no tiene RMA. Tiene convenios con entindades para RMA?')
-    misrmacc = models.CharField('Especifique el convenio de RMA', max_length = 150, null = True, blank = True)
-    misrmana = models.NullBooleanField(u'Está asociada a una RMA nacional?')
-    misrmano = models.CharField(u'Nombre de RMA nacional', max_length = 150, null = True, blank = True)
-    misrmaed = models.CharField(u'Estaciones definidas de RMA', max_length = 150, null = True, blank = True) 
-    misrmapm = models.CharField(u'Parámetros monitoreo de RMA', max_length = 150, null = True, blank = True) 
-    misrmcex = models.BooleanField(u'La Corporación dispone de RMC?')
-    misrmcco = models.NullBooleanField(u'Si no tiene RMC. Tiene convenios con entindades para RMC?')
-    misrmccc = models.CharField('Especifique el convenio de RMC', max_length = 150, null = True, blank = True)
-    misrmced = models.CharField(u'Estaciones definidas de RMC', max_length = 150, null = True, blank = True) 
-    misrmcpm = models.CharField(u'Parámetros monitoreo de RMC', max_length = 150, null = True, blank = True) 
-    misrmhex = models.BooleanField(u'La Corporación dispone de RMH?')
-    misrmhco = models.NullBooleanField(u'Si no tiene RMC. Tiene convenios con entindades para RMC?')
-    misrmhcc = models.CharField('Especifique el convenio de RMH', max_length = 150, null = True, blank = True)
-    misrmhed = models.CharField(u'Estaciones definidas de RMH', max_length = 150, null = True, blank = True) 
-    misrmhpm = models.CharField(u'Parámetros monitoreo de RMH', max_length = 150, null = True, blank = True) 
+    missigex = models.CharField(u'Existe en la Corporación un SIG', 
+		max_length = 50, default = False)
+    missigre = models.CharField(u'Nombre del Responsable SIG', 
+		max_length = 150, null = True, blank = True)
+    missiget = models.PositiveSmallIntegerField(u'Responsable SIG, Extensión', 
+		null = True, blank = True)
+    missrhex = models.BooleanField(u'Existe en la Corporación SIRH?', 
+		default = False)
+    missrhns = models.CharField(u'Nombre del Sistema SIRH', 
+		max_length = 150, null = True, blank = True)
+    missrhde = models.CharField(u'Breve descripción del sistema SIRH',
+		max_length = 500, null = True, blank = True)
+    missrhwe = models.NullBooleanField(u'Disponible para consulta vía Web el SIRH?', 
+		null = True, blank = True)
+    missrhur = models.URLField(u'Dirección electrónica del SIRH', 
+		null = True, blank = True)
+    mislaexi = models.BooleanField(u'Existe en la Corporación un LA?',
+		default = False)
+    mislacon = models.NullBooleanField(u'Si no tiene LA, Tiene convenios con entidades para el uso de LA?',
+		null = True, blank = True)
+    mislacoc = models.CharField('Especifique el convenio de LA', 
+		max_length = 150, null = True, blank = True)
+    mislaacr = models.NullBooleanField(u'Si tiene LA, Se encuentra acreditado el LA?', 
+		null = True, blank = True)
+    mislaaea = models.CharField(u'Entidad acreditadora del LA', 
+		max_length = 150, null = True, blank = True)
+    mislares = models.CharField(u'Número de resolución del LA',
+		max_length = 50, null = True, blank = True)
+    misladat = models.DateField(u'Fecha de Acreditación del LA', 
+		null = True, blank = True)
+    mislapar = models.CharField(u'Parámetros acreditados del LA', 
+		max_length = 200, null = True, blank = True)
+    mislapro = models.CharField(u'Procesos acreditados del LA', 
+		max_length = 200, null = True, blank = True)
+    misrmaex = models.BooleanField(u'La Corporación dispone de RMA?', 
+		default = False)
+    misrmaco = models.NullBooleanField(u'Si no tiene RMA. Tiene convenios con entindades para RMA?', 
+		null = True, blank = True)
+    misrmacc = models.CharField('Especifique el convenio de RMA', 
+		max_length = 150, null = True, blank = True)
+    misrmana = models.NullBooleanField(u'Está asociada a una RMA nacional?', 
+		default = False)
+    misrmano = models.CharField(u'Nombre de RMA nacional', 
+		max_length = 150, null = True, blank = True)
+    misrmaed = models.CharField(u'Estaciones definidas de RMA', 
+		max_length = 150, null = True, blank = True) 
+    misrmapm = models.CharField(u'Parámetros monitoreo de RMA', 
+		max_length = 150, null = True, blank = True) 
+    misrmcex = models.BooleanField(u'La Corporación dispone de RMC?', 
+		default = False)
+    misrmcco = models.NullBooleanField(u'Si no tiene RMC. Tiene convenios con entindades para RMC?', 
+		null = True, blank = True)
+    misrmccc = models.CharField('Especifique el convenio de RMC', 
+		max_length = 150, null = True, blank = True)
+    misrmced = models.CharField(u'Estaciones definidas de RMC', 
+		max_length = 150, null = True, blank = True) 
+    misrmcpm = models.CharField(u'Parámetros monitoreo de RMC', 
+		max_length = 150, null = True, blank = True) 
+    misrmhex = models.BooleanField(u'La Corporación dispone de RMH?', 
+		default = False)
+    misrmhco = models.NullBooleanField(u'Si no tiene RMC. Tiene convenios con entindades para RMC?', 
+		null = True, blank = True)
+    misrmhcc = models.CharField('Especifique el convenio de RMH', 
+		max_length = 150, null = True, blank = True)
+    misrmhed = models.CharField(u'Estaciones definidas de RMH', 
+		max_length = 150, null = True, blank = True) 
+    misrmhpm = models.CharField(u'Parámetros monitoreo de RMH', 
+		max_length = 150, null = True, blank = True) 
 
 class minssotesigpc(models.Model):
     '''
@@ -448,7 +504,7 @@ class minssoptechrs(models.Model):
     misthrpg = models.CharField(u'Posgrado', max_length = 150, null = True)
     misthrca = models.CharField(u'Cargo', max_length = 150)
     misthrtv = models.CharField(u'Tipo de Vinculación', max_length = 150)
-    misthrtd = models.PositiveIntegerField(u'Tiempo de dedicación')
+    misthrtd = models.FloatField(u'Tiempo de dedicación', null = True, blank = True)
     misthrfr = models.CharField(u'Otras funciones no relacionadas', max_length = 150)
 
 class minsrecurhuma(models.Model):
@@ -500,10 +556,10 @@ class minsrhvinpomc(models.Model):
         ('INVOTEM', 'Involucrado Otras temáticas'),
     )
     mirhpomc = models.ForeignKey('minsrecurhuma', verbose_name = u'Recursos Humanos POMCA')
-    mirhpopc = models.CharField(u'Proceso', max_length = 6)
+    mirhpopc = models.CharField(u'Proceso', max_length = 8)
     mirhpono = models.CharField(u'Nombre', max_length = 120)
     mirhpopr = models.CharField(u'Profesión', max_length = 120) 
-    mirhpoec = models.CharField(u'Estudios complementarios',max_length = 120, 
+    mirhpoec = models.CharField(u'Estudios complementarios',max_length = 250, 
                          null = True, blank = True) 
     mirhpoca = models.CharField(u'Cargo', max_length = 120) 
     mirhpotv = models.CharField(u'Tipo de vinculación', max_length = 50) 
@@ -513,9 +569,9 @@ class minsrhvinpomc(models.Model):
     mirhpotd = models.PositiveSmallIntegerField(u'Tiempo de dedicación', 
                          null = True, blank = True)
     mirhporo = models.CharField(u'Rol / Función en el preaprestamiento', 
-                         max_length = 120, null = True, blank = True) 
+                         max_length = 250, null = True, blank = True) 
     mirhpoot = models.CharField(u'Otras Funciones relacionadas con el POMCA ', 
-                         max_length = 120, null = True, blank = True) 
+                         max_length = 250, null = True, blank = True) 
     mirhpote = models.CharField(u'Temática a la que se encuentra adscrito', 
                          max_length = 120, null = True, blank = True) 
  
