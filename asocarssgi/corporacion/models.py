@@ -11,5 +11,7 @@ class corporaname(models.Model):
     corpoadd = models.CharField(u'Dirección', max_length = 125, null = True, blank = True)
     cropodep = models.CharField(u'Departamento', max_length = 25, null = True, blank = True) #Should be a Foreign key
     corpocit = models.CharField(u'Ciudad', max_length = 25, null = True, blank = True)  #Should be a Foreign key
+    corpodir = models.CharField(u'Nombre del director', max_length = 75, null = True, blank = True)
+
     def __unicode__(self):
-        return u'%s, %s, %s, %s, %s'%(self.corporac, self.corposig, self.corpoadd, self.cropodep, self.corpocit)
+        return u'%s, %s, %s, %s, %s, %s'%(self.corporac, self.corposig, self.corpoadd, self.cropodep, self.corpocit, self.corpodir)

@@ -1,1 +1,1 @@
-SUB_SITE = '/proyecto85/'
+SUB_SITE = '/'

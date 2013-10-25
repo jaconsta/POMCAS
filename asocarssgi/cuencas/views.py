@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from cuencas.models import *
+from corporacion.models import corporaname
+import xlrd
 
 def SetMacrocuencas(text_file):
     #Go though the file
@@ -31,15 +33,6 @@ def SetCuencas(text_file):
             cuencomp = False
             print u'Validar el estado compartido de la cuenca %s' %(watersheed[6])
         # Maybe 'Cuenca' Already exists
-        print watersheed[0]
-        print watersheed[1]
-        print code
-        print subcode
-        print watersheed[3]
-        print watersheed[4]
-        print watersheed[5]
-        print watersheed[6]
-        print watersheed[7][0:-2]
         i+= 1
         print i
         if len(macro) != 0:
@@ -55,7 +48,77 @@ def SetCuencas(text_file):
                                }
                             )
             if not created:
-                print u'La Cuenca %s ya aparece en el sistema' % (watersheed[3])
+                try: 
+                    print u'La Cuenca %s ya aparece en el sistema'%(watersheed[3].encode('utf-8'))
+                except UnicodeDecodeError:
+                    print u'Recordar corregir el error de ASCII'
 
-def SetExcelCuencas(excel_file):
+def SetExcelCuencas(excel_addr):
     return 
+
+def SetExcelCompart(excel_addr):
+    def GetCorpoPlace(number):
+        return ((number*3)+1)+8
+    def GetCrossCorpoNames(sheet):
+        '''
+        There are 30 coporations'
+        Objects will be taken as the excel file order
+        ''' 
+        corporation = {}
+        for i in range(30):
+            rowtosearch = ((i*3)+1)+8
+            corpo = sheet.cell_value(colx = rowtosearch, rowx = 0)
+            corporation[corpo] = corporaname.objects.filter(corposig = corpo)[0]
+        return corporation
+    def GetCuenca(codec):
+        try:
+            codec = codec.split('-')
+        except AttributeError:
+            cuenccode = int(codec)
+            cuencsubcode = None
+            pass
+        else:
+            cuenccode = int(codec[0])
+            try:
+                cuencsubcode = int(codec[1])
+            except IndexError:
+                cuencsubcode = None
+        return cuencadescr.objects.get(cuencodi = cuenccode, cuensubc = cuencsubcode)
+    def SetCuencaCorpo(sheet, corporacion, cuenca, rowini):
+        '''
+        Recorrer el excel y cruzar entre corporación y cuenca
+        corporacion is a dictionary and is unordered
+        TODO: when avaliable through new version switch from get_or_create to update_or_create
+        '''
+        print cuenca
+        #Horizontal search
+        for i in range(30):
+            rowtosearch = GetCorpoPlace(i)
+            if sheet.cell_value(colx = rowtosearch, rowx = rowini) == 1:
+                corpo = corporacion[sheet.cell_value(colx = rowtosearch, rowx = 0)]
+                area = sheet.cell_value(colx = rowtosearch+1, rowx = rowini)
+                if area == '':
+                    area = 0
+                percn = sheet.cell_value(colx = rowtosearch+2, rowx = rowini)
+                if percn == '':
+                    percn = 0
+                shared, created = cuencompart.objects.get_or_create(
+                    cuencano = cuenca, 
+                    cuencomp = corpo,
+                    defaults = { 
+                        'comparea' : area,
+                        'compporc' : percn,
+                    }
+                )
+                if not created:
+                    print u'La cuenca % ya está asociada para la corporacion %s' % (cuenca, corpo)
+    excel_file = xlrd.open_workbook(excel_addr)
+    excel_sheet = excel_file.sheet_by_index(2)
+    corporation = GetCrossCorpoNames(excel_sheet)
+    rowini = 2
+    #Vertical search
+    while rowini <= (excel_sheet.nrows - 2):
+        codecuenc = excel_sheet.cell_value(colx = 2, rowx = rowini)
+        watersheed = GetCuenca(codecuenc)
+        SetCuencaCorpo(excel_sheet, corporation, watersheed, rowini)
+        rowini += 1

@@ -101,7 +101,7 @@ def excel_process(excel_addr, username):
                 elaboracion = None
                 valid = False
             if valid:
-                if elaboracion < fuente:
+                if int(elaboracion) < int(fuente):
                     log += u'El año de fuente (%s) no puede ser mayor al de elaboración (%s) \n'%(fuente, elaboracion)
                     doprocess = False
             else: 

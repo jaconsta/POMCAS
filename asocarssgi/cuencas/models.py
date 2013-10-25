@@ -20,9 +20,10 @@ class cuencadescr(models.Model):
     cuencomp = models.NullBooleanField(u'Compartida', default = False, null = True, blank = True)
     cuenobse = models.CharField(u'Observaciones', max_length = 500, null = True, blank = True)
     def __unicode__(self):
-        return u'%s, %s, %s' % (cuencano, cuennive, cuenobse)
+        return u'%s, %s, %s' % (self.cuencano, self.cuennive, self.cuenobse)
+
 class cuencompart(models.Model):
-    cuencano = models.ForeignKey(cuencadescr, verbose_name = u'Nombre de la cuenca')
+    cuencano = models.ForeignKey('cuencadescr', verbose_name = u'Nombre de la cuenca')
     cuencomp = models.ForeignKey(corporaname, verbose_name = u'Nombre de la corporación')
     comparea = models.FloatField(u'Área compartida de la corporación', null = True, blank = True)
     compporc = models.FloatField(u'Porcentaje área compartida', null = True, blank = True)
