@@ -3,11 +3,15 @@ from matriz_recolinfo.models import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.forms.formsets import formset_factory
+#from django.forms.models import inlineformset_factory
 
 import xlrd
 
 from corporacion.models import corporaname
 from cuencas.models import cuencompart, cuencadescr
+from matriz_recolinfo.models import componentes, compoactivi
 from asocarssgi import default_names
 
 def SetComponentesFile(text_addr):
@@ -65,7 +69,12 @@ def GetCuencasAsoc(request):
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def CuencasDeCorpo(request):
-    usr, corpo, watersheeds = GetCuencasAsoc(request)
+    try:
+        usr, corpo, watersheeds = GetCuencasAsoc(request)
+    except ObjectDoesNotExist:
+       return render(request, 'recoleccion_error.html', {
+           'error':u'El Usuario no tiene una corporación asociada',
+       })
     return render(request, 'list_cuencas.html', {
         'usr' : usr, 'corpo': corpo, 'watersheed': watersheeds,
     }) 
@@ -73,19 +82,17 @@ def CuencasDeCorpo(request):
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def recolinfo_form(request, shared_id):
     def GetComponentes():
-        comp = componentes.objects.filter(comppadr = 1)
+        comp = componentes.objects.filter(comppadr = 1).exclude(pk = 1).order_by('id')
         infor = []
-        a = []
+        compolist = []
         for i in comp:
             subcomp = componentes.objects.filter(comppadr = i)
             b = []
             for j in subcomp:
                 activ = compoactivi.objects.filter(compoact = j)
                 b.append([j, activ])
-            a.append([i, b])
-        
-        return a
-        return componentes.objects.all()
+            compolist.append([i, b])
+        return compolist
     def GetActividades():
         return compoactivi.objects.all()
     if request.method == 'POST':
@@ -94,12 +101,19 @@ def recolinfo_form(request, shared_id):
             form.save()
             return HttpResponseRedirect('formulario_completo.html')
     else:
-        usr, corpo, watersheeds = GetCuencasAsoc(request)
+        try:
+            usr, corpo, watersheeds = GetCuencasAsoc(request)
+        except ObjectDoesNotExist:
+            return render(request, 'recoleccion_error.html', {
+                'error':u'El Usuario no tiene una corporación asociada',
+            })
         watersheed = cuencadescr.objects.get(id = shared_id)
-        form = CompoInfoForm()
-        componenetes = GetComponentes():
+        #form = CompoInfoForm()
+        form = formset_factory(CompoInfoForm, extra = 15)
+        compolist = GetComponentes()
 
         return render(request, 'recoleccion_info.html', {
             'form' : form, 'usr':usr, 'corporation' : corpo,
-            'watersheed' : watersheed,
+            'watersheed' : watersheed, 'componentes': compolist,
+            'form_counter':0,
         })
