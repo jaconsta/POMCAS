@@ -1,0 +1,27 @@
+<form action='.' method= 'post'>{% csrf_token %}
+{{usr}}
+<div id = 'cuenca' class = 'default_values'>{{watersheed.id}}</div>
+<div id = 'corporacion' class = 'default_values'>{{corporation.id}}</div>
+<div id = 'usuario' class = 'default_values'>{{usr.id}}</div>
+{{corporation.corponit}}
+{{watersheed.cuencano}}
+{% for forms in form %}
+    {% ifchanged %}<h3> {{ forms.infoacti }}</h3>{% endifchanged %}
+        {{forms}}
+{% endfor %}
+{% for componen, i in componentes %}
+    <h1>{{componen}}</h1>
+    {% for subcompo, j in i %}
+        <h2>{{subcompo}}</h2> 
+        {%for activi in j %}
+            <h3>{{activi.coacdesc}}...{{activi.coacpreg}}</h3>
+            {{forloop.counter}}
+            {{form.id}}
+            {{form.infoestu}}
+            {{form.infoubic}}
+        {%endfor%}
+    {% endfor %}
+{% endfor %}
+<input type="submit" value="Submit" />
+</form>
+
