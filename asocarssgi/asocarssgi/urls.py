@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, include, url
 import settings
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+# Enable the admin:
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     #url(r'^$', 'matriz_institucional.views.upload_matrix', name='matrix_institucional_home'),
@@ -25,6 +25,6 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     #(r'^%s/' % settings.SUB_SITE, include('asocarssgi.urls_subsite')),
 )

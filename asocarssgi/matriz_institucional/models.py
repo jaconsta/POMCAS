@@ -14,6 +14,10 @@ class minstportada(models.Model):
     mipofeha = models.DateField(u'Fecha final de diligenciamiento')
     mipoprof = models.CharField(u'Profesional que diligencia', max_length = 250)
     mipodesc = models.TextField(u'Descripcion general del proceso')
+    
+    class Meta:
+        verbose_name = '0 Portada'
+        verbose_name_plural = verbose_name
 
 class minstdatgene(models.Model):    
     '''
@@ -66,8 +70,8 @@ class minstdatgene(models.Model):
     midgscda = models.DateField(auto_now_add = True)    #Creation date on our system
     
     class Meta:
-        verbose_name = 'Datos generales de la coporación'
-        verbose_name_plural = 'Datos generales de las corporaciones'
+        verbose_name = u'1 Datos generales de la coporación'
+        verbose_name_plural = u'1 Datos generales de las corporaciones'
 
     def __unicode__(self):
         return u'%s, %s, %s, %s, %s, %s, %s, %s, %s' %(self.midgrazs, self.midginit, 
@@ -90,8 +94,8 @@ class minstestdire(models.Model):
                                 default = True)                #CEO currently posessed? 
     
     class Meta: 
-        verbose_name = 'estructura directiva de la corporación'
-        verbose_name_plural = 'estructura directiva de las corporaciones'
+        verbose_name = '2 Estructura directiva de la corporación'
+        verbose_name_plural = '2 Estructura directiva de las corporaciones'
     def __unicode__(self):
         return self.miediceo
 
@@ -109,7 +113,7 @@ class minstedcorpa(models.Model):
     miesdmay = models.IntegerField(u'Número de alcaldes')            #Number of mayors
 
     class Meta: 
-        verbose_name = 'Conformación de la asamblea directiva'
+        verbose_name = '2.1 Conformación de la asamblea directiva'
         verbose_name_plural = verbose_name
 
     def __unicode__(self):
@@ -130,7 +134,7 @@ class minstedcondi(models.Model):
     miesdent = models.CharField(u'Entidad / Empresa / Gremio', max_length = 100)    #Entity, Business, guild
 
     class Meta:
-        verbose_name = 'Conformación del consejo directivo'
+        verbose_name = '2.2 Conformación del consejo directivo'
         verbose_name_plural = verbose_name
 
     def __unicode__(self):
@@ -153,6 +157,9 @@ class minstorganiz(models.Model):
     mieofnrp = models.BigIntegerField(u'Financiación con recursos própios')
     mieofnrn = models.BigIntegerField(u'Financiación con recursos de la nación')
     mieofnfc = models.BigIntegerField(u'Financiación con recurdos del Fondo de Adaptación')
+    class Meta:
+        verbose_name = '3 Estructura organizativa de la Corporación'
+        verbose_name_plural = '3 Estructura organizativa de las Corporaciones'
 
 class minesorasesd(models.Model):
     '''
@@ -163,11 +170,15 @@ class minesorasesd(models.Model):
         - Title: Estructura organizativa de la Corporación
         - SubTitle: Asesores de dirección
     '''
-    miesoras = models.ForeignKey('minstorganiz')
-    mieoadno = models.CharField(max_length = 1000) 
-    mieoadro = models.CharField(max_length = 1000) 
-    mieoadex = models.PositiveSmallIntegerField()
-    mieoadco = models.EmailField()
+    miesoras = models.ForeignKey('minstorganiz', 
+        verbose_name = u'Estructura Organizativa')
+    mieoadno = models.CharField(u'nombre', max_length = 1000) 
+    mieoadro = models.CharField(u'rol', max_length = 1000) 
+    mieoadex = models.PositiveSmallIntegerField(u'extensión')
+    mieoadco = models.EmailField(u'correo')
+    class Meta:
+        verbose_name = '3.1 Asesor de dirección'
+        verbose_name_plural = '3.1 Asesores de dirección'
 
 class minesorsubdir(models.Model):
     '''
@@ -178,12 +189,19 @@ class minesorsubdir(models.Model):
         - Title: Estructura organizativa de la Corporación
         - SubTitle: Subdirecciones y oficinas de la corporación.
     '''
-    miesorsu = models.ForeignKey('minstorganiz')
-    mieosuof = models.CharField(max_length = 125) 
-    mieosuex = models.PositiveSmallIntegerField()
-    mieosuno = models.CharField(max_length = 125) 
-    mieosutv = models.CharField(max_length = 125) 
-    mieosuub = models.CharField(max_length = 125) 
+    miesorsu = models.ForeignKey('minstorganiz',
+        verbose_name = u'Estructura Organizativa')
+    mieosuof = models.CharField(u'Nombre de la subdirección u oficina', 
+        max_length = 125) 
+    mieosuex = models.PositiveSmallIntegerField(u'Extensión')
+    mieosuno = models.CharField(u'Nombre del subdirector o jefe de oficina',
+        max_length = 125) 
+    mieosutv = models.CharField(u'Tipo de vinculación', max_length = 125) 
+    mieosuub = models.CharField(u'Ubicación dentro de la estructura',
+         max_length = 125) 
+    class Meta:
+        verbose_name = '3.2 Subdirección y oficina de la corporación'
+        verbose_name_plural = '3.2 Subdirecciones y oficinas de la corporación'
 
 class minesorsudico(models.Model):
     '''
@@ -195,12 +213,16 @@ class minesorsudico(models.Model):
         - SubTitle: Subdirecciones y oficinas de la corporación.
         - Complement: Coordinaciones que conforman la subdirección u oficina.
     '''
-    mieosubd = models.ForeignKey('minesorsubdir')
-    mieosoco = models.CharField(max_length = 125) 
-    mieosoln = models.PositiveSmallIntegerField()
-    mieosoca = models.PositiveSmallIntegerField()
-    mieosopr = models.PositiveSmallIntegerField()
-    mieosocn = models.PositiveSmallIntegerField()
+    mieosubd = models.ForeignKey('minesorsubdir', 
+        verbose_name = u'Subdirecciones y oficinas')
+    mieosoco = models.CharField(u'Nombre de la coordinación', max_length = 125) 
+    mieosoln = models.PositiveSmallIntegerField(u'Personal, Libre nombramiento')
+    mieosoca = models.PositiveSmallIntegerField(u'Personal, Carrera administrativa')
+    mieosopr = models.PositiveSmallIntegerField(u'Personal, Provisional')
+    mieosocn = models.PositiveSmallIntegerField(u'Personal, Contratistas')
+    class Meta:
+        verbose_name = '3.3 Coordinación que conforman la subdirección u oficina'
+        verbose_name_plural = '3.3 Coordinaciones que conforman la subdirección u oficina'
 
 class minstdescentr(models.Model):
     '''
@@ -211,13 +233,16 @@ class minstdescentr(models.Model):
         - Title: Estructura organizativa de las coporaciones (Should be changed?)
     '''
     midesnco = models.ForeignKey('minstdatgene', verbose_name = 'empresa')     #Corporation
-    midesofi = models.BooleanField()
+    midesofi = models.BooleanField(u'¿La corporación tiene oficinas regionales o territoriales?')
     midesmap = models.ImageField(upload_to = 'img/business/', 
                             height_field = None, width_field = None, null = True, blank = True)
     midescri = models.CharField(u'Criterio de regionalizacion de la oficina territorial',
             max_length = 1000, null = True, blank = True)
     midesfun = models.CharField(u'Funciones Asignadas a la oficina',
             max_length = 1000, null = True, blank = True)
+    class Meta:
+        verbose_name = u'4 Organización de la oficina territorial'
+        verbose_name_plural = u'4 Organización de las oficinas territoriales'
 
 class midesceoficte(models.Model):
     '''
@@ -248,6 +273,9 @@ class midesceoficte(models.Model):
     midopvca = models.PositiveSmallIntegerField(u'Personal Carrera administrativa')
     midopvpr = models.PositiveSmallIntegerField(u'Personal Provisionales')
     midopvco = models.PositiveSmallIntegerField(u'Contratistas')
+    class Meta:
+        verbose_name = u'4.1 Oficina territorial'
+        verbose_name_plural = u'4.1 Oficinas territoriales'
 
 class minstplanific(models.Model):
     '''
@@ -280,6 +308,9 @@ class minstplanific(models.Model):
     #                            max_length = 75)
     #miplaino = models.PositiveIntegerField('Adopcion plan de accion. Numero')
     #miplaida = models.DateField(u'Adopcion plan de accion. Fecha')
+    class Meta:
+        verbose_name = u'5 Plan de Gestion Ambiental Regional PGAR'
+        verbose_name_plural = verbose_name
 
 class minstplanpgar(models.Model):
     '''
@@ -295,6 +326,9 @@ class minstplanpgar(models.Model):
     miplpges = models.CharField(u'Estrategias', max_length = 500)
     miplpgse = models.CharField(u'Mecanismos de seguimiento y evaluacion',
                                max_length = 500)
+    class Meta:
+        verbose_name = u'5.1 Componente del PGAR correspondiente a procesos de POMCAS'
+        verbose_name_plural = u'5.1 Componentes del PGAR correspondientes a procesos de POMCAS'
 
 class minstplanpdai(models.Model):
     miplapai = models.ForeignKey('minstplanific', verbose_name = 'Planeacion')
@@ -307,6 +341,9 @@ class minstplanpdai(models.Model):
                                 max_length = 75)
     miplaino = models.PositiveIntegerField('Adopcion plan de accion. Numero')
     miplaida = models.DateField(u'Adopcion plan de accion. Fecha')
+    class Meta:
+        verbose_name = u'5.2 Plan de acción institucional'
+        verbose_name_plural = verbose_name
 
 class minsplanpaime(models.Model):
     '''
@@ -322,6 +359,9 @@ class minsplanpaime(models.Model):
     miplaipr = models.CharField(u'Programas', max_length = 500)
     miplaipj = models.CharField(u'Proyectos', max_length = 500)
     miplaimt = models.CharField(u'Metas', max_length = 500)
+    class Meta:
+        verbose_name = u'5.3 Meta correspondiente a procesos de POMCAS'
+        verbose_name_plural = u'5.3 Metas correspondientes a procesos de POMCAS'
 
 class minspresupues(models.Model):
     '''
@@ -346,6 +386,10 @@ class minspresupues(models.Model):
     miplgfap = models.PositiveIntegerField(u'Fondo de compensación. Aportado. Proyectado')
     miplgfae = models.PositiveIntegerField(u'Fondo de compensación. Aportado. Ejecutado')
 
+    class Meta:
+        verbose_name = u'6 Presupuesto'
+        verbose_name_plural = verbose_name
+
 class minspresactad(models.Model):
     '''
     
@@ -361,6 +405,10 @@ class minspresactad(models.Model):
     mipraada = models.DateField(u'Fecha')
     mipraaac = models.CharField(u'Acción', max_length = 200)
 
+    class Meta:
+        verbose_name = u'6.1 Acto administrativo por el cual se adopta o modifica el presupuesto 2013'
+        verbose_name_plural = u'6.1 Actos administrativos por los cuales se adopta o modifica el presupuesto 2013'
+
 class minsprespomca(models.Model):
     '''
     
@@ -375,7 +423,11 @@ class minsprespomca(models.Model):
     miprprfi = models.CharField(u'Fuente de Financiación', max_length = 200)
     miprprva = models.BigIntegerField(u'Valor')
     miprprcu = models.CharField(u'Cuencas', max_length = 200)
-    miprpras = models.BooleanField(u'ASOCARS',)
+    miprpras = models.BooleanField(u'ASOCARS')
+
+    class Meta:
+        verbose_name = u'6.2 Presupuesto de proyectos asociados a POMCAS'
+        verbose_name_plural = verbose_name
 
 class minssopotecni(models.Model):
     '''
@@ -462,6 +514,10 @@ class minssopotecni(models.Model):
     misrmhpm = models.CharField(u'Parámetros monitoreo de RMH', 
 		max_length = 150, null = True, blank = True) 
 
+    class Meta:
+        verbose_name = u'7 Soporte técnico'
+        verbose_name_plural = verbose_name
+
 class minssotesigpc(models.Model):
     '''
     
@@ -479,6 +535,10 @@ class minssotesigpc(models.Model):
     mistpcos = models.CharField(u'Sistema Operativo', max_length = 150)
     mistpcps = models.CharField(u'Procesamiento', max_length = 150)
     mistpcim = models.CharField(u'Interpretación de imágenes', max_length = 150)
+
+    class Meta:
+        verbose_name = u'7.1 Equipo de cómputo disponible para proceso SIG'
+        verbose_name_plural = u'7.1 Equipos de cómputo disponibles para proceso SIG'
 
 class minssoptechrs(models.Model):
     '''
@@ -507,6 +567,10 @@ class minssoptechrs(models.Model):
     misthrtd = models.FloatField(u'Tiempo de dedicación', null = True, blank = True)
     misthrfr = models.CharField(u'Otras funciones no relacionadas', max_length = 150)
 
+    class Meta:
+        verbose_name = u'7.2 Personal involucrado con la operación'
+        verbose_name_plural = verbose_name
+
 class minsrecurhuma(models.Model):
     '''
     
@@ -529,6 +593,10 @@ class minsrecurhuma(models.Model):
                                 null = True, blank = True)
     mipomcdm = models.EmailField(u'Correo del delegado', null = True, 
                                 blank = True) 
+
+    class Meta:
+        verbose_name = u'8 Comisión de ordenamiento territorial - POMCAS'
+        verbose_name_plural = verbose_name
 
 class minsrhvinpomc(models.Model):
     '''
@@ -574,4 +642,8 @@ class minsrhvinpomc(models.Model):
                          max_length = 250, null = True, blank = True) 
     mirhpote = models.CharField(u'Temática a la que se encuentra adscrito', 
                          max_length = 120, null = True, blank = True) 
+
+    class Meta:
+        verbose_name = u'8.1 Personal vinculado con el proceso de POMCAS'
+        verbose_name_plural = verbose_name
  

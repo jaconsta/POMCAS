@@ -23,6 +23,10 @@ class cartoginven(models.Model):
     cartesca = models.IntegerField(u'Escala')
     cartfano = models.SmallIntegerField(u'Año. Fuente')
     carteano = models.SmallIntegerField(u'Año. Elaboración')
+    
+    class Meta:
+        verbose_name = u'Inventario de cartografía'
+        verbose_name_plural = verbose_name
 
 class cartogrlist(models.Model):
     listplan = models.CharField(u'Nombre de plancha', max_length = 25)
@@ -50,6 +54,10 @@ class nargisyearc(models.Model):
     yeaetwen = models.NullBooleanField(u'Años Elaboracion entre 2000 y 2010')
     yeaetwte = models.NullBooleanField(u'Años Elaboracion mayores al 2010')
 
+    class Meta:
+        verbose_name = u'Clasificación cartografía [2010, 2000, 1990]'
+        verbose_name_plural = verbose_name
+
 class nargisyearb(models.Model):
     archgrid = models.ForeignKey('cartonargis', verbose_name=u'Plancha ArcGIS', unique = True)
     yeafzero = models.NullBooleanField(u'Fuente: Últimos cinco años - Corte 2013', default = False) 
@@ -62,6 +70,9 @@ class nargisyearb(models.Model):
     yeaefift = models.NullBooleanField(u'Elaboración: Entre quince y veinticinco años', default = False)  
     yeaetwnt = models.NullBooleanField(u'Elaboración: Mayor a veinticinco años', default = False)  
     yeaenone = models.NullBooleanField(u'Elaboración: No reporta año', default = False)
+    class Meta:
+        verbose_name = u'Clasificación cartografía [5, 10, 15, 25] años'
+        verbose_name_plural = verbose_name
     
 class areaspomcab(models.Model):
     arpopomc = models.CharField(max_length = 50)
