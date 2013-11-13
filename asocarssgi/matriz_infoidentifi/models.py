@@ -96,9 +96,40 @@ class inididestud(models.Model):
         choices = YearChoose, default = thisyear)
     
     def __unicode__(self):
-        return '%s, %s, %s, %s, %s' % (self.inidnomb, self.inidlocf, self.inidfunc, self.inidubig, self.inidauth)
+        return '%s, %s, %s, %s, %s' % (self.inidnomb, self.inidlocf, 
+            self.inidfunc, self.inidubig, self.inidauth)
 
     class Meta:
+        abstract = True
+
+class inicartsubt(models.Model):
+    '''
+    Cartografía base
+    Subtema cartográfico
+    ####
+    For filling purposes a table will be used for each component
+    Later, a single table with an aditional field can represent all of them
+    '''
+    presen = u'Presencia de elementos que hacen parte del tema en el \
+        catálogo de objetos'
+    cuapre = u'Especifique cuáles'
+    qualit = u'Calidad de datos'
+    reltop = u'Relaciones topológicas'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    icarsubt = models.OneToOneField('inidcardatg')
+    icarspre = models.BooleanField(presen, choices = BoolChoose)
+    icarsexi = models.CharField(cuapre, max_length = 500)
+    icarsqua = models.BooleanField(qualit, choices = BoolChoose)
+    icarsrel = models.BooleanField(reltop, choices = BoolChoose)
+
+    class Meta:
+        verbose_name = u'1.2 Subtema cartográfico'
+        verbose_name_plural = u'1.2 Subtemas cartográficos'
         abstract = True
 
 class inidgeorefe(models.Model):
@@ -116,6 +147,392 @@ class inidgeorefe(models.Model):
     class Meta:
         abstract = True
 
+class socioinfoge(models.Model):
+    '''
+    Socioeconómico y cultural
+    Información General
+    '''
+    nombre = u'Nombre del documento'
+    ubicac = u'Ubicación del documento'
+    autore = u'Autor del estudio'
+    elaano = u'Año de elaboración '
+    docume = u'¿Documento elaborado para la cuenca o para el territorio \
+        especifico de la jurisdicción de la CAR?'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    isocinfo = models.CharField(nombre, max_length = 200)
+    isocubic = models.CharField(ubicac, max_length = 200)
+    isocauto = models.CharField(autore, max_length = 200)
+    isocanoe = models.PositiveSmallIntegerField(elaano,
+        null = True, blank = True)
+    isocdocu = models.BooleanField(docume, choices = BoolChoose, default = True)
+
+    class Meta:
+        abstract = True
+        verbose_name = u'Información General'
+        verbose_name_plural = verbose_name
+
+#Cartografía base
+
+class inidcardatg(models.Model):
+    '''
+    Cartografía base.
+    Datos generales
+    '''
+    escala = u'Escala de salida'
+    numero = u'Identificación'
+    respon = u'Responsable'
+    cubrim = u'Cubrimiento geográfico de la cartografía'
+    cubria = u'Área de cubrimiento con relación a la cuenca'
+    cubrip = u'Porcentaje de cubrimiento con relación a la cuenca'
+    formato = u'Formato de los archivos'
+    forext = u'Extensión de los archivos'
+    siscoo = u'Referencia espacial. Sistema de coordenadas'
+    sisref = u'Referencia espacial. Sistema de referencia'
+    sisori = u'Referencia espacial. Origen de coordenadas'
+    sisdat = u'Referencia espacial. Dátum'
+    esccap = u'Escala de captura'
+    licenc = u'Licencia de uso'
+    
+    ScaleChoose = (
+        (500000, u'1:500000'),
+        (100000, u'1:100000'),
+        (50000, u'1:50000'),
+        (25000, u'1:25000'),
+        (10000, u'1:10000'),
+        (5000, u'1:5000'),
+        (2000, u'1:2000'),
+        (1000, u'1:1000'),
+        (500, u'1:500'),
+    )
+    FormatMapChoose = (
+        ('ANA', u'análogo'),
+        ('DIG', u'digital'),
+    )
+    MapChoose = (
+        ('ECW', 'ECW'),
+        ('Generate', 'Generate'),
+        ('SHP', 'SHP'),
+        ('e00', 'e00'),
+        ('ArcInfo', 'ArcInfo'),
+        ('ECW','ECW'),
+        ('DWG', 'DWG'),
+        ('DGN', 'DGN'),
+        ('DXF', 'DXF'),
+        ('PDF', 'PDF'),
+        ('TIF', 'TIF'),
+        ('JPG', 'JPG'),
+        ('Otro', 'Otro'),      
+    )
+    SisCoordChoose = (
+        ('PLA', u'Planas'),
+        ('GEO', u'Geográficas'),
+    )
+    OriCoordChoose = (
+        ('OO', u'Occidente Occidente'),
+        ('O', u'Occidente'),
+        ('C', u'Centro'),
+        ('E', u'Oriente'),
+        ('EE', u'Oriente Oriente'),
+    )
+
+    icartess = models.PositiveIntegerField(escala, choices = ScaleChoose,
+        default = 25000)
+    icartnum = models.CharField(numero, max_length = 8)
+    icartres = models.CharField(respon, max_length = 125)
+    icartcug = models.CharField(cubrim, max_length = 500)
+    icartcua = models.FloatField(cubria)
+    icartcup = models.FloatField(cubrip)
+    icartfor = models.CharField(formato, max_length = 4, 
+        choices = FormatMapChoose)
+    icartfex = models.CharField(forext, max_length = 5,
+        choices = MapChoose)
+    icartrco = models.CharField(siscoo, max_length = 4,
+        choices = SisCoordChoose)
+    icartrre = models.CharField(sisref, max_length = 25)
+    icartror = models.CharField(sisori, max_length = 3,
+        choices = OriCoordChoose)
+    icartrda = models.CharField(sisdat, max_length = 25)
+    icartesc = models.PositiveIntegerField(esccap, choices = ScaleChoose,
+        default = 25000, null = True, blank = True)
+    icartlic = models.CharField(licenc, max_length = 25,
+        null = True, blank = True)
+
+    class Meta:
+        verbose_name = u'01 Cartografía base'
+        verbose_name_plural = verbose_name
+   
+class inicartdatf(models.Model):
+    '''
+    Cartografía base
+    Datos generales - Fuentes y fecha'
+    '''
+    icarfuen = models.ForeignKey('inidcardatg')
+    icarfnom = models.CharField(u'Nombre', max_length = 125) 
+    icarfdes = models.CharField(u'Descripción', max_length = 500, null = True, 
+        blank = True) 
+    icarflin = models.CharField(u'Listado de información', max_length = 500,
+        null = True, blank = True)
+    icarfsen = models.CharField(u'Sensor', max_length = 125, null = True, 
+        blank = True) 
+    icarfano = models.PositiveSmallIntegerField(u'Año', null = True, 
+        blank = True) 
+
+    class Meta:
+        verbose_name = '01.1 Fuente y Fecha'
+        verbose_name_plural = '1.1 Fuentes y Fechas'
+
+class inicartscat(inicartsubt):
+    class Meta:
+        verbose_name = u'01.2.1 Subtema. Catastro'
+        verbose_name_plural = verbose_name
+
+class inicartstra(inicartsubt):
+    class Meta:
+        verbose_name = u'01.2.2 Subtema. Transporte'
+        verbose_name_plural = verbose_name
+
+class inicartshdr(inicartsubt):
+    class Meta:
+        verbose_name = u'01.2.3 Subtema. Hidrografía'
+        verbose_name_plural = verbose_name
+
+class inicartsrlv(inicartsubt):
+    class Meta:
+        verbose_name = u'01.2.4 Subtema. Relieve'
+        verbose_name_plural = verbose_name
+
+class inicartsete(inicartsubt):
+    class Meta:
+        verbose_name = u'01.2.5 Subtema. Entidad Territorial'
+        verbose_name_plural = verbose_name
+
+#Imágenes
+
+class inidimagsat(models.Model):
+    '''
+    Imágenes
+    Imágenes de satélite
+    '''
+    nombre = u'Nombre de la imagen'
+    sensor = u'Sensor / Satélite'
+    seotro = u'Otro'
+    fechai = u'Fecha y hora de la imagen'
+    cubrim = u'Cubrimiento geográfico de la imagen'
+    cubrid = u'Entidades territoriales y administrativas presentes \
+        en el área de cubrimiento'
+    cubria = u'Área de cubrimiento con relación a la cuenca'
+    cubrip = u'Porcentaje de cobertura con relación a la cuenca'
+    formai = u'Formato de la imágen'
+    formae = u'Extensión de la imágen'
+    reessc = u'Referencia espacial. Sistema de coordenadas'
+    reessr = u'Referencia espacial. Sistema de referencia'
+    reesoc = u'Referencia espacial. Orígen de coordenadas'
+    reesda = u'Referencia espacial. Dátum'
+    banpae = u'Banda pancromática'
+    banpac = u'Especique cuales'
+    banmul = u'Bandas multiespectrales'
+    resolu = u'Resolución espacial'
+    cosuix = u'Coordenadas esquina superior izquierda. X'
+    cosuiy = u'Coordenadas esquina superior izquierda. Y'
+    coindx = u'Coordenadas esquina inferior derecha. X'
+    coindy = u'Coordenadas esquina inferior derecha. Y'
+    pornub = u'Porcentaje de nubosidad'
+    licenc = u'Licencia de uso'
+    author = u'Autor'
+    lugpub = u'Lugar de publicación'
+    annopu = u'Año'
+    tamano = u'Tamaño del archivo'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    FormatMapChoose = (
+        ('ANA', u'análogo'),
+        ('DIG', u'digital'),
+    )
+    MapChoose = (
+        ('ECW', 'ECW'),
+        ('Generate', 'Generate'),
+        ('SHP', 'SHP'),
+        ('e00', 'e00'),
+        ('ArcInfo', 'ArcInfo'),
+        ('ECW','ECW'),
+        ('DWG', 'DWG'),
+        ('DGN', 'DGN'),
+        ('DXF', 'DXF'),
+        ('PDF', 'PDF'),
+        ('TIF', 'TIF'),
+        ('JPG', 'JPG'),
+        ('Otro', 'Otro'),      
+    )
+    SensChoose = (
+        ('LandSat', u'LandSat'),
+        ('SPOT', u'SPOT'),
+        ('RapidEye', u'RapidEye'),
+        ('IKONOS', u'IKONOS'),
+        ('Otro', u'Otro'),
+    )
+    SisCoordChoose = (
+        ('PLA', u'Planas'),
+        ('GEO', u'Geográficas'),
+    )
+    OriCoordChoose = (
+        ('OO', u'Occidente Occidente'),
+        ('O', u'Occidente'),
+        ('C', u'Centro'),
+        ('E', u'Oriente'),
+        ('EE', u'Oriente Oriente'),
+    )
+
+    iimanomb = models.CharField(nombre, max_length = 125)
+    iimasens = models.CharField(sensor, max_length = 10, choices = SensChoose)
+    iimaseno = models.CharField(seotro, max_length = 25, null = True,
+        blank = True)
+    iimadate = models.DateTimeField(fechai)
+    iimacubr = models.FloatField(cubrim, null = True, blank = True)
+    iimacubd = models.CharField(cubrid, max_length = 300, null = True,
+        blank = True)
+    iimacuba = models.FloatField(cubria)
+    iimacubp = models.FloatField(cubrip)
+    iimaform = models.CharField(formai, max_length = 4, choices = FormatMapChoose)
+    iimafore = models.CharField(formae, max_length = 5, 
+        choices = MapChoose)
+    iimaresc = models.CharField(reessc, max_length = 4, choices = SisCoordChoose)
+    iimaresr = models.CharField(reessr, max_length = 25)
+    iimareoc = models.CharField(reesoc, max_length = 3, choices = OriCoordChoose)
+    iimareda = models.CharField(reesda, max_length = 25)
+    iimabanp = models.BooleanField(banpae, choices = BoolChoose, 
+        default = False)
+    iimabanc = models.CharField(banpac, max_length = 500, null = True, 
+        blank = True)
+    iimabanm = models.CharField(banmul, max_length = 300)
+    iimarese = models.CharField(resolu, max_length = 50)
+    iimacsix = models.FloatField(cosuix, null = True, blank = True)
+    iimacsiy = models.FloatField(cosuiy, null = True, blank = True)
+    iimacidx = models.FloatField(coindx, null = True, blank = True)
+    iimacidy = models.FloatField(coindy, null = True, blank = True)
+    iimanubp = models.FloatField(pornub)
+    iimalice = models.CharField(licenc, max_length = 250, null = True,
+        blank = True)
+    iimafaut = models.CharField(author, max_length = 125)
+    iimaflug = models.CharField(lugpub, max_length = 125)
+    iimafano = models.PositiveSmallIntegerField(annopu)
+    iimaftam = models.FloatField(tamano)
+
+    class Meta:
+        verbose_name = u'02 Imagen'
+        verbose_name = u'02 Imágenes'
+
+#Fotografías
+class inidfotogra(models.Model):
+    '''
+    Fotografías
+    Fotografías. Áreas
+    '''
+    nombre = u'Nombre de la fotografía'
+    formaf = u'Formato de la fotografía'
+    fotoex = u'Extensión de la fotografía'
+    inivue = u'Fecha y hora de inicio del vuelo'
+    finvue = u'Fecha y hora de finalización del vuelo'
+    numsob = u'Número de sobre'
+    escala = u'Escala de las fotografías aéreas'
+    tipoca = u'Tipo de cámara'
+    altvue = u'Altura del vuelo'
+    numfot = u'Número de fotos por banda o pasada'
+    punfot = u'Puntos de fotocontrol'
+    pornub = u'Porcentaje de nubosidad'
+    cubria = u'Área de cubrimiento con relación a la cuenca'
+    cubrip = u'Porcentaje de cobertura con relación a la cuenca'
+    reessc = u'Referencia espacial. Sistema de coordenadas'
+    reessr = u'Referencia espacial. Sistema de referencia'
+    reesoc = u'Referencia espacial. Orígen de coordenadas'
+    reesda = u'Referencia espacial. Dátum'
+    licenc = u'Licencia de uso'
+    author = u'Autor'
+    lugpub = u'Lugar de publicación'
+    annopu = u'Año'
+    tamano = u'Tamaño del archivo'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    FormatMapChoose = (
+        ('ANA', u'análogo'),
+        ('DIG', u'digital'),
+    )
+    FotoFormChoose = (
+        ('TIFF', u'TIFF'),
+        ('ECW', u'ECW'),
+        ('IMG', u'IMG'),
+        ('Ana', u'Papel'),
+        ('Otro', u'Otro'),
+    )
+    ScaleChoose = (
+        (500000, u'1:500000'),
+        (100000, u'1:100000'),
+        (50000, u'1:50000'),
+        (25000, u'1:25000'),
+        (10000, u'1:10000'),
+        (5000, u'1:5000'),
+        (2000, u'1:2000'),
+        (1000, u'1:1000'),
+        (500, u'1:500'),
+    )
+    SisCoordChoose = (
+        ('PLA', u'Planas'),
+        ('GEO', u'Geográficas'),
+    )
+    OriCoordChoose = (
+        ('OO', u'Occidente Occidente'),
+        ('O', u'Occidente'),
+        ('C', u'Centro'),
+        ('E', u'Oriente'),
+        ('EE', u'Oriente Oriente'),
+    )
+
+    ifonombr = models.CharField(nombre, max_length = 125)
+    ifoformf = models.CharField(formaf, max_length = 4, 
+        choices = FormatMapChoose)
+    ifoforme = models.CharField(fotoex, max_length = 5, 
+        choices = FotoFormChoose)
+    ifoinivu = models.DateTimeField(inivue, null = True, blank = True)
+    ifofinvu = models.DateTimeField(finvue, null = True, blank = True)
+    ifonumes = models.CharField(numsob, max_length = 50)
+    ifoescaf = models.PositiveIntegerField(escala, choices = ScaleChoose,
+        default = 25000)
+    ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
+        blank = True)
+    ifoaltvu = models.FloatField(altvue, null = True, blank = True)
+    ifonumfo = models.PositiveIntegerField(numfot)
+    ifopunfo = models.BooleanField(punfot, choices = BoolChoose, 
+        default = False)
+    ifoanubp = models.FloatField(pornub)
+    ifoacuba = models.FloatField(cubria)
+    ifoacubp = models.FloatField(cubrip)
+    ifoaresc = models.CharField(reessc, max_length = 4, choices = SisCoordChoose)
+    ifoaresr = models.CharField(reessr, max_length = 25)
+    ifoareoc = models.CharField(reesoc, max_length = 3, choices = OriCoordChoose)
+    ifoareda = models.CharField(reesda, max_length = 25)
+    ifoalice = models.CharField(licenc, max_length = 250, null = True,
+        blank = True)
+    ifoafaut = models.CharField(author, max_length = 125)
+    ifoaflug = models.CharField(lugpub, max_length = 125)
+    ifoafano = models.PositiveSmallIntegerField(annopu)
+    ifoaftam = models.FloatField(tamano)
+
+    class Meta:
+        verbose_name = u'03 Fotografía'
+        verbose_name_plural = u'03 Fotografías'
+
 #Suelos
 
 class inidsuestud(inididestud):
@@ -124,8 +541,8 @@ class inidsuestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio de suelos'
-        verbose_name_plural = u'Estudios de suelos'
+        verbose_name = u'04 Estudio de suelos'
+        verbose_name_plural = u'04 Estudios de suelos'
 
 class inidsumegeo(models.Model):
     '''
@@ -156,7 +573,7 @@ class inidsumegeo(models.Model):
         #return '%s, %s, %s, %s' % (self.geometod, self.geoclasi, self.geoproce, self.geoamena)
 
     class Meta:
-        verbose_name = u'Metodología Geomorfología'
+        verbose_name = u'04.1 Metodología Geomorfología'
         verbose_name_plural = verbose_name #u'Metodologías utilizadas para los estudios de Geomorfología'
 
 class inidsumesue(models.Model):
@@ -185,7 +602,7 @@ class inidsumesue(models.Model):
     inisutge = models.BooleanField(georef, choices = BoolChoose, default = False) 
 
     class Meta:
-        verbose_name = u'Metodología uso de tierra'
+        verbose_name = u'04.2 Metodología uso de tierra'
         verbose_name_plural = verbose_name
     #    verbose_name = u'Metodología utilizada para el estudio de suelos y/o \
     #        capacidad de uso de la tierra'
@@ -285,7 +702,7 @@ class inidsuinfor(models.Model):
             self.inisu)
 
     class Meta:
-        verbose_name = u'Información cartográfica'
+        verbose_name = u'04.3 Información cartográfica'
         verbose_name_plural = verbose_name #u'Información general cartográfica y documentos técnicos'
     
 #Hidrología
@@ -296,8 +713,8 @@ class inidhlestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio hidrológico'
-        verbose_name_plural = u'Estudios hidrológicos'
+        verbose_name = u'05 Estudio hidrológico'
+        verbose_name_plural = u'05 Estudios hidrológicos'
 
 class inidhlmetod(models.Model):
     '''
@@ -350,7 +767,7 @@ class inidhlmetod(models.Model):
     #inihlmma = models.IntegerField(caafor, null = True, blank = True)
     
     class Meta:
-        verbose_name = u'Metodología. hidrología/climatología'
+        verbose_name = u'05.1 Metodología. hidrología/climatología'
         verbose_name_plural = verbose_name #u'Metodologías utilizadas para los estudio de hidrología o climatología'
 
 class ihlmethafor(models.Model):
@@ -376,7 +793,7 @@ class ihlmethafor(models.Model):
     inihlmmu = models.CharField(caubic, max_length = 250)
 
     class Meta:
-        verbose_name = u'Información de aforos'
+        verbose_name = u'05.1.1 Información de aforos'
         verbose_name_plural = verbose_name
 
 class inidhlcarto(models.Model):
@@ -444,7 +861,7 @@ class inidhlcarto(models.Model):
         choices = FormatFileChoose, null = True, blank = True)
 
     class Meta:
-        verbose_name = u'Información general cartográfica'
+        verbose_name = u'05.2 Información general cartográfica'
         verbose_name_plural = verbose_name
 
 class inidhlinfor(models.Model):
@@ -471,7 +888,7 @@ class inidhlinfor(models.Model):
     inihlian = models.IntegerField(anno, choices = YearChoose, null = True, blank = True)
 
     class Meta: 
-        verbose_name = u'Información Complementaria'
+        verbose_name = u'05.3 Información Complementaria'
         verbose_name_plural = verbose_name
 
 #Hidrogeología
@@ -482,8 +899,8 @@ class inidhgestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio hidrogeológico'
-        verbose_name_plural = u'Estudios hidrogeológicos'
+        verbose_name = u'06 Estudio hidrogeológico'
+        verbose_name_plural = u'06 Estudios hidrogeológicos'
 
 class inidhgmetho(models.Model):
     '''
@@ -573,8 +990,8 @@ class inidhgmetho(models.Model):
         default = True)
 
     class Meta:
-        verbose_name = u'Metodología utilizada'
-        verbose_name_plural = u'Metodologías utilizadas'
+        verbose_name = u'06.1 Metodología utilizada'
+        verbose_name_plural = u'06.1 Metodologías utilizadas'
     
 class inidhgcarto(models.Model):
     '''
@@ -640,7 +1057,7 @@ class inidhgcarto(models.Model):
         choices= FormatFileChoose, null = True, blank = True)
 
     class Meta:
-        verbose_name = u'Información general cartográfica'
+        verbose_name = u'06.2 Información general cartográfica'
         verbose_name_plural = verbose_name
 
 #Calidad de Agua
@@ -651,8 +1068,8 @@ class inidcaestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio Calidad de agua'
-        verbose_name_plural = u'Estudios Calidad de agua'
+        verbose_name = u'07 Estudio Calidad de agua'
+        verbose_name_plural = u'07 Estudios Calidad de agua'
 
 class inidcameth(models.Model):
     '''
@@ -727,6 +1144,9 @@ class inidcameth(models.Model):
     inicadex = models.CharField(docext, max_length = 5,
         choices = FormatFileChoose, blank = True, null = True)
 
+    class Meta:
+        verbose_name = u'07.1 Metodología del estudio'
+    
 class inidcamecam(models.Model):
     '''
     Calidad de Agua
@@ -743,8 +1163,8 @@ class inidcamecam(models.Model):
     icamcper = models.CharField(u'Periodo', max_length = 25)
     
     class Meta:
-        verbose_name = u'Campaña de muestreo'
-        verbose_name_plural = u'Campañas de muestreo'
+        verbose_name = u'07.1.1 Campaña de muestreo'
+        verbose_name_plural = u'07.1.1 Campañas de muestreo'
     
 class inicainfoes(models.Model):
     '''
@@ -773,30 +1193,37 @@ class inicainfoes(models.Model):
     iicaipar = models.CharField(parame, max_length = 500)
     
     class Meta:
-        verbose_name = 'Información que debe contener'
+        verbose_name = '07.2 Información del estudio'
         verbose_name_plural = verbose_name
 
 class inicainfgeo(inidgeorefe):
     '''
     Calidad de agua
-    Información - Georreferenciación deestaciones de muestreo de la red de monitoreo
+    Información - Georreferenciación de estaciones de muestreo de la red de monitoreo
     '''
     iicaigeo = models.ForeignKey('inicainfoes')
+    
+    class Meta: 
+        verbose_name = u'07.2.2 Estaciones de muestreo'
 
 class inicainfoco(models.Model):
-    iicainfc = models.OneToOneField('inidcaestud', 
-        verbose_name = u'estudio de Calidad de Agua')
+    '''
+    Calidad de agua
+    Información complementaria
+    '''
     
     BoolChoose = (
         (True, 'si'),
         (False, 'no'),
     )
 
+    iicainfc = models.OneToOneField('inidcaestud', 
+        verbose_name = u'estudio de Calidad de Agua')
     iicaifoc = models.BooleanField(u'Existen objetivos de calidad de las corrientes',
         choices = BoolChoose, default = False)
     
     class Meta:
-        verbose_name = 'Información complementaria'
+        verbose_name = '07.3 Información complementaria'
         verbose_name_plural = verbose_name
 
 class inicaicca(models.Model):
@@ -817,8 +1244,8 @@ class inicaicca(models.Model):
     iicaicap = models.PositiveSmallIntegerField(capano, choices = YearChoose)
     
     class Meta:
-        verbose_name = u'Estudio de capacidad de asimilación'   
-        verbose_name = u'Estudios de capacidad de asimilación'   
+        verbose_name = u'07.3.1 Estudio de capac. de asimilación'   
+        verbose_name = u'07.3.1 Estudios de capac de asimilación'   
     
 #Cargas Contaminantes
 
@@ -838,8 +1265,8 @@ class inidccestud(inididestud):
     inidaalb = models.BooleanField(aproba, choices = BoolChoose)
 
     class Meta:
-        verbose_name = u'Estudio Cargas contaminantes'
-        verbose_name_plural = u'Estudios Cargas contaminantes'
+        verbose_name = u'08 Estudio Cargas contaminantes'
+        verbose_name_plural = u'08 Estudios Cargas contaminantes'
 
 class inidccmetho(models.Model):
     '''
@@ -901,7 +1328,7 @@ class inidccmetho(models.Model):
         null = True, blank = True)
 
     class Meta:
-        verbose_name = 'Metodología del estudio'
+        verbose_name = '08.1 Metodología del estudio'
         verbose_name_plural = verbose_name
 
 class inidccminfe(models.Model):
@@ -925,6 +1352,10 @@ class inidccminfe(models.Model):
     iicciper = models.FloatField(percen)
     iiccipar = models.CharField(parame, max_length = 500)
 
+    class Meta:
+        verbose_name = u'08.2 Información del estudio'
+        verbose_name_plural = verbose_name
+
 class inidccmigeo(inidgeorefe):
     '''
     Cargas Contaminantes
@@ -932,7 +1363,15 @@ class inidccmigeo(inidgeorefe):
     '''
     iiccmgeo = models.ForeignKey('inidccminfe')
 
+    class Meta:
+        verbose_name = u'08.2.1 Estación de muestreo'
+        verbose_name_plural = u'08.2.1 Estaciones de muestreo'
+
 class iniccicompl(models.Model):
+    '''
+    Cargas contaminantes
+    Información complementaria
+    '''
     muestre = u'¿La Corporación realiza contra muestreos de vertimientos de \
         aguas residuales domesticas e industriales?'
     percent = u'Porcentaje respecto al numero total de usuarios que vierten'
@@ -954,7 +1393,7 @@ class iniccicompl(models.Model):
         (False, 'no'),
     )
 
-    iiccicom = models.ForeignKey('inidccestud')
+    iiccicom = models.OneToOneField('inidccestud')
     iicccmue = models.BooleanField(muestre, choices = BoolChoose, 
         default = False)
     iicccper = models.FloatField(percent, null = True, blank = True)
@@ -968,6 +1407,10 @@ class iniccicompl(models.Model):
         default = False)
     iicccpma = models.NullBooleanField(pmaaexi, choices = BoolChoose,
         default = False)
+    
+    class Meta:
+        verbose_name = u'08.3 Información complementaria'
+        verbose_name_plural = verbose_name
 
 #Cobertura
 
@@ -977,8 +1420,8 @@ class inidcoestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio Cobertura'
-        verbose_name_plural = u'Estudios Cobertura'
+        verbose_name = u'09 Estudio de Cobertura'
+        verbose_name_plural = u'09 Estudios de Cobertura'
 
 class inidcometho(models.Model):
     '''
@@ -1005,7 +1448,7 @@ class inidcometho(models.Model):
     for i in range(1950, thisyear+1):
         YearChoose.append((i,i))
 
-    iicometh = models.OneToOneField(inidcoestud)
+    iicometh = models.OneToOneField('inidcoestud')
     iicomsen = models.CharField(sensor, max_length = 125)
     iicomfec = models.DateField()
     iicommet = models.CharField(methol, max_length = 500)
@@ -1016,9 +1459,9 @@ class inidcometho(models.Model):
     iicomces = models.IntegerField(cartes)
     iicomcan = models.IntegerField(cartan, choices = YearChoose, null = True,
         blank = True)
-    
+
     class meta:
-        verbose_name = u'Metodología levantamiento coberturas'
+        verbose_name = u'09.1 Metodología de levantamiento'
         verbose_name_plural = verbose_name
 
 class inidcoinfog(models.Model):
@@ -1065,6 +1508,7 @@ class inidcoinfog(models.Model):
         ('otr', u'otro'),
     )
 
+    iicocart = models.OneToOneField('inidcoestud')
     iicoiesm = models.IntegerField(escas)
     iicoiesl = models.IntegerField(escat)
     iicoimfo = models.CharField(mapfo, max_length = 4, 
@@ -1079,7 +1523,7 @@ class inidcoinfog(models.Model):
         choices = FormatFileChoose)
 
     class Meta:
-        verbose_name = 'Información cartográfica'
+        verbose_name = '09.2 Información cartográfica'
         verbose_name_plural = verbose_name
 
 #Flora y Fauna
@@ -1090,9 +1534,127 @@ class inidffestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio Flora y Fauna'
-        verbose_name_plural = u'Estudios Flora y Fauna'
+        verbose_name = u'10 Estudio de Flora y Fauna'
+        verbose_name_plural = u'10 Estudios de Flora y Fauna'
 
+class inidffmeth(models.Model):
+    '''
+    Flora y Fauna
+    Metodología utilizada para levantamiento de información de flora,
+    vegetación y fauna.
+    '''
+    metodo = u'Método utilizado para selección de sitios de muestreo'
+    meinve = u'Metodología utilizada para inventario  de flora \
+        y/o características de la vegetación'
+    ticobe = u'Tipo de coberturas vegetales  naturales inventariadas.'
+    vegete = u'¿Si en el área de estudio existe vegetación terrestre \
+        y acuática los dos tipos possen inventarios?'
+    ecoest = u'¿Si existieran ecosistemas acuáticos se han \
+        realizado estudios  limnológicos?'
+    numpar = u'Número de parcelas o transectos para inventarios \
+        de vegetación o flora.'
+    metfau = u'Metodología utilizada para inventario de fauna \
+        por clase jerárquica'
+    clafau = u'Clases jerárquicas  de fauna inventariada.'
+    georef = u'¿Poseen georeferenciación los inventarios o están \
+        relacionados a municipio o vereda?'
+    carfue = u'¿La información de caracterización de flora y fauna se \
+        realizó a partir de fuentes primarias o secundarias?'
+    espame = u'¿Se han identificado especies de flora y/o fauna en \
+        amenaza, peligro de extinción o endémicas?'
+    geoame = u'¿Existe georeferenciación de las mismas?'
+    
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    BoolNullChoose = (
+        (True, 'si'),
+        (False, 'no'),
+        (None, 'No aplica'),
+    )
+    iffmeto = models.OneToOneField('inidffestud')
+    iffmesm = models.CharField(metodo, max_length = 500)
+    iffmein = models.CharField(meinve, max_length = 500)
+    ifftico = models.CharField(ticobe, max_length = 500)
+    iffvegi = models.NullBooleanField(vegete, blank = True,
+        choices = BoolNullChoose)
+    iffesli = models.NullBooleanField(ecoest, choices = BoolNullChoose)
+    iffnupa = models.PositiveSmallIntegerField(numpar, 
+        null = True, blank = True)
+    iffmeif = models.CharField(metfau, max_length = 500,
+        null = True, blank = True)
+    iffclaj = models.CharField(clafau, max_length = 500, 
+        null = True, blank = True)
+    iffgeoi = models.NullBooleanField(georef, choices = BoolChoose,
+        default = False)
+    iffinfc = models.NullBooleanField(carfue, choices = BoolChoose,
+        default = False)
+    iffamen = models.NullBooleanField(espame, choices = BoolChoose,
+        default = False)
+    iffgeor = models.NullBooleanField(geoame, choices = BoolChoose,
+        default = False)
+    
+    class Meta:
+        verbose_name = u'10.1 Metodología de levantamiento'
+        verbose_name_plural = verbose_name
+    
+class inidffcart(models.Model):
+    '''
+    Flora y Fauna
+    Información general  del  documento técnico y cartografía
+    '''
+    docute = u'Documento técnico'
+    planca = u'Planchas cartográficas asociadas a la información'
+    metada = u'¿Existen metadatos?'
+    metaau = u'Autor'
+    infofl = u'¿Existe  información de flora y fauna  asociada a \
+        la cartografía?'
+    fuente = u'Fuente de cartografía base'
+    escala = u'Escala'
+    catano = u'Año'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    FormatMapChoose = (
+        ('ANA', u'análogo'),
+        ('DIG', u'digital'),
+    )
+    MapChoose = (
+        ('ECW', 'ECW'),
+        ('Generate', 'Generate'),
+        ('SHP', 'SHP'),
+        ('e00', 'e00'),
+        ('ArcInfo', 'ArcInfo'),
+        ('ECW','ECW'),
+        ('DWG', 'DWG'),
+        ('DGN', 'DGN'),
+        ('DXF', 'DXF'),
+        ('PDF', 'PDF'),
+        ('TIF', 'TIF'),
+        ('JPG', 'JPG'),
+        ('Otro', 'Otro'),      
+    )
+
+    iffcart = models.OneToOneField('inidffestud')
+    iffcocu = models.CharField(docute, max_length = 4, 
+        choices = FormatMapChoose)
+    iffcpla = models.CharField(planca, max_length = 9, choices = MapChoose)
+    iffcmet = models.BooleanField(metada, choices = BoolChoose)
+    iffclor = models.BooleanField(infofl, choices = BoolChoose)
+    iffcfue = models.CharField(fuente, max_length = 120,
+        null = True, blank = True)
+    iffcesc = models.PositiveIntegerField(escala,  
+        null = True, blank = True)
+    iffcano = models.PositiveSmallIntegerField(catano,
+        null = True, blank = True)
+
+    class Meta:
+        verbose_name = u'10.2 Información cartográfica'
+        verbose_name_plural = verbose_name
+    
 #Plan de manejo en ecosistemas
 
 class inidpmestud(inididestud):
@@ -1101,8 +1663,107 @@ class inidpmestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio PM ecosistemas'
-        verbose_name_plural = u'Estudios PM ecosistemas'
+        verbose_name = u'11 Estudio PM ecosistemas'
+        verbose_name_plural = u'11 Estudios PM ecosistemas'
+
+class inidpmecofo(models.Model):
+    '''
+    Plan de manejo en ecosistemas
+    Formulación del Plan y Resultados
+    '''
+    planma = u'Existen en la CAR planes de manejo de'
+    planot = u'Si existiera otro tipo de plan de manejo que aplique al área \
+        de interés, referéncielo'
+    objeto = u'Objeto de estudio'
+    planco = u'El Plan se encuentra adoptado por la Corporación'
+    vigepl = u'Vigencia de los Planes existentes'
+    planex = u'¿Los planes han sido ejecutados?'
+    placua = u'¿Cuáles?'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    ipmformu = models.OneToOneField('inidpmestud')
+    ipmfplan = models.ManyToManyField('pmecoplanma', null = True, blank = True)
+    ipmfobje = models.CharField(objeto, max_length = 500)
+    ipmfadop = models.BooleanField(planco, choices = BoolChoose, 
+        default = False)
+    ipmfvige = models.CharField(vigepl, max_length = 125)
+    ipmfplae = models.BooleanField(planex, choices = BoolChoose)
+    ipmfplac = models.CharField(placua, max_length = 500, null = True,
+        blank = True) 
+
+    class Meta:
+        verbose_name = u'11.1 Formulación del plan y resultados'
+        verbose_name_plural = verbose_name
+
+class pmecoplanma(models.Model):
+    '''
+    Plan Manejo en ecosistemas.
+    Formulación del Plan y Resultados
+    Planes de manejo
+    '''
+    pmecopla = models.ForeignKey('inidpmecofo')
+    planmane = models.CharField(u'Plan de manejo', max_length = 200)
+
+    class Meta:
+        verbose_name = u'11.1.1 Plan de manejo'
+        verbose_name_plural = u'11.1.1 Planes de manejo'
+
+class inidpmecopm(models.Model):
+    '''
+    Plan Manejo en ecosistemas.
+    Información sobre los planes de manejo
+    '''
+    formato = 'Formato del Documento Técnico'
+    escatra = u'Escala de trabajo' 
+    escapub = u'Escala de publicación' 
+    escasal = u'Escala de salida de los mapas'
+    mapfoem = u'Formato de los mapas'
+    mapexte = u'Extensión de los mapas'
+
+    FormatMapChoose = (
+        ('ANA', u'análogo'),
+        ('DIG', u'digital'),
+    )
+    MapChoose = (
+        ('ECW', 'ECW'),
+        ('Generate', 'Generate'),
+        ('SHP', 'SHP'),
+        ('e00', 'e00'),
+        ('ArcInfo', 'ArcInfo'),
+        ('ECW','ECW'),
+        ('DWG', 'DWG'),
+        ('DGN', 'DGN'),
+        ('DXF', 'DXF'),
+        ('PDF', 'PDF'),
+        ('TIF', 'TIF'),
+        ('JPG', 'JPG'),
+        ('Otro', 'Otro'),      
+    )
+    FormatFileChoose = (
+        ('doc', u'word'),
+        ('xls', u'excel'),
+        ('pdf', u'pdf'),
+        ('otr', u'otro'),
+    )
+
+    ipmanejo = models.OneToOneField('inidpmestud')
+    ipminfdt = models.CharField(formato, max_length = 4,
+        choices = FormatFileChoose) 
+    ipminetr = models.PositiveIntegerField(escatra)
+    ipminepu = models.PositiveIntegerField(escapub)
+    ipminesa = models.PositiveIntegerField(escasal)
+    ipminmfo = models.CharField(mapfoem, max_length = 4,
+        choices = FormatMapChoose)
+    ipminmex = models.CharField(mapexte, max_length = 9,
+        choices = MapChoose)
+    
+    class Meta:
+        verbose_name = u'11.2 Plan de manejo'
+        verbose_name_plural = u'11.2 Planes de manejo'
 
 #Riesgos
 
@@ -1112,9 +1773,311 @@ class inidriestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'Estudio Riesgos'
-        verbose_name_plural = u'Estudios Riesgos'
+        verbose_name = u'12 Estudio Riesgos'
+        verbose_name_plural = u'12 Estudios Riesgos'
 
 #Socioeconómico
 
+##
+class inidseasinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Actores Sociales
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.1 Actores sociales'
+        verbose_name_plural = verbose_name
 
+class inidseasdet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Actores Sociales
+    Detalle de la información
+    '''
+    metodo = u'Metodología del análisis de actores' 
+    docume = u'Documentos, fichas'
+    mapaac = u'Mapa de actores'
+    matriz = u'Matriz de priorización'
+    actore = u'Base de datos de actores, organizaciones sociales, \
+        institucionales  y sectoriales'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    isesocio = models.OneToOneField('inidseceinf')
+    isesomet = models.CharField(metodo, max_length = 500)
+    isesodoc = models.CharField(docume, max_length = 500)
+    isesomap = models.BooleanField(mapaac, choices = BoolChoose,
+        default = False)
+    isesomat = models.BooleanField(matriz, choices = BoolChoose, 
+        default = False)
+    isesoact = models.BooleanField(actore, choices = BoolChoose,
+        default = False)
+
+    class Meta:
+        verbose_name = u'13.1.2 Detalle de la información'
+        verbose_name_plural = u'13.1.2 Detalles de la información'
+
+##   
+class inidseepinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Estrategias de participación
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.2 Estrategia de participación'
+        verbose_name_plural = u'13.2 Estrategias de participación'
+
+class inidseepdet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Estrategias de participación
+    Detalle de la información
+    '''
+    estruc = u'Estructura de participación'
+    incorp = u'Incorporación de la participación en los componentes \
+        temáticos del plan'
+    inform = u'Información de resultados de la aplicación de la estrategia'
+    metodo = u'Metodología para el diagnóstico participativo'
+    estado = u'Estado actual de la estructura de participación'
+    estrat = u'Estrategia de comunicación'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    iseestra = models.OneToOneField('inidseepinf')
+    isepaest = models.CharField(estruc, max_length = 500)
+    isepainc = models.BooleanField(incorp, choices = BoolChoose,
+        default = True)
+    isepainf = models.BooleanField(inform, choices = BoolChoose,
+        default = True)
+    isepamet = models.CharField(metodo, max_length = 500)
+    isepasta = models.CharField(estado, max_length = 500)
+    isepastr = models.CharField(estrat, max_length = 500)
+
+    class Meta:
+        verbose_name = u'13.2.1 Detalle de la información'
+        verbose_name_plural = u'13.2.1 Detalles de la información'
+
+##
+class inidseceinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Participación de comunidades étnicas 
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.3 Participación comunidad étnica'
+        verbose_name_plural = u'13.3 Participación comunidades étnica'
+
+class inidsecedet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Participación de comunidades étnicas 
+    Detalle de la información
+    '''
+    identif = u'Identificación y caracterización de grupos étnicos' 
+    certifi = u'Certificados expedidos por el Ministerio de Interior sobre \
+        la existencia de grupos étnicos presentes en la cuenca'
+    consult = u'¿Cuáles consultas previas se están desarrollando actualmente \
+        en el área de la cuenca?'
+    resulta = u'Resultados de consultas previas  desarrolladas en el \
+        área de la cuenca'
+    sistema = u'Sistematización de experiencias participativas con \
+        comunidades étnicas'
+    existen = u'Existencia de estudios de participación con comunidades étnicas'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    iseparti = models.OneToOneField('inidseceinf')
+    iseceide = models.BooleanField(identif, choices = BoolChoose,
+        default = False)
+    isececer = models.CharField(certifi, max_length = 500)
+    isececon = models.CharField(consult, max_length = 500)
+    iseceres = models.CharField(resulta, max_length = 500)
+    isecesis = models.BooleanField(sistema, choices = BoolChoose, 
+        default = False)
+    iseceexi = models.BooleanField(existen, choices = BoolChoose, 
+        default = False)
+
+    class Meta:
+        verbose_name = u'13.3.1 Detalle de la información'
+        verbose_name_plural = u'13.3.1 Detalles de la información'
+
+##
+class inidsedsinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Diagnósticos Socioeconómicos
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.4 Diagnóstico socioeconómico'
+        verbose_name_plural = u'13.4 Diagnósticos socioeconómicos'
+
+class inidsdsedet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Diagnósticos Socioeconómicos
+    Detalle de la información
+    '''
+    inform = u'Información poblacional'
+    descri = u'Descripción y caracterización servicios sociales existentes'
+    segual = u'Análisis sobre Seguridad Alimentaria' 
+    activi = u'Caracterización de las actividades económicas actuales y \
+        dominantes'
+    proyec = u'Análisis de proyectos regionales de impacto en la cuenca, \
+        en desarrollo y futuros' 
+    confli = u'Análisis de conflictos socioeconómicos' 
+    politi = u'Descripción político administrativa e institucional de la \
+        cuenca' 
+    predia = u'Análisis predial o de tenencia de la tierra'
+    seguri = u'Seguridad y convivencia' 
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    isediagn = models.OneToOneField('inidsedsinf')
+    isedsinf = models.BooleanField(inform, choices = BoolChoose,
+        default = True)
+    isedsdes = models.CharField(descri, max_length = 500)
+    isedsseg = models.BooleanField(segual, choices = BoolChoose,
+        default = True)
+    isedsact = models.BooleanField(activi, choices = BoolChoose,
+        default = True)
+    isedspro = models.BooleanField(proyec, choices = BoolChoose,
+        default = True)
+    isedscon = models.BooleanField(confli, choices = BoolChoose,
+        default = True)
+    isedspol = models.BooleanField(politi, choices = BoolChoose,
+        default = True)
+    isedspre = models.BooleanField(predia, choices = BoolChoose,
+        default = True)
+    isedscon = models.BooleanField(seguri, choices = BoolChoose,
+        default = True)
+
+    class Meta:
+        verbose_name = u'13.4.1 Detalle de la información'
+        verbose_name_plural = u'13.4.1 Detalles de la información'
+
+##
+class inidseccinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Caracterización Cultural
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.5 Caracterización cultural'
+        verbose_name_plural = verbose_name
+
+class inidseccdet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Caracterización Cultural
+    Detalle de la información
+    '''
+    cultu = u'Caracterización cultural de la cuenca'
+    patro = u'Caracterización de patrones de uso, ocupación y apropiación \
+        del territorio'
+    pract = u'Análisis de prácticas culturales, relacionadas con el \
+        aprovechamiento y uso de la biodiversidad'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+
+    isecarac = models.OneToOneField('inidseccinf')
+    isecucul = models.BooleanField(cultu, choices = BoolChoose,
+        default = True)
+    isecupat = models.BooleanField(patro, choices = BoolChoose,
+        default = True)
+    isesupra = models.CharField(pract, max_length = 500)
+
+    class Meta:
+        verbose_name = u'13.5.1 Detalle de la información'
+        verbose_name_plural = u'13.5.1 Detalles de la información'
+
+##
+class inidsevsinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Valoración de Servicios Ecosistémicos
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.6 Servicio ecosistémico'
+        verbose_name_plural = u'13.6 Servicios ecosistémicos'
+
+class inidsevsdet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Valoración de Servicios Ecosistémicos
+    Detalle de la información
+    '''
+    metodo = u'Metodología utilizada en el estudio'
+    servic = u'Servicios ecosistémicos analizados'
+    result = u'Resultados de la valoración económica de los servicios ecosistémicos'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    
+    isevalor = models.OneToOneField('inidsevsinf')
+    isesemet = models.CharField(metodo, max_length = 500)
+    iseseser = models.CharField(servic, max_length = 500)
+    iseseres = models.CharField(result, max_length = 500)
+
+    class Meta:
+        verbose_name = u'13.6.1 Detalle de la información'
+        verbose_name_plural = u'13.6.1 Detalles de la información'
+
+##
+class inidserfinf(socioinfoge):
+    '''
+    Socioeconómico y Cultural
+    Relaciones funcionales urbano - regionales
+    Información General
+    '''
+    class Meta:
+        verbose_name = u'13.7 Relación urbano - regionales'
+        verbose_name_plural = u'13.7 Relaciones urbano - regionales'
+
+class inidserfdet(models.Model):
+    '''
+    Socioeconómico y Cultural
+    Relaciones funcionales urbano - regionales
+    Detalle de la información
+    '''
+    compet = u'Análisis de competitividad y producción'
+    conect = u'Análisis de conectividad y movilidad'
+    capaci = u'Análisis de capacidad de soporte ambiental de la región'
+
+    BoolChoose = (
+        (True, 'si'),
+        (False, 'no'),
+    )
+    iserelaf = models.OneToOneField('inidserfinf')
+    iserfcmp = models.BooleanField(compet, choices = BoolChoose, 
+        default = False)
+    iserfcon = models.BooleanField(conect, choices = BoolChoose, 
+        default = False)
+    iserfcap = models.BooleanField(capaci, choices = BoolChoose, 
+        default = False)
+    
+    class Meta:
+        verbose_name = u'13.7.1 Detalle de la información'
+        verbose_name_plural = u'13.7.1 Detalles de la información'
