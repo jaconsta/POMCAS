@@ -3,6 +3,10 @@ from cuencas.models import *
 from corporacion.models import corporaname
 import xlrd
 
+def GetCorpoCuencas(corpora):
+    return cuencompart.objects.filter(cuencomp = corpora)
+
+
 def SetMacrocuencas(text_file):
     #Go though the file
     source = open(text_file, 'r')

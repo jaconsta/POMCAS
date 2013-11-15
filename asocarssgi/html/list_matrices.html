@@ -1,0 +1,13 @@
+{{ usr.username }}. <a href = "logout">Cerrar sesion</a>
+<h1>Corporaciones del usuario</h1>
+<ul>
+{% for corpo in corporas %}
+    <li>{{ corpo.corporac }}</li>
+{% endfor %}
+</ul>
+<h1>Matrices disponibles</h1>
+<ol>
+{% for matrix in matrices %}
+    <li><a href="matrix/{{ matrix.url }}">{{ matrix.matrix }}</a></li>
+{% endfor %}
+</ol>

@@ -1,0 +1,23 @@
+<h1>{{ title }}</h1>
+<ol>
+{% for componen, i in compo %}
+    <h1><li>{{ componen.infocomp }}</li></h1>
+    <ul>
+    {% for subcompo in i %}
+        <li>
+            <a href="{{ subcompo.infosubc }}">{{ subcompo.infotema }}</a>
+            <br />
+            <div class='capacit'>
+                <a href="{{ subcompo.infourlc }}">Ver enlace de capacitacion</a>
+            </div>
+            <div class='condition'>
+                <h3>Pregunta aclaratoria</h3>
+                {{ subcompo.infonota }}
+            </div>
+        </li>
+        <br />
+    {% endfor %}
+    </ul>
+    <hr />
+{% endfor %}
+</ol>
