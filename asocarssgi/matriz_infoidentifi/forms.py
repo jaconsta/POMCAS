@@ -30,22 +30,23 @@ from matriz_infoidentifi.models import inidserfinf, inidserfdet #Socioeconómico
 class CartografiaForm(modelForm):
     class Meta:
         model = inidcardatg
-        fields = [
-            'icartess',
-            'icartnum',
-            'icartres',
-            'icartcug',
-            'icartcua',
-            'icartcup',
-            'icartfor',
-            'icartfex',
-            'icartrco',
-            'icartrre',
-            'icartror',
-            'icartrda',
-            'icartesc',
-            'icartlic',
-        ]
+        exclude = ['iniescor', 'iniescue'] 
+#        fields = [
+#            'icartess',
+#            'icartnum',
+#            'icartres',
+#            'icartcug',
+#            'icartcua',
+#            'icartcup',
+#            'icartfor',
+#            'icartfex',
+#            'icartrco',
+#            'icartrre',
+#            'icartror',
+#            'icartrda',
+#            'icartesc',
+#            'icartlic',
+#        ]
 
 class ImagenesForm(modelForm):
     class Meta:
@@ -343,6 +344,15 @@ class seRelaFuncUrbaRegioForm(modelForm):
 
 #Calling the forms
 def add_cartografia(request):
+    if request.method == 'POST':
+        form = CartografiaForm(request.POST)
+        if form.is_valid()
+            return 
+    else:
+        form = CartografiaForm()
+        return render(request, 'form.html', {
+            'form': form,
+        })
 
 def add_imagenes(request):
 

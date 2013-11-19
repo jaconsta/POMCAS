@@ -6,6 +6,19 @@ from cuencas.models import cuencompart
 
 import datetime
 
+#Each header form should have:
+# Which corporation it belongs to
+# Which watershed it belongs to
+# Who filled the form (user)
+# Who updated the form (user)
+# First filling date
+# Last Update
+#
+#SubForms should include
+# Who updated the form (user)
+# First filling date
+# Last Update
+
 class inforcompon(models.Model):
     '''
     Componentes del formato
@@ -83,6 +96,15 @@ class inididestud(models.Model):
     #inidacti = models.ForeignKey('inforindice', verbose_name = 'Tema de evaluación')
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = 'user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = 'user_edit')
+    iniesdac = models.DateTimeField(u'Fecha de creación', auto_now_add = True)
+    iniesdau = models.DateTimeField(u'Fecha de última actualización', 
+        auto_now = True)
     inidnomb = models.CharField(nombre , max_length = 500)
     inidlocf = models.CharField(loca , max_length = 250)
     inidfunc = models.CharField(funciona, max_length = 250)
