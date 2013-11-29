@@ -6,6 +6,8 @@ import xlrd
 def GetCorpoCuencas(corpora):
     return cuencompart.objects.filter(cuencomp = corpora)
 
+def GetUserWatersheed(corpora, shared_id):
+    return cuencompart.objects.get(id = shared_id, cuencomp = corpora) 
 
 def SetMacrocuencas(text_file):
     #Go though the file

@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
 from corporacion.models import corporaname
 from cuencas.models import cuencompart
@@ -98,10 +99,10 @@ class inididestud(models.Model):
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
     inieswho = models.ForeignKey(User, 
         verbose_name = u'Usuario que llena el formulario',
-        related_name = 'user_create')
+        related_name = '%(app_label)s_%(class)s_user_create')
     inieswhu = models.ForeignKey(User, 
         verbose_name = u'Último usuario actualiza el formulario',
-        related_name = 'user_edit')
+        related_name = '%(app_label)s_%(class)s_user_edit')
     iniesdac = models.DateTimeField(u'Fecha de creación', auto_now_add = True)
     iniesdau = models.DateTimeField(u'Fecha de última actualización', 
         auto_now = True)
@@ -188,6 +189,12 @@ class socioinfoge(models.Model):
 
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
     isocinfo = models.CharField(nombre, max_length = 200)
     isocubic = models.CharField(ubicac, max_length = 200)
     isocauto = models.CharField(autore, max_length = 200)
@@ -264,6 +271,14 @@ class inidcardatg(models.Model):
         ('EE', u'Oriente Oriente'),
     )
 
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
     icartess = models.PositiveIntegerField(escala, choices = ScaleChoose,
         default = 25000)
     icartnum = models.CharField(numero, max_length = 8)
@@ -414,6 +429,14 @@ class inidimagsat(models.Model):
         ('EE', u'Oriente Oriente'),
     )
 
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
     iimanomb = models.CharField(nombre, max_length = 125)
     iimasens = models.CharField(sensor, max_length = 10, choices = SensChoose)
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
@@ -521,6 +544,14 @@ class inidfotogra(models.Model):
         ('EE', u'Oriente Oriente'),
     )
 
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
     ifonombr = models.CharField(nombre, max_length = 125)
     ifoformf = models.CharField(formaf, max_length = 4, 
         choices = FormatMapChoose)

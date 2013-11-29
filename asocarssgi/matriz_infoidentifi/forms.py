@@ -1,6 +1,15 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+#
+# Copyright 2013-2014 ASOCARS
+#
+'''
+'''
+
 from django.forms import ModelForm
 
+#from cuencas.views import GetUserWatersheed
+#from corporacion.views import GetUserCorpo
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, inicartsubt, \
     inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
@@ -27,10 +36,10 @@ from matriz_infoidentifi.models import inidseccinf, inidseccdet #Socioeconómico
 from matriz_infoidentifi.models import inidsevsinf, inidsevsdet #Socioeconómico - Valoración de Servicios Ecosistémicos
 from matriz_infoidentifi.models import inidserfinf, inidserfdet #Socioeconómico - Relaciones funcionales urbano- regionales
 
-class CartografiaForm(modelForm):
+class CartografiaForm(ModelForm):
     class Meta:
         model = inidcardatg
-        exclude = ['iniescor', 'iniescue'] 
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
 #        fields = [
 #            'icartess',
 #            'icartnum',
@@ -48,305 +57,329 @@ class CartografiaForm(modelForm):
 #            'icartlic',
 #        ]
 
-class ImagenesForm(modelForm):
+class ImagenesForm(ModelForm):
     class Meta:
         model = inidimagsat
-        fields = [
-            'iimanomb',
-            'iimasens',
-            'iimaseno',
-            'iimadate',
-            'iimacubr',
-            'iimacubd',
-            'iimacuba',
-            'iimacubp',
-            'iimaform',
-            'iimafore',
-            'iimaresc',
-            'iimaresr',
-            'iimareoc',
-            'iimareda',
-            'iimabanp',
-            'iimabanc',
-            'iimabanm',
-            'iimarese',
-            'iimacsix',
-            'iimacsiy',
-            'iimacidx',
-            'iimacidy',
-            'iimanubp',
-            'iimalice',
-            'iimafaut',
-            'iimaflug',
-            'iimafano',
-            'iimaftam',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iimanomb',
+#            'iimasens',
+#            'iimaseno',
+#            'iimadate',
+#            'iimacubr',
+#            'iimacubd',
+#            'iimacuba',
+#            'iimacubp',
+#            'iimaform',
+#            'iimafore',
+#            'iimaresc',
+#            'iimaresr',
+#            'iimareoc',
+#            'iimareda',
+#            'iimabanp',
+#            'iimabanc',
+#            'iimabanm',
+#            'iimarese',
+#            'iimacsix',
+#            'iimacsiy',
+#            'iimacidx',
+#            'iimacidy',
+#            'iimanubp',
+#            'iimalice',
+#            'iimafaut',
+#            'iimaflug',
+#            'iimafano',
+#            'iimaftam',
+#        ]
 
-class FotografiasForm(modelForm):
+class FotografiasForm(ModelForm):
     class Meta:
         model = inidfotogra
-        fields = [
-            'ifonombr',
-            'ifoformf',
-            'ifoforme',
-            'ifoinivu',
-            'ifofinvu',
-            'ifonumes',
-            'ifoescaf',
-            'ifotipoc',
-            'ifoaltvu',
-            'ifonumfo',
-            'ifopunfo',
-            'ifoanubp',
-            'ifoacuba',
-            'ifoacubp',
-            'ifoaresc',
-            'ifoaresr',
-            'ifoareoc',
-            'ifoareda',
-            'ifoalice',
-            'ifoafaut',
-            'ifoaflug',
-            'ifoafano',
-            'ifoaftam',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'ifonombr',
+#            'ifoformf',
+#            'ifoforme',
+#            'ifoinivu',
+#            'ifofinvu',
+#            'ifonumes',
+#            'ifoescaf',
+#            'ifotipoc',
+#            'ifoaltvu',
+#            'ifonumfo',
+#            'ifopunfo',
+#            'ifoanubp',
+#            'ifoacuba',
+#            'ifoacubp',
+#            'ifoaresc',
+#            'ifoaresr',
+#            'ifoareoc',
+#            'ifoareda',
+#            'ifoalice',
+#            'ifoafaut',
+#            'ifoaflug',
+#            'ifoafano',
+#            'ifoaftam',
+#        ]
 
-class SuelosForm(modelForm):
+class SuelosForm(ModelForm):
     class Meta:
         model = inidsuestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#        ]
 
-class HidrologiaForm(modelForm):
+class HidrologiaForm(ModelForm):
     class Meta:
         model = inidhlestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#        ]
 
-class HidrogeologiaForm(modelForm):
+class HidrogeologiaForm(ModelForm):
     class Meta:
         model = inidhgestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#        ]
 
-class CalidadDeAguaForm(modelForm):
+class CalidadDeAguaForm(ModelForm):
     class Meta:
         model = inidcaestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#        ]
 
-class CargasContaminantesForm(modelForm):
+class CargasContaminantesForm(ModelForm):
     class Meta:
         model = inidccestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-            'inidaalb',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#            'inidaalb',
+#        ]
 
-class CoberturaForm(modelForm):
+class CoberturaForm(ModelForm):
     class Meta:
         model = inidcoestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-            'inidaalb',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#            'inidaalb',
+#        ]
 
-class FloraYFaunaForm(modelForm):
+class FloraYFaunaForm(ModelForm):
     class Meta:
         model = inidffestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-            'inidaalb',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#            'inidaalb',
+#        ]
 
-class PMEcosistemasForm(modelForm):
+class PMEcosistemasForm(ModelForm):
     class Meta:
         model = inidpmestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-            'inidaalb',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#            'inidaalb',
+#        ]
 
-class RiesgosForm(modelForm):
+class RiesgosForm(ModelForm):
     class Meta:
         model = inidriestud
-        fields = [
-            'inidnomb',
-            'inidlocf',
-            'inidfunc',
-            'inidubig',
-            'inidareh',
-            'inidporc',
-            'inidauth',
-            'inidanor',
-            'inidanop',
-            'inidaalb',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'inidnomb',
+#            'inidlocf',
+#            'inidfunc',
+#            'inidubig',
+#            'inidareh',
+#            'inidporc',
+#            'inidauth',
+#            'inidanor',
+#            'inidanop',
+#            'inidaalb',
+#        ]
 
-class seActoresSocForm(modelForm):
+class seActoresSocForm(ModelForm):
     class Meta:
         model = inidseasinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seEstrParticipForm(modelForm):
+class seEstrParticipForm(ModelForm):
     class Meta:
         model = inidseepinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seParticComuEtnicasForm(modelForm):
+class seParticComuEtnicasForm(ModelForm):
     class Meta:
         model = inidseceinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seDiagSocioEconomForm(modelForm):
+class seDiagSocioEconomForm(ModelForm):
     class Meta:
         model = inidsedsinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seCaractCulturalForm(modelForm):
+class seCaractCulturalForm(ModelForm):
     class Meta:
         model = inidseccinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seValorServicEcosForm(modelForm):
+class seValorServicEcosForm(ModelForm):
     class Meta:
         model = inidsevsinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
 
-class seRelaFuncUrbaRegioForm(modelForm):
+class seRelaFuncUrbaRegioForm(ModelForm):
     class Meta:
         model = inidserfinf
-        fields = [
-            'iniescor',
-            'iniescue',
-            'isocinfo',
-            'isocubic',
-            'isocauto',
-            'isocanoe',
-            'isocdocu',
-        ]
+        exclude = ['iniescor', 'iniescue', 'inieswho', 'inieswhu'] 
+#        fields = [
+#            'iniescor',
+#            'iniescue',
+#            'isocinfo',
+#            'isocubic',
+#            'isocauto',
+#            'isocanoe',
+#            'isocdocu',
+#        ]
+
+#class GetUserAttr(request, shared_id):
+#    def __init__(self):
+#        self.user = request.User
+#        self.corpora = GetUserCorpo(request.user)
+#        self.watersheed = GetUserWatersheed(corpora, shared_id)
 
 #Calling the forms
 def add_cartografia(request):
     if request.method == 'POST':
         form = CartografiaForm(request.POST)
-        if form.is_valid()
+        if form.is_valid():
             return 
     else:
         form = CartografiaForm()
@@ -355,38 +388,56 @@ def add_cartografia(request):
         })
 
 def add_imagenes(request):
+    pass
 
 def add_fotografias(request):
+    pass
 
 def add_suelos(request):
+    pass
 
 def add_hidrologia(request):
+    pass
 
 def add_hidrogeologia(request):
+    pass
 
 def add_calidaddeagua(request):
+    pass
 
 def add_cargascontaminantes(request):
+    pass
 
 def add_cobertura(request):
+    pass
 
 def add_florayfauna(request):
+    pass
 
 def add_pmecosistemas(request):
+    pass
 
 def add_riesgos(request):
+    pass
 
 def add_seactoressoc(request):
+    pass
 
 def add_seestrparticip(request):
+    pass
 
 def add_separticcomuetnicas(request):
+    pass
 
 def add_sediagsocioeconom(request):
+    pass
 
 def add_secaractcultural(request):
+    pass
 
 def add_sevalorservicecos(request):
+    pass
 
 def add_serelafuncurbaregio(request):
+    pass
 

@@ -1,0 +1,16 @@
+{% for corpo, carto, count in listado %}
+    <h3>{{ corpo.cartuser.username }}</h3>
+    <p>Total: {{ count }} Planchas</p>
+    <table border =1>
+    <tr>
+        <th>Plancha</th><th>Escala</th><th>Anno fuente</th><th>Anno Elaboracion</th>
+    </tr>
+    {% for i in carto %}
+    <tr>
+        <td>{{ i.cartplan|upper }}</td><td>1:{{ i.cartesca }}</td>
+        <td>{{ i.cartfano|default_if_none:"." }}</td><td>{{ i.carteano|default_if_none:"."  }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    
+{% endfor %}

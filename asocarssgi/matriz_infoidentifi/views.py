@@ -3,9 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
+#from django.contrib.auth.models import User
 
 from asocarssgi import default_names
-from cuencas.views import GetCorpoCuencas
+from cuencas.views import GetCorpoCuencas, GetUserWatersheed
 from corporacion.views import GetUserCorpo, GetUserCorpo
 
 from matriz_infoidentifi.models import inforcompon, inforindice
@@ -16,6 +17,11 @@ def GetName():
         Formulación y/o Ajuste de los POMCAS'
     return title
 
+class GetUserAttr():
+    def __init__(self, request, shared_id):
+        self.user = request.user
+        self.corpora = GetUserCorpo(request.user)
+        self.watersheed = GetUserWatersheed(self.corpora, shared_id)
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def CuencasDeCorpo(request):
@@ -57,7 +63,7 @@ def list(request, shared_id):
     return HttpResponse(templink)   
     
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
-def add(request, shared_id):
+def addi(request, shared_id):
     '''
     Provides a link for all the forms avaliable. 
     As the Index page in the Excel file.
@@ -80,7 +86,26 @@ def add(request, shared_id, subcompo):
     Selects which subcomponent will be added, 
         for that uses the subcompo variable
     '''
-    return getattr(forms, 'add_%' % subcompo)
+    usrattr = GetUserAttr(request, shared_id)
+    ####
+    if request.method == 'POST':
+        form = getattr(forms, '%sForm(request.POST)' % subcompo.title())
+        if form.is_valid():
+            form.iniescor = usrattr.corpora
+            form.iniescue = usrattr.watersheed
+            form.inieswho = usrattr.user
+            form.inieswhu = usrattr.user
+            return 
+    else:
+        form = getattr(forms, '%sForm()' % subcompo.title())
+        return render(request, 'form.html', {
+            'form': form,
+            'title' : GetName(), 
+            'compo' : GetCompo(),
+        })
+    ####
+    return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
+
 #    #Fist, validate if subcompo is in the list of matrices avaliable
 #    #Kinda a security validation, because using 'eval'
 #    

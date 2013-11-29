@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.shortcuts import render
 
 import xlrd
 import datetime
@@ -84,7 +85,7 @@ def excel_process(excel_addr, username):
                     doprocess = False
             #Valid Formato
             if formato == '':
-                log += '%s. El formato no puede estar vacío'%(rowini)
+                log += u'%s. El formato no puede estar vacío'%(rowini)
             #Valid Years
             #First these fields can be blank or have a not number value
             valid = True
@@ -331,3 +332,18 @@ def SetClassifyInYears():
             #log += SetPlanchaAnno(planchas)
             SetPlanchaAnno(planchas)
     print log
+
+def Consolidado(request):
+    '''
+    '''
+    # select distinct(cartuser_id) from matriz_cartografica_cartoginven;
+    corpora = cartoginven.objects.all().distinct('cartuser')
+    invent = []
+    for corpo in corpora:
+        cartog = cartoginven.objects.filter(cartuser = corpo.cartuser)
+        carto = cartog.order_by('cartplan', 'cartfano', 'carteano').distinct('cartplan')
+        count = len(carto)
+        invent.append([corpo, carto, count])
+
+    return render(request, 'consolidado_cartog.html', {'listado':invent})
+
