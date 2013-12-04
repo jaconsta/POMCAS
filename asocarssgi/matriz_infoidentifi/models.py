@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
 from corporacion.models import corporaname
 from cuencas.models import cuencompart
-
-import datetime
 
 #Each header form should have:
 # Which corporation it belongs to
@@ -25,13 +25,31 @@ class inforcompon(models.Model):
     Componentes del formato
     '''
     infocomp = models.CharField(u'Componente', max_length = 75)
-    
+
     def __unicode__(self):
         return self.infocomp
-    
+
     class Meta:
         verbose_name = u'Componente del formato'
         verbose_name_plural = u'Componentes del formato'
+
+class inforconcep(models.Model):
+    '''
+    Concepto General
+    '''
+    informat = models.ForeignKey(inforcompon, verbose_name = 'Formato')
+    infcocor = models.ForeignKey(corporaname, verbose_name = 'Corporacion')
+    infcocue = models.ForeignKey(cuencompart, verbose_name = 'Cuenca')
+    infconce = models.CharField(u'Concepto', max_length = 500)
+    infcowho = models.CharField(u'Nombre de quien firma', max_length = 250)
+    
+    
+    def __unicode__(self):
+        return self.infconce
+
+    class Meta:
+        verbose_name = u'Concepto de caracterizacion general'
+        verbose_name_plural = verbose_name
 
 class inforindice(models.Model):
     '''
@@ -40,9 +58,11 @@ class inforindice(models.Model):
     infocomp = models.ForeignKey('inforcompon' , verbose_name = u'Componente')
     infosubc = models.CharField(u'Subcomponente', max_length = 75)
     infotema = models.CharField(u'Tema a evaluar', max_length = 125)
+    infonota = models.CharField(u'Preguntas aclaratorias', max_length = 1000)
+    infoalca = models.CharField(u'Alcance', max_length = 1000)
     infourlc = models.URLField(u'Dirección capacitación')
+    infoprot = models.FileField(u'Archivo de Protocolo', upload_to = 'protocolos/')
     infoprio = models.PositiveSmallIntegerField(u'Prioridad')
-    infonota = models.CharField(u'Notas aclaratorias', max_length = 1000)
     
     def __unicode__(self):
         return '%s, %s, %s, %s' % (self.infosubc, self.infotema, self.infourlc,
@@ -51,21 +71,141 @@ class inforindice(models.Model):
         verbose_name = u'Formato de evaluación de información disponible.'
         verbose_name_plural = u'Índice de formatos de evaluación de información disponible.'
 
-class incompoeval(models.Model):
+#Select list.
+class SelectList:
     '''
-    Formatos de evaluación de información
-    Evaluación de la información
+    All the choose list avaliable.
+    In a class just to simplify code and unite them all
+    call: lists = SelectList()
+    use: lists.funcname()
     '''
-    incompon = models.ForeignKey('inforcompon', verbose_name = u'Componente')
-    incoeval = models.CharField(u'Evaluación', max_length = 500)   
-    incocome = models.CharField(u'Comentarios', max_length = 500)   
-    
-    def __unicode__(self):
-        return '%s, %s' % (self.incoeval, self.incocome)
-
-    class Meta:
-        verbose_name = u'Evaluación de la información'
-        verbose_name_plural = u'Evaluación de la información'
+    def BoolChoose(self):
+        BoolChoose = (
+            (True , u'si'),
+            (False, u'no'),
+        )
+        return BoolChoose
+    def BoolNullChoose(self):
+        BoolNullChoose = (
+            (True , u'si'),
+            (False, u'no'),
+            (None , u'no aplica'),
+        )
+        return BoolNullChoose 
+    def YearList(self):
+        thisyear = datetime.datetime.now().year
+        YearChoose = []
+        for i in range(1950, thisyear):
+            YearChoose.append((i,i))
+        return YearChoose
+    def ThisYear(self):
+        return datetime.datetime.now().year
+    def FormatMapChoose(self):
+        FormatMapChoose = (
+            ('ANA', u'análogo'),
+            ('DIG', u'digital'),
+        )
+        return FormatMapChoose
+    def MapChoose (self):
+        MapChoose = (
+            ('ECW'     , 'ECW'),
+            ('Generate', 'Generate'),
+            ('SHP'     , 'SHP'),
+            ('e00'     , 'e00'),
+            ('ArcInfo' , 'ArcInfo'),
+            ('ECW'     ,'ECW'),
+            ('DWG'     , 'DWG'),
+            ('DGN'     , 'DGN'),
+            ('DXF'     , 'DXF'),
+            ('PDF'     , 'PDF'),
+            ('TIF'     , 'TIF'),
+            ('JPG'     , 'JPG'),
+            ('Otro'    , 'Otro'),      
+        )
+        return MapChoose 
+    def FormatFileChoose(self):
+        FormatFileChoose = (
+            ('doc', u'Word'),
+            ('xls', u'Excel'),
+            ('pdf', u'PDF'),
+            ('Otr', u'Otro'),
+        )
+    def SensChoose (self):
+        SensChoose = (
+            ('LandSat' , u'LandSat'),
+            ('SPOT'    , u'SPOT'),
+            ('RapidEye', u'RapidEye'),
+            ('IKONOS'  , u'IKONOS'),
+            ('Otro'    , u'Otro'),
+        )
+        return SensChoose
+    def SisCoordChoose (self):
+        SisCoordChoose = (
+            ('PLA', u'Planas'),
+            ('GEO', u'Geográficas'),
+        )
+        return SisCoordChoose 
+    def OriCoordChoose (self):
+        OriCoordChoose = (
+            ('OO', u'Occidente Occidente'),
+            ('O' , u'Occidente'),
+            ('C' , u'Centro'),
+            ('E' , u'Oriente'),
+            ('EE', u'Oriente Oriente'),
+        )
+        return OriCoordChoose 
+    def ScaleChoose(self):
+        ScaleChoose = (
+            (25000, u'1:25.000'),
+            (10000, u'1:10.000'),
+            (5000 , u'1:5.000'),
+            (2000 , u'1:2.000'),
+            (1000 , u'1:1.000'),
+            (500  , u'1:500'),
+        )
+        return ScaleChoose 
+    def DefaultScale(self):
+        return 25000
+    def EscTempChoose(self):
+        EscTempChoose = (
+            ('D', 'Diario'),
+            ('M', 'Mensual'),
+            ('A', 'Anual'),
+        )
+        return EscTempChoose
+    def MethChoose(self): 
+        MethChoose = (
+            ('vis', 'visual'),
+            ('dig', 'digital'),
+        )
+        return MethChoose 
+    def PeriAforChoose(self):
+        PeriAforChoose = (
+            ('SEQ', u'Sequía'), 
+            ('INV', u'Invierno'),
+        )
+        return PeriAforChoose 
+    def FotoFormChoose(self):
+        FotoFormChoose = (
+            ('TIFF', u'TIFF'),
+            ('ECW' , u'ECW'),
+            ('IMG' , u'IMG'),
+            ('ANA' , u'Análogo (papel)'),
+            ('Otr' , u'Otro'),
+        )
+        return FotoFormChoose 
+    def InfoCartChoose(self):
+        InfoCartChoose = (
+            ('tas', u'tabla asociada'),
+            ('dbf', u'dbf'),
+        )
+    def SectChoose(self):
+        SectChoose = (
+            ('pre', u'presuntivamente'),
+            ('car', u'caracterización'),
+            ('amb', u'Ambos'),
+            (False, u'No Aplica'),
+        )
 
 #Caracterización general, Identificación del estudio
 #Hay
@@ -80,21 +220,21 @@ class inididestud(models.Model):
     I'm using variables because the names to display are too long
     ''' 
     nombre = u'Nombre del estudio'
-    loca= u'Localización física del estudio, Dependencia en la que reposa'
-    funciona = u'Funcionario responsable de su custodia y/o manejo'
-    geografi = u'Ubicación geográfica del estudio (municipios)'
-    area = u'Área de cobertura del estudio sobre la cuenca'
+    loca   = u'Localización física del estudio, Dependencia en la que reposa'
+    #funciona = u'Funcionario responsable de su custodia y/o manejo'
+    #geografi = u'Ubicación geográfica del estudio (municipios)'
+    area   = u'Área de cobertura del estudio sobre la cuenca'
     porcenta = u'Porcentaje de cobertura del estudio sobre la cuenca'
-    autor = u'Autor del estudio'
-    realizac = u'Año de realización del estudio'
+    autor  = u'Autor del estudio'
+    nit    = u'NIT o Documento de identificación del Autor'
+    #realizac = u'Año de realización del estudio'
     publicac = u'Año de publicación'
+    #HelpText
+    area_help = u'En hectáreas'
     
-    YearChoose = []
-    thisyear = datetime.datetime.now().year
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
 
-    #inidacti = models.ForeignKey('inforindice', verbose_name = 'Tema de evaluación')
+    #inidacti = models.ForeignKey('inforindice', verbose_name = u'Tema de evaluación')
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
     inieswho = models.ForeignKey(User, 
@@ -108,19 +248,19 @@ class inididestud(models.Model):
         auto_now = True)
     inidnomb = models.CharField(nombre , max_length = 500)
     inidlocf = models.CharField(loca , max_length = 250)
-    inidfunc = models.CharField(funciona, max_length = 250)
-    inidubig = models.CharField(geografi, max_length = 500)
-    inidareh = models.FloatField(area)
-    inidporc = models.FloatField(porcenta)
+    #inidfunc = models.CharField(funciona, max_length = 250)
+    #inidubig = models.CharField(geografi, max_length = 500)
+    inidareh = models.FloatField(area, help_text = area_help)
+    inidporc = models.FloatField(porcenta, null = True, blank = True)
     inidauth = models.CharField(autor, max_length = 125)
-    inidanor = models.PositiveSmallIntegerField(realizac, 
-        choices = YearChoose, default = thisyear)
+    #inidanor = models.PositiveSmallIntegerField(realizac, 
+    #    choices = lists.YearList(), default = lists.ThisYear())
     inidanop = models.PositiveSmallIntegerField(publicac, 
-        choices = YearChoose, default = thisyear)
+        choices = lists.YearList(), default = lists.ThisYear())
     
     def __unicode__(self):
-        return '%s, %s, %s, %s, %s' % (self.inidnomb, self.inidlocf, 
-            self.inidfunc, self.inidubig, self.inidauth)
+        return '%s, %s, %s' % (self.inidnomb, self.inidlocf, 
+            self.inidauth)
 
     class Meta:
         abstract = True
@@ -138,17 +278,23 @@ class inicartsubt(models.Model):
     cuapre = u'Especifique cuáles'
     qualit = u'Calidad de datos'
     reltop = u'Relaciones topológicas'
+    # help_text
+    presen_help = None
+    cuapre_help = None
+    qualit_help = None
+    reltop_help = u'¿Consistencia en las relaciones topológicas?'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     icarsubt = models.OneToOneField('inidcardatg')
-    icarspre = models.BooleanField(presen, choices = BoolChoose)
-    icarsexi = models.CharField(cuapre, max_length = 500)
-    icarsqua = models.BooleanField(qualit, choices = BoolChoose)
-    icarsrel = models.BooleanField(reltop, choices = BoolChoose)
+    icarspre = models.BooleanField(presen, choices = lists.BoolChoose(),
+        help_text = presen_help)
+    icarsexi = models.CharField(cuapre, max_length = 500, 
+        help_text = cuapre_help)
+    icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose(),
+        help_text = qualit_help)
+    icarsrel = models.BooleanField(reltop, choices = lists.BoolChoose(),
+        help_text = reltop_help)
 
     class Meta:
         verbose_name = u'1.2 Subtema cartográfico'
@@ -182,10 +328,7 @@ class socioinfoge(models.Model):
     docume = u'¿Documento elaborado para la cuenca o para el territorio \
         especifico de la jurisdicción de la CAR?'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
@@ -200,7 +343,8 @@ class socioinfoge(models.Model):
     isocauto = models.CharField(autore, max_length = 200)
     isocanoe = models.PositiveSmallIntegerField(elaano,
         null = True, blank = True)
-    isocdocu = models.BooleanField(docume, choices = BoolChoose, default = True)
+    isocdocu = models.BooleanField(docume, 
+        choices = lists.BoolChoose(), default = True)
 
     class Meta:
         abstract = True
@@ -228,48 +372,11 @@ class inidcardatg(models.Model):
     sisdat = u'Referencia espacial. Dátum'
     esccap = u'Escala de captura'
     licenc = u'Licencia de uso'
+    #help_text
+    escala_help = u'Escala de presentación de la cartografía'
+    numero_help = u'Número de las planchas IGAC. '
     
-    ScaleChoose = (
-        (500000, u'1:500000'),
-        (100000, u'1:100000'),
-        (50000, u'1:50000'),
-        (25000, u'1:25000'),
-        (10000, u'1:10000'),
-        (5000, u'1:5000'),
-        (2000, u'1:2000'),
-        (1000, u'1:1000'),
-        (500, u'1:500'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    SisCoordChoose = (
-        ('PLA', u'Planas'),
-        ('GEO', u'Geográficas'),
-    )
-    OriCoordChoose = (
-        ('OO', u'Occidente Occidente'),
-        ('O', u'Occidente'),
-        ('C', u'Centro'),
-        ('E', u'Oriente'),
-        ('EE', u'Oriente Oriente'),
-    )
+    lists = SelectList()
 
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
@@ -279,7 +386,8 @@ class inidcardatg(models.Model):
     inieswhu = models.ForeignKey(User, 
         verbose_name = u'Último usuario actualiza el formulario',
         related_name = '%(app_label)s_%(class)s_user_edit')
-    icartess = models.PositiveIntegerField(escala, choices = ScaleChoose,
+    icartess = models.PositiveIntegerField(escala, 
+        choices = lists.ScaleChoose(),
         default = 25000)
     icartnum = models.CharField(numero, max_length = 8)
     icartres = models.CharField(respon, max_length = 125)
@@ -287,16 +395,17 @@ class inidcardatg(models.Model):
     icartcua = models.FloatField(cubria)
     icartcup = models.FloatField(cubrip)
     icartfor = models.CharField(formato, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     icartfex = models.CharField(forext, max_length = 5,
-        choices = MapChoose)
+        choices = lists.MapChoose())
     icartrco = models.CharField(siscoo, max_length = 4,
-        choices = SisCoordChoose)
+        choices = lists.SisCoordChoose())
     icartrre = models.CharField(sisref, max_length = 25)
     icartror = models.CharField(sisori, max_length = 3,
-        choices = OriCoordChoose)
+        choices = lists.OriCoordChoose())
     icartrda = models.CharField(sisdat, max_length = 25)
-    icartesc = models.PositiveIntegerField(esccap, choices = ScaleChoose,
+    icartesc = models.PositiveIntegerField(esccap, 
+        choices = lists.ScaleChoose(),
         default = 25000, null = True, blank = True)
     icartlic = models.CharField(licenc, max_length = 25,
         null = True, blank = True)
@@ -323,14 +432,42 @@ class inicartdatf(models.Model):
 
     class Meta:
         verbose_name = '01.1 Fuente y Fecha'
-        verbose_name_plural = '1.1 Fuentes y Fechas'
+        verbose_name_plural = '01.1 Fuentes y Fechas'
 
 class inicartscat(inicartsubt):
+    #Help_text
+    presen_help = u'Presencia de elementos que hacen parte del tema\
+        Catastro del catálogo de objetos?'
+    cuapre_help = u'Especifique cuales. Ej. <br />ÁREAS CATASTRALES: <br />\
+        Manzanas, predios. <br />EDIFICACIONES y OBRAS CIVILES: <br />\
+        construcciones, áreas deportivas, cercas, sitios de interés, \
+        canteras, etc'
+    qualit_help = u'En la tabla de atributos. <br />\
+        Coherencia de la información con respecto a rasgos \
+        característicos de la zona demarcada. Es decir, se verifica que \
+        existan elementos del tema Catastro conocidos en el área de \
+        cubrimiento de la plancha.'
+
     class Meta:
         verbose_name = u'01.2.1 Subtema. Catastro'
         verbose_name_plural = verbose_name
 
 class inicartstra(inicartsubt):
+    # help_text
+    presen_help = u'Presencia de elementos que hacen parte del tema \
+        Transporte del catálogo de objectos?'
+    cuapre_help = u'Especifique cuales. Ej. <br />TRANSPORTE TERRESTRE: <br />\
+        vía principal, vía secundaria, vía terciaria, camino, carreteable, \
+        ferrocaril, etc.\
+        <br />INSTALACIONES y CONSTRUCCIONES:<br />\
+        puentes, líneas de alta tensión, poliducto, torres de alta tensión, \
+        etc.'
+    qualit_help = u'En la tabla de atributos. <br />\
+        Coherencia de la información con respecto a rasgos \
+        característicos de la zona demarcada. Es decir, se verifica que \
+        existan elementos del tema Transporte conocidos en el área de \
+        cubrimiento de la plancha.'
+
     class Meta:
         verbose_name = u'01.2.2 Subtema. Transporte'
         verbose_name_plural = verbose_name
@@ -387,47 +524,7 @@ class inidimagsat(models.Model):
     annopu = u'Año'
     tamano = u'Tamaño del archivo'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    SensChoose = (
-        ('LandSat', u'LandSat'),
-        ('SPOT', u'SPOT'),
-        ('RapidEye', u'RapidEye'),
-        ('IKONOS', u'IKONOS'),
-        ('Otro', u'Otro'),
-    )
-    SisCoordChoose = (
-        ('PLA', u'Planas'),
-        ('GEO', u'Geográficas'),
-    )
-    OriCoordChoose = (
-        ('OO', u'Occidente Occidente'),
-        ('O', u'Occidente'),
-        ('C', u'Centro'),
-        ('E', u'Oriente'),
-        ('EE', u'Oriente Oriente'),
-    )
+    lists = SelectList()
 
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
@@ -438,7 +535,8 @@ class inidimagsat(models.Model):
         verbose_name = u'Último usuario actualiza el formulario',
         related_name = '%(app_label)s_%(class)s_user_edit')
     iimanomb = models.CharField(nombre, max_length = 125)
-    iimasens = models.CharField(sensor, max_length = 10, choices = SensChoose)
+    iimasens = models.CharField(sensor, max_length = 10, 
+        choices = lists.SensChoose())
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
     iimadate = models.DateTimeField(fechai)
@@ -447,14 +545,17 @@ class inidimagsat(models.Model):
         blank = True)
     iimacuba = models.FloatField(cubria)
     iimacubp = models.FloatField(cubrip)
-    iimaform = models.CharField(formai, max_length = 4, choices = FormatMapChoose)
+    iimaform = models.CharField(formai, max_length = 4, 
+        choices = lists.FormatMapChoose())
     iimafore = models.CharField(formae, max_length = 5, 
-        choices = MapChoose)
-    iimaresc = models.CharField(reessc, max_length = 4, choices = SisCoordChoose)
+        choices = lists.MapChoose())
+    iimaresc = models.CharField(reessc, max_length = 4, 
+        choices = lists.SisCoordChoose())
     iimaresr = models.CharField(reessr, max_length = 25)
-    iimareoc = models.CharField(reesoc, max_length = 3, choices = OriCoordChoose)
+    iimareoc = models.CharField(reesoc, max_length = 3, 
+        choices = lists.OriCoordChoose())
     iimareda = models.CharField(reesda, max_length = 25)
-    iimabanp = models.BooleanField(banpae, choices = BoolChoose, 
+    iimabanp = models.BooleanField(banpae, choices = lists.BoolChoose(), 
         default = False)
     iimabanc = models.CharField(banpac, max_length = 500, null = True, 
         blank = True)
@@ -506,43 +607,7 @@ class inidfotogra(models.Model):
     annopu = u'Año'
     tamano = u'Tamaño del archivo'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    FotoFormChoose = (
-        ('TIFF', u'TIFF'),
-        ('ECW', u'ECW'),
-        ('IMG', u'IMG'),
-        ('Ana', u'Papel'),
-        ('Otro', u'Otro'),
-    )
-    ScaleChoose = (
-        (500000, u'1:500000'),
-        (100000, u'1:100000'),
-        (50000, u'1:50000'),
-        (25000, u'1:25000'),
-        (10000, u'1:10000'),
-        (5000, u'1:5000'),
-        (2000, u'1:2000'),
-        (1000, u'1:1000'),
-        (500, u'1:500'),
-    )
-    SisCoordChoose = (
-        ('PLA', u'Planas'),
-        ('GEO', u'Geográficas'),
-    )
-    OriCoordChoose = (
-        ('OO', u'Occidente Occidente'),
-        ('O', u'Occidente'),
-        ('C', u'Centro'),
-        ('E', u'Oriente'),
-        ('EE', u'Oriente Oriente'),
-    )
+    lists = SelectList()
 
     iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
     iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
@@ -554,26 +619,29 @@ class inidfotogra(models.Model):
         related_name = '%(app_label)s_%(class)s_user_edit')
     ifonombr = models.CharField(nombre, max_length = 125)
     ifoformf = models.CharField(formaf, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     ifoforme = models.CharField(fotoex, max_length = 5, 
-        choices = FotoFormChoose)
+        choices = lists.FotoFormChoose())
     ifoinivu = models.DateTimeField(inivue, null = True, blank = True)
     ifofinvu = models.DateTimeField(finvue, null = True, blank = True)
     ifonumes = models.CharField(numsob, max_length = 50)
-    ifoescaf = models.PositiveIntegerField(escala, choices = ScaleChoose,
-        default = 25000)
+    ifoescaf = models.PositiveIntegerField(escala, 
+        choices = lists.ScaleChoose(),
+        default = lists.DefaultScale())
     ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
         blank = True)
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
     ifonumfo = models.PositiveIntegerField(numfot)
-    ifopunfo = models.BooleanField(punfot, choices = BoolChoose, 
+    ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
     ifoanubp = models.FloatField(pornub)
     ifoacuba = models.FloatField(cubria)
     ifoacubp = models.FloatField(cubrip)
-    ifoaresc = models.CharField(reessc, max_length = 4, choices = SisCoordChoose)
+    ifoaresc = models.CharField(reessc, max_length = 4, 
+        choices = lists.SisCoordChoose())
     ifoaresr = models.CharField(reessr, max_length = 25)
-    ifoareoc = models.CharField(reesoc, max_length = 3, choices = OriCoordChoose)
+    ifoareoc = models.CharField(reesoc, max_length = 3, 
+        choices = lists.OriCoordChoose())
     ifoareda = models.CharField(reesda, max_length = 25)
     ifoalice = models.CharField(licenc, max_length = 250, null = True,
         blank = True)
@@ -603,23 +671,26 @@ class inidsumegeo(models.Model):
     Metodología utilizada para el estudio de Geomorfología
     '''
     metodo = u'Metodología utilizada para determinar las unidades \
-        geomorfológicas, con qué criterios se definieron las unidades'
+        geomorfológicas'
     clasif = u'¿La clasificación de las unidades geomorfológicas \
-        expresan las características  y ambientes morfogenéticos o morfogénicos?'
+        expresan las características y ambientes morfogenéticos o \
+        morfogénicos?'
     proces = u'¿En el análisis geomorfológico se identifican los \
         procesos morfodinámicos existentes en la cuenca?'
     amenaz = u'¿Relaciones de geomorfología con amenazas naturales?'
+    #Help Text
+    metodo_help = u'Con qué criterios se definieron las unidades?'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     geoindic = models.OneToOneField('inidsuestud', verbose_name=u'Caracterización general')
     geometod = models.CharField(metodo, max_length = 500)
-    geoclasi = models.BooleanField(clasif, choices = BoolChoose, default = False)
-    geoproce = models.BooleanField(proces, choices = BoolChoose, default = False)
-    geoamena = models.BooleanField(amenaz, choices = BoolChoose, default = False)
+    geoclasi = models.BooleanField(clasif, choices = lists.BoolChoose(), 
+        default = False)
+    geoproce = models.BooleanField(proces, choices = lists.BoolChoose(), 
+        default = False)
+    geoamena = models.BooleanField(amenaz, choices = lists.BoolChoose(), 
+        default = False)
     
     def __unicode__(self):
         return self.geometod
@@ -642,25 +713,25 @@ class inidsumesue(models.Model):
     labres = u'¿Se cuenta los resultados del laboratorio de suelos?'
     georef = u'¿El documento tiene la ubicación georeferenciada de las \
         observaciones de suelos?'
+    #Help Text
+    metodo_help = u'Aclarar si el estudio tuvo trabajo de campo y detalle \
+        taxonómico a nivel de familia'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     tierindi = models.OneToOneField('inidsuestud', verbose_name=u'Caracterización general')
-    inisutle = models.BooleanField(leyend, choices = BoolChoose, default = False) 
-    inisutme = models.CharField(metodo, max_length = 500) 
-    inisutla = models.BooleanField(labres, choices = BoolChoose, default = False) 
-    inisutge = models.BooleanField(georef, choices = BoolChoose, default = False) 
+    inisutle = models.BooleanField(leyend, choices = lists.BoolChoose(), 
+        default = False) 
+    inisutme = models.CharField(metodo, max_length = 500, 
+        help_text = metodo_help) 
+    inisutla = models.BooleanField(labres, choices = lists.BoolChoose(), 
+        default = False) 
+    inisutge = models.BooleanField(georef, choices = lists.BoolChoose(), 
+        default = False) 
 
     class Meta:
         verbose_name = u'04.2 Metodología uso de tierra'
         verbose_name_plural = verbose_name
-    #    verbose_name = u'Metodología utilizada para el estudio de suelos y/o \
-    #        capacidad de uso de la tierra'
-    #    verbose_name_plural = u'Metodologías utilizadas para el estudio de suelos y/o \
-    #        capacidad de uso de la tierra'
 
 class inidsuinfor(models.Model):
     '''
@@ -668,11 +739,11 @@ class inidsuinfor(models.Model):
     Información general cartográfica y documentos técnicos
     '''
 
-    escsal = u'Escala de salida de los mapas'
+    escsal = u'Escala de salida de los mapas a nivel de morfología.'
     esclev = u'Escala de trabajo del levantamiento de suelos y del análisis \
         geomorfológico'
     forma = u'Formato de los Mapas'
-    mapext = u'Extensión de los Mapas, en caso que sean en formato Digital'
+    mapext = u'Extensión de los Mapas'
     metada = u'Existencia de metadatos'
     metaau = u'Metadatos: Autor'
     metafe = u'Metadatos: Año de toma de la información'
@@ -681,44 +752,17 @@ class inidsuinfor(models.Model):
         Ambiente morfogénetico o morfogénico, pendiente, forma de la \
         pendiente, procesos mordofinámicos actuales, etc.?'
     tecfor = u'Formato del Documento Técnico'
-    tecext = u'Extensión del Documento Técnico, en caso que sean en formato \
-        Digital'
+    tecext = u'Extensión del Documento Técnico.'
     cartba = u'Fuente Cartografía Base del Estudio.'
     carcal = u'Calidad de la Cartografía temática (Topología y Simbología)'
+    #Help Text
+    mapext_help = u'En caso que sean en formato Digital.'
+    cartdi_help = u'Ver la coherencia de la información asociada en la tabla \
+        de atributos del mapa temático.'
+    tecext_help = mapext_help
+    carcal_help = u'Ver formato de cartografía base.'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    thisyear = datetime.datetime.now().year
-    YearChoose = []
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
 
     suelindi = models.OneToOneField('inidsuestud', 
         verbose_name = u'Caracterización general')
@@ -727,27 +771,28 @@ class inidsuinfor(models.Model):
     inisuesl = models.CharField(esclev, max_length = 9, null = True, 
         blank = True)
     inisufor = models.CharField(forma, max_length = 4, 
-        choices = FormatMapChoose, null = True, blank = True)
+        choices = lists.FormatMapChoose(), null = True, blank = True)
     inisumex = models.CharField(mapext, max_length = 9, 
-        choices = MapChoose, null = True, blank = True)
-    inisumet = models.NullBooleanField(metada, choices = BoolChoose, 
+        choices = lists.MapChoose(), null = True, blank = True,
+        help_text = mapext_help)
+    inisumet = models.NullBooleanField(metada, choices = lists.BoolChoose(), 
         default = False)
-    inisumea = models.NullBooleanField(metaau, choices = BoolChoose, 
+    inisumea = models.NullBooleanField(metaau, choices = lists.BoolChoose(), 
         null = True, blank = True)
     inisumef = models.PositiveSmallIntegerField(metafe, null = True, 
-        blank = True, choices = YearChoose, default = thisyear)
+        blank = True, choices = lists.YearList(), default = lists.ThisYear())
     inisucad = models.CharField(cartdi, max_length = 125, null = True, 
-        blank = True)
-    inisuley = models.NullBooleanField(leygeo, choices = BoolChoose, 
+        blank = True, help_text = cartdi_help)
+    inisuley = models.NullBooleanField(leygeo, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
     inisudoc = models.CharField(tecfor, max_length = 4, 
-        choices = FormatMapChoose, null = True, blank = True)
+        choices = lists.FormatMapChoose(), null = True, blank = True)
     inisuexd = models.CharField(tecext, max_length = 6, null = True, 
-        blank = True)
+        blank = True, help_text = tecext_help)
     inisufuc = models.CharField(cartba, max_length = 75, null = True, 
         blank = True)
     inisucac = models.CharField(carcal, max_length = 125, null = True, 
-        blank = True)
+        blank = True, help_text = carcal_help)
      
     def __unicode__(self):
         return u'%s, %s, %s, %s, %s, %s, %s, %s, %s, %s' % (self.inisuess,
@@ -773,80 +818,81 @@ class inidhlmetod(models.Model):
     '''
     Hidrología
     Metodología utilizada para el estudio de Hidrología o Climatología
+    Las estaciones, periodos inic y fin, y escala temporal deben ir en una tabla aparte
     '''
-    estaci = u'Estaciones utilizadas dentro del estudio'
-    perioi = u'Año inicio de las series'
-    periof = u'Año fin de las series'
-    tempor = u'Escala temporal'
     method = u'Metodologías utilizadas en el estudio'
-    infoin = u'Cuenta con la información de entrada para los cálculos'
-    indesc = u'Describa las entradas'
+    indesc = u'Describa las entradas para los cálculos'
     calibr = u'¿En las modelaciones existentes, se realizaron las \
         calibraciones y validaciones necesarias?'
     #caafor = u'Número de aforo'
     
-    EscTempChoose = (
-        ('D', 'Diario'),
-        ('M', 'Mensual'),
-        ('A', 'Anual'),
-    )
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
-    thisyear = datetime.datetime.now().year
-    YearChoose = []
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
  
     inihidme = models.OneToOneField('inidhlestud')
-    inihlmes = models.CharField(estaci, max_length = 250) 
-    inihlmpi = models.IntegerField(perioi, choices = YearChoose)
-    iniglmpf = models.IntegerField(periof, choices = YearChoose)
-    inihlmte = models.CharField(tempor, max_length = 2, choices = EscTempChoose)
-    inihlmet = models.CharField(method, max_length = 500)
-    inihlmin = models.BooleanField(infoin, choices = BoolChoose, 
-        default = False)
-    inihlmid = models.CharField(indesc, max_length = 300, null = True, 
-        blank = True)
-    inihlmmo = models.BooleanField(calibr, choices = BoolChoose, 
-        default = False)
+    #inihlmte = models.CharField(tempor, max_length = 2, 
+    #    choices = lists.EscTempChoose())
+    #inihlmet = models.CharField(method, max_length = 500)
+    #inihlmin = models.BooleanField(infoin, choices = lists.BoolChoose(), 
+    #    default = False)
+    #inihlmid = models.CharField(indesc, max_length = 300, null = True, 
+    #    blank = True)
+    #inihlmmo = models.BooleanField(calibr, choices = lists.BoolChoose(), 
+    #    default = False)
     #inihlmma = models.IntegerField(caafor, null = True, blank = True)
     
     class Meta:
         verbose_name = u'05.1 Metodología. hidrología/climatología'
         verbose_name_plural = verbose_name #u'Metodologías utilizadas para los estudio de hidrología o climatología'
 
+class ihlmethaest(models.Model):
+    '''
+    Hidrología
+    Metodología - Estaciones
+    Estaciones utilizadas dentro del estudio
+    '''
+    nombre = u'Nombre de la estación'
+    codigo = u'Código de la estación'
+    perioi = u'Año de inicio del periodo de las series'
+    periof = u'Año de fin del periodo de las series'
+    escate = u'Escala temporal'
+    
+    lists = SelectList()
+
+    ihlmetod = models.ForeignKey(inidhlmetod, verbose_name = u'Metodología')
+    ihlmeesn = models.CharField(nombre, max_length = 25)
+    ihlmeesc = models.CharField(codigo, max_length = 10)
+    ihlmeesi = models.PositiveSmallIntegerField(perioi, 
+        choices = lists.YearList(), default = lists.ThisYear())
+    ihlmeesf = models.PositiveSmallIntegerField(periof, 
+        choices = lists.YearList(), default = lists.ThisYear())
+    ihlmeese = models.CharField(escate, max_length = 2, 
+        choices = lists.EscTempChoose())
+    
 class ihlmethafor(models.Model):
     '''
     Hidrología
     Metodología - Aforos
     Aforo: Medición del caudal
     '''
+    period = u'Periodo de la medición' 
     caperi = u'Fecha de aforo'
     caudal = u'Valor del caudal'
     nivel = u'Valor del nivel de agua'
-    caubic = u'Ubicación'
+    subcuenca = u'Subcuenca'
+    sector = u'Sector'
 
-    thisyear = datetime.datetime.now().year
-    YearChoose = []
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
  
     inihlmma = models.ForeignKey('inidhlmetod')
+    inihlmpe = models.CharField(period, max_length = 4, 
+        choices = lists.PeriAforChoose())
     inihlmmp = models.IntegerField(caperi, null = True, blank = True)
     inihlmca = models.IntegerField(caudal, null = True, blank = True)
     inihlmni = models.IntegerField(nivel, null = True, blank = True)
-    inihlmmu = models.CharField(caubic, max_length = 250)
+    #inihlmmu = models.CharField(caubic, max_length = 250)
 
     class Meta:
-        verbose_name = u'05.1.1 Información de aforos'
+        verbose_name = u'05.1.2 Información de aforos'
         verbose_name_plural = verbose_name
 
 class inidhlcarto(models.Model):
@@ -859,59 +905,27 @@ class inidhlcarto(models.Model):
     formma = u'Formato de los mapas'
     extmap = u'Extensión de los Mapas'
     metada = u'Existencia de metadatos'
-    carinf = u'Que información está asociada a la cartografía digital'
+    carinf = u'Que información está asociada a la cartografía digital?'
     formdo = u'Formato del documento técnico'
     extedo = u'Extensión del Documento Técnico'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
-    InfoCartChoose = (
-        ('TBL', 'Tabla asociada'),
-        ('DBF', '.dbf'),
-    )
+    lists = SelectList()
 
     inihidca = models.OneToOneField('inidhlestud')
-    inihlceo = models.IntegerField(escalm)
-    inihlcer = models.IntegerField(escale)
+    inihlceo = models.IntegerField(escalm, null = True, blank = True)
+    inihlcer = models.IntegerField(escale, null = True, blank = True)
     inihlcfo = models.CharField(formma, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     inihlcem = models.CharField(extmap, max_length = 9,
-        choices = MapChoose, null = True, blank = True) 
-    inihlcme = models.BooleanField(metada, choices = BoolChoose, 
+        choices = lists.MapChoose(), null = True, blank = True) 
+    inihlcme = models.BooleanField(metada, choices = lists.BoolChoose(), 
         default = False)
     inihlccd = models.CharField(carinf, max_length = 4,
-        choices = InfoCartChoose, null = True, blank = True)
+        choices = lists.InfoCartChoose(), null = True, blank = True)
     inihlcfd = models.CharField(formdo, max_length = 4,
-        choices = FormatMapChoose) 
+        choices = lists.FormatMapChoose()) 
     inihlced = models.CharField(extedo, max_length = 4,
-        choices = FormatFileChoose, null = True, blank = True)
+        choices = lists.FormatFileChoose(), null = True, blank = True)
 
     class Meta:
         verbose_name = u'05.2 Información general cartográfica'
@@ -922,23 +936,18 @@ class inidhlinfor(models.Model):
     Hidrología
     Información Complementaria
     '''
-    estud = u'Relacione y describa los estudios de variabilidad climática (niño o niña)'
+    estud = u'Relacione y describa los estudios de variabilidad climática (niño o niña)' #Nueva Tabla: nombre, ubicacion, 
     calcu = u'¿Existen cálculos de caudal ambiental?'
     anno = u'Año'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    thisyear = datetime.datetime.now().year
-    YearChoose = []
-    for i in range(1950, thisyear+1):
-        YearChoose.append((i,i))
+    lists = SelectList()
 
     inihidfo = models.OneToOneField('inidhlestud')
     inihliev = models.CharField(estud, max_length = 500)
-    inihlica = models.BooleanField(calcu, choices = BoolChoose, default = False)
-    inihlian = models.IntegerField(anno, choices = YearChoose, null = True, blank = True)
+    inihlica = models.BooleanField(calcu, choices = lists.BoolChoose(), 
+        default = False)
+    inihlian = models.IntegerField(anno, choices = lists.YearList(), 
+        null = True, blank = True)
 
     class Meta: 
         verbose_name = u'05.3 Información Complementaria'
@@ -989,57 +998,59 @@ class inidhgmetho(models.Model):
     modeca = u'Cartografía relacionada, escala.'
     modema = u'Existe un modelo matemático'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     inihidge = models.OneToOneField('inidhgestud')
-    inihgmif = models.BooleanField(ipafase,choices = BoolChoose, default = False)
+    inihgmif = models.BooleanField(ipafase,choices = lists.BoolChoose(), 
+        default = False)
     inihgmim = models.CharField(ipameth, max_length = 500, 
         null = True, blank = True)
-    inihgmmf = models.BooleanField(mggfase,choices = BoolChoose, default = False)
+    inihgmmf = models.BooleanField(mggfase,choices = lists.BoolChoose(), 
+        default = False)
     inihgmmm = models.CharField(mggmeth, max_length = 500,
         null = True, blank = True)
-    inihgmqf = models.BooleanField(hqufase,choices = BoolChoose, default = False)
+    inihgmqf = models.BooleanField(hqufase,choices = lists.BoolChoose(), 
+        default = False)
     inihgmqm = models.CharField(hqumeth, max_length = 500,
         null = True, blank = True)
-    inihgmhf = models.BooleanField(hdrfase,choices = BoolChoose, default = False)
+    inihgmhf = models.BooleanField(hdrfase,choices = lists.BoolChoose(), 
+        default = False)
     inihgmhm = models.CharField(hdrmeth, max_length = 500,
         null = True, blank = True)
-    inihgmvf = models.BooleanField(vulfase,choices = BoolChoose, default = False)
+    inihgmvf = models.BooleanField(vulfase, choices = lists.BoolChoose(), 
+        default = False)
     inihgmvm = models.CharField(vulmeth, max_length = 500,
         null = True, blank = True)
-    inighmia = models.BooleanField(inventar, choices = BoolChoose, 
+    inighmia = models.BooleanField(inventar, choices = lists.BoolChoose(), 
         default = False)
-    inighmaa = models.NullBooleanField(aquifer,choices = BoolChoose, 
+    inighmaa = models.NullBooleanField(aquifer, choices = lists.BoolChoose(), 
         default = False, blank = True)
-    inighmac = models.BooleanField(quality, choices = BoolChoose)
+    inighmac = models.BooleanField(quality, choices = lists.BoolChoose())
     inighmpc = models.CharField(parame, max_length = 500, null = True, 
         blank = True)
     inighmba = models.NullBooleanField(balan, blank = True)
-    inighmla = models.NullBooleanField(analis, choices = BoolChoose, 
+    inighmla = models.NullBooleanField(analis, choices = lists.BoolChoose(), 
         blank = True)
-    inighmge = models.BooleanField(study, choices = BoolChoose,
+    inighmge = models.BooleanField(study, choices = lists.BoolChoose(),
         default = False)
     inighmgm = models.CharField(stumeth, max_length = 500, null = True,
         blank = True)
-    inighmda = models.NullBooleanField(dimens, choices = BoolChoose,
+    inighmda = models.NullBooleanField(dimens, choices = lists.BoolChoose(),
         default = False, blank = True)
-    inighmch = models.BooleanField(carach, choices = BoolChoose,
+    inighmch = models.BooleanField(carach, choices = lists.BoolChoose(),
         default = False)
     inighmcm = models.CharField(caracm, max_length = 500, null = True,
         blank = True)
-    inighmva = models.BooleanField(vulnea, choices = BoolChoose,
+    inighmva = models.BooleanField(vulnea, choices = lists.BoolChoose(),
         default = False)
     inighmvm = models.CharField(vulnem, max_length = 500, null = True,
         blank = True)
-    inighmmh = models.BooleanField(modehi, choices = BoolChoose,
+    inighmmh = models.BooleanField(modehi, choices = lists.BoolChoose(),
         default = True)
-    inighmmb = models.NullBooleanField(modedb, choices = BoolChoose, 
+    inighmmb = models.NullBooleanField(modedb, choices = lists.BoolChoose(), 
         null = True, blank = True)
     inighmmc = models.IntegerField(modeca, null = True, blank = True)
-    inighmma = models.BooleanField(modema, choices = BoolChoose, 
+    inighmma = models.BooleanField(modema, choices = lists.BoolChoose(), 
         default = True)
 
     class Meta:
@@ -1060,54 +1071,21 @@ class inidhgcarto(models.Model):
     docform = u'Formato del Documento Técnico'
     docexte = u'Extensión del Documento Técnico'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
-    InfoCartChoose = (
-        ('TBL', 'Tabla asociada'),
-        ('DBF', '.dbf'),
-    )
-
+    lists = SelectList()
     inihidge = models.OneToOneField('inidhgestud')
     inighcem = models.IntegerField(outscal)
     inighcee = models.IntegerField(stuscal)
     inighcmf = models.CharField(forma, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     inighcme = models.CharField(mapexte, max_length = 9, 
-        choices = MapChoose, null = True, blank = True)
-    inighcmd = models.BooleanField(metadat, choices = BoolChoose)
+        choices = lists.MapChoose(), null = True, blank = True)
+    inighcmd = models.BooleanField(metadat, choices = lists.BoolChoose())
     inighcia = models.CharField(cartdig, max_length = 4, 
-        choices = InfoCartChoose, null = True, blank = True)
+        choices = lists.InfoCartChoose(), null = True, blank = True)
     inighcdf = models.CharField(docform, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     inighcde = models.CharField(docexte, max_length = 4, 
-        choices= FormatFileChoose, null = True, blank = True)
+        choices= lists.FormatFileChoose(), null = True, blank = True)
 
     class Meta:
         verbose_name = u'06.2 Información general cartográfica'
@@ -1142,60 +1120,28 @@ class inidcameth(models.Model):
     docfor = u'Formato del documento técnico'
     docext = u'Extensión del Documento Técnico'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
-    InfoCartChoose = (
-        ('TBL', 'Tabla asociada'),
-        ('DBF', '.dbf'),
-    )
+    lists = SelectList()
 
     inidcala = models.OneToOneField('inidcaestud')
     inicaobj = models.CharField(objeto, max_length = 500)
     inicamet = models.CharField(metodo, max_length = 500)
     inicaest = models.PositiveSmallIntegerField(estaci)
-    inicaiex = models.BooleanField(icaexi, choices = BoolChoose, 
+    inicaiex = models.BooleanField(icaexi, choices = lists.BoolChoose(), 
         default = False)
     inicaitr = models.CharField(icatra, max_length = 250,
         null = True, blank = True)
-    inicaima = models.NullBooleanField(icamap, choices = BoolChoose, 
+    inicaima = models.NullBooleanField(icamap, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
     inicaime = models.PositiveIntegerField(icames, null = True,
         blank = True)
     inicaimf = models.CharField(icamfo, max_length = 4,
-        choices = FormatMapChoose, blank = True, null = True)
+        choices = lists.FormatMapChoose(), blank = True, null = True)
     inicaimx = models.CharField(icamex, max_length = 9,
-        choices = MapChoose, null = True, blank = True)
+        choices = lists.MapChoose(), null = True, blank = True)
     inicadfo = models.CharField(docfor, max_length = 4,
-        choices = FormatMapChoose, blank = True, null = True)
+        choices = lists.FormatMapChoose(), blank = True, null = True)
     inicadex = models.CharField(docext, max_length = 5,
-        choices = FormatFileChoose, blank = True, null = True)
+        choices = lists.FormatFileChoose(), blank = True, null = True)
 
     class Meta:
         verbose_name = u'07.1 Metodología del estudio'
@@ -1206,13 +1152,10 @@ class inidcamecam(models.Model):
     Metodología - Número de campañas de muestreo
     '''
 
-    YearChoose = []
-    thisyear = datetime.datetime.now().year
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
 
     icalamet = models.ForeignKey('inidcameth', verbose_name = u'Metodología')
-    icamcano = models.IntegerField(u'Año', choices = YearChoose)
+    icamcano = models.IntegerField(u'Año', choices = lists.YearList())
     icamcper = models.CharField(u'Periodo', max_length = 25)
     
     class Meta:
@@ -1232,15 +1175,12 @@ class inicainfoes(models.Model):
     parame = u'Parámetros Fisicoquímicos mínimos  muestreados en las \
         fuentes de agua superficial'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     iicainfo = models.OneToOneField('inidcaestud', 
         verbose_name = u'estudio de Calidad de Agua')
     iicaiinf = models.CharField(inform, max_length = 500)
-    iicaiafa = models.BooleanField(aforac, choices = BoolChoose, 
+    iicaiafa = models.BooleanField(aforac, choices = lists.BoolChoose(), 
         default = False)
     iicaiobs = models.CharField(observ, max_length = 500)
     iicaipar = models.CharField(parame, max_length = 500)
@@ -1264,16 +1204,13 @@ class inicainfoco(models.Model):
     Calidad de agua
     Información complementaria
     '''
-    
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+
+    lists = SelectList()
 
     iicainfc = models.OneToOneField('inidcaestud', 
         verbose_name = u'estudio de Calidad de Agua')
     iicaifoc = models.BooleanField(u'Existen objetivos de calidad de las corrientes',
-        choices = BoolChoose, default = False)
+        choices = lists.BoolChoose(), default = False)
     
     class Meta:
         verbose_name = '07.3 Información complementaria'
@@ -1287,14 +1224,11 @@ class inicaicca(models.Model):
     '''
     capano = u'Año de estudio de capacidad de asimilación o modelación'
 
-    YearChoose = []
-    thisyear = datetime.datetime.now().year
-    for i in range(1950, thisyear):
-        YearChoose.append((i,i))
+    lists = SelectList()
     
     iicaicom = models.ForeignKey(u'inicainfoco', 
         verbose_name = u'Información complementaria')
-    iicaicap = models.PositiveSmallIntegerField(capano, choices = YearChoose)
+    iicaicap = models.PositiveSmallIntegerField(capano, choices = lists.YearList())
     
     class Meta:
         verbose_name = u'07.3.1 Estudio de capac. de asimilación'   
@@ -1310,12 +1244,9 @@ class inidccestud(inididestud):
     aproba = u'¿Existe Acuerdo de aprobación de Línea base de carga \
         contaminante de DBO y SST y metas de reducción de carga contaminante?'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
-    inidaalb = models.BooleanField(aproba, choices = BoolChoose)
+    inidaalb = models.BooleanField(aproba, choices = lists.BoolChoose())
 
     class Meta:
         verbose_name = u'08 Estudio Cargas contaminantes'
@@ -1346,38 +1277,20 @@ class inidccmetho(models.Model):
     forma = u'Formato del Documento Técnico'
     forext = u'Extensión del Documento Técnico'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    SectChoose = (
-        ('PRESU', u'presuntivamente'),
-        ('CARAC', u'caracterización'),
-        (False, u'no discrimina'),
-    )   
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
+    lists = SelectList()
 
     iiccmeth = models.OneToOneField('inidccestud')
     iiccmobj = models.CharField(objeto, max_length = 500)
     iiccmmet = models.CharField(metodo, max_length = 500)
-    iiccmlin = models.BooleanField(lineab, choices = BoolChoose, default = False)
-    iiccmmue = models.BooleanField(muestr, choices = BoolChoose, default = False)  
-    iiccmdcc = models.BooleanField(concen, choices = BoolChoose, default = False)  
-    iiccmsum = models.BooleanField(sumini, choices = BoolChoose, default = False)  
-    iiccmusu = models.BooleanField(usucor, choices = BoolChoose, default = False)  
-    iiccmcar = models.CharField(carsec, max_length = 6, choices = SectChoose, 
+    iiccmlin = models.BooleanField(lineab, choices = lists.BoolChoose(), default = False)
+    iiccmmue = models.BooleanField(muestr, choices = lists.BoolChoose(), default = False)  
+    iiccmdcc = models.BooleanField(concen, choices = lists.BoolChoose(), default = False)  
+    iiccmsum = models.BooleanField(sumini, choices = lists.BoolChoose(), default = False)  
+    iiccmusu = models.BooleanField(usucor, choices = lists.BoolChoose(), default = False)  
+    iiccmcar = models.CharField(carsec, max_length = 6, choices = lists.SectChoose(), 
         default = False)  
-    iiccmdoc = models.CharField(forma, max_length = 4, choices = FormatMapChoose)
-    iiccmdoe = models.CharField(forext, max_length = 5, choices = FormatFileChoose,
+    iiccmdoc = models.CharField(forma, max_length = 4, choices = lists.FormatMapChoose())
+    iiccmdoe = models.CharField(forext, max_length = 5, choices = lists.FormatFileChoose(),
         null = True, blank = True)
 
     class Meta:
@@ -1441,24 +1354,21 @@ class iniccicompl(models.Model):
         Departamentales de Agua'
     pmaaexi = u'¿Existen Planes Maestros de Acueducto y Alcantarillado?'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     iiccicom = models.OneToOneField('inidccestud')
-    iicccmue = models.BooleanField(muestre, choices = BoolChoose, 
+    iicccmue = models.BooleanField(muestre, choices = lists.BoolChoose(), 
         default = False)
     iicccper = models.FloatField(percent, null = True, blank = True)
     iicccprm = models.CharField(eimpsmv, max_length = 125,
         null = True, blank = True)
-    iicccpor = models.NullBooleanField(porhexi, choices = BoolChoose,
+    iicccpor = models.NullBooleanField(porhexi, choices = lists.BoolChoose(),
         default = False)
-    iicccpur = models.NullBooleanField(pueaaes, choices = BoolChoose,
+    iicccpur = models.NullBooleanField(pueaaes, choices = lists.BoolChoose(),
         default = False)
-    iiccccap = models.NullBooleanField(capdaex, choices = BoolChoose,
+    iiccccap = models.NullBooleanField(capdaex, choices = lists.BoolChoose(),
         default = False)
-    iicccpma = models.NullBooleanField(pmaaexi, choices = BoolChoose,
+    iicccpma = models.NullBooleanField(pmaaexi, choices = lists.BoolChoose(),
         default = False)
     
     class Meta:
@@ -1492,25 +1402,18 @@ class inidcometho(models.Model):
     cartes = u'Fuente de cartografía base. Escala'
     cartan = u'Fuente de cartografía base. Año'
 
-    MethChoose = (
-        ('vis', 'visual'),
-        ('dig', 'digital'),
-    )
-    thisyear = datetime.datetime.now().year
-    YearChoose = []
-    for i in range(1950, thisyear+1):
-        YearChoose.append((i,i))
+    lists = SelectList()
 
     iicometh = models.OneToOneField('inidcoestud')
     iicomsen = models.CharField(sensor, max_length = 125)
     iicomfec = models.DateField()
     iicommet = models.CharField(methol, max_length = 500)
     iicomniv = models.CharField(nivley, max_length = 125)
-    iicommuv = models.CharField(muestv, max_length = 5, choices = MethChoose)
+    iicommuv = models.CharField(muestv, max_length = 5, choices = lists.MethChoose())
     iicommue = models.CharField(mueste, max_length = 125)
     iicomcfu = models.CharField(cartfu, max_length = 75)
     iicomces = models.IntegerField(cartes)
-    iicomcan = models.IntegerField(cartan, choices = YearChoose, null = True,
+    iicomcan = models.IntegerField(cartan, choices = lists.YearList(), null = True,
         blank = True)
 
     class meta:
@@ -1531,49 +1434,21 @@ class inidcoinfog(models.Model):
     docfm = u'Formato del Documento Técnico'
     docex = u'Extensión del Documento Técnico'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
+    lists = SelectList()
 
     iicocart = models.OneToOneField('inidcoestud')
     iicoiesm = models.IntegerField(escas)
     iicoiesl = models.IntegerField(escat)
     iicoimfo = models.CharField(mapfo, max_length = 4, 
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     iicoimex = models.CharField(mapex, max_length = 9,
-        choices = MapChoose, null = True, blank = True)
-    iicoimet = models.BooleanField(metae, choices = BoolChoose, default = False)
+        choices = lists.MapChoose(), null = True, blank = True)
+    iicoimet = models.BooleanField(metae, choices = lists.BoolChoose(), default = False)
     iicoicdi = models.CharField(cadii, max_length = 500)
     iicoidof = models.CharField(docfm, max_length= 4,
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     iicoidoe = models.CharField(docex, max_length = 5,
-        choices = FormatFileChoose)
+        choices = lists.FormatFileChoose())
 
     class Meta:
         verbose_name = '09.2 Información cartográfica'
@@ -1617,35 +1492,28 @@ class inidffmeth(models.Model):
         amenaza, peligro de extinción o endémicas?'
     geoame = u'¿Existe georeferenciación de las mismas?'
     
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    BoolNullChoose = (
-        (True, 'si'),
-        (False, 'no'),
-        (None, 'No aplica'),
-    )
+    lists = SelectList()
+
     iffmeto = models.OneToOneField('inidffestud')
     iffmesm = models.CharField(metodo, max_length = 500)
     iffmein = models.CharField(meinve, max_length = 500)
     ifftico = models.CharField(ticobe, max_length = 500)
     iffvegi = models.NullBooleanField(vegete, blank = True,
-        choices = BoolNullChoose)
-    iffesli = models.NullBooleanField(ecoest, choices = BoolNullChoose)
+        choices = lists.BoolNullChoose())
+    iffesli = models.NullBooleanField(ecoest, choices = lists.BoolNullChoose())
     iffnupa = models.PositiveSmallIntegerField(numpar, 
         null = True, blank = True)
     iffmeif = models.CharField(metfau, max_length = 500,
         null = True, blank = True)
     iffclaj = models.CharField(clafau, max_length = 500, 
         null = True, blank = True)
-    iffgeoi = models.NullBooleanField(georef, choices = BoolChoose,
+    iffgeoi = models.NullBooleanField(georef, choices = lists.BoolChoose(),
         default = False)
-    iffinfc = models.NullBooleanField(carfue, choices = BoolChoose,
+    iffinfc = models.NullBooleanField(carfue, choices = lists.BoolChoose(),
         default = False)
-    iffamen = models.NullBooleanField(espame, choices = BoolChoose,
+    iffamen = models.NullBooleanField(espame, choices = lists.BoolChoose(),
         default = False)
-    iffgeor = models.NullBooleanField(geoame, choices = BoolChoose,
+    iffgeor = models.NullBooleanField(geoame, choices = lists.BoolChoose(),
         default = False)
     
     class Meta:
@@ -1667,36 +1535,15 @@ class inidffcart(models.Model):
     escala = u'Escala'
     catano = u'Año'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
+    lists = SelectList()
 
     iffcart = models.OneToOneField('inidffestud')
     iffcocu = models.CharField(docute, max_length = 4, 
-        choices = FormatMapChoose)
-    iffcpla = models.CharField(planca, max_length = 9, choices = MapChoose)
-    iffcmet = models.BooleanField(metada, choices = BoolChoose)
-    iffclor = models.BooleanField(infofl, choices = BoolChoose)
+        choices = lists.FormatMapChoose())
+    iffcpla = models.CharField(planca, max_length = 9, 
+        choices = lists.MapChoose())
+    iffcmet = models.BooleanField(metada, choices = lists.BoolChoose())
+    iffclor = models.BooleanField(infofl, choices = lists.BoolChoose())
     iffcfue = models.CharField(fuente, max_length = 120,
         null = True, blank = True)
     iffcesc = models.PositiveIntegerField(escala,  
@@ -1733,18 +1580,15 @@ class inidpmecofo(models.Model):
     planex = u'¿Los planes han sido ejecutados?'
     placua = u'¿Cuáles?'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     ipmformu = models.OneToOneField('inidpmestud')
     ipmfplan = models.ManyToManyField('pmecoplanma', null = True, blank = True)
     ipmfobje = models.CharField(objeto, max_length = 500)
-    ipmfadop = models.BooleanField(planco, choices = BoolChoose, 
+    ipmfadop = models.BooleanField(planco, choices = lists.BoolChoose(), 
         default = False)
     ipmfvige = models.CharField(vigepl, max_length = 125)
-    ipmfplae = models.BooleanField(planex, choices = BoolChoose)
+    ipmfplae = models.BooleanField(planex, choices = lists.BoolChoose())
     ipmfplac = models.CharField(placua, max_length = 500, null = True,
         blank = True) 
 
@@ -1777,42 +1621,18 @@ class inidpmecopm(models.Model):
     mapfoem = u'Formato de los mapas'
     mapexte = u'Extensión de los mapas'
 
-    FormatMapChoose = (
-        ('ANA', u'análogo'),
-        ('DIG', u'digital'),
-    )
-    MapChoose = (
-        ('ECW', 'ECW'),
-        ('Generate', 'Generate'),
-        ('SHP', 'SHP'),
-        ('e00', 'e00'),
-        ('ArcInfo', 'ArcInfo'),
-        ('ECW','ECW'),
-        ('DWG', 'DWG'),
-        ('DGN', 'DGN'),
-        ('DXF', 'DXF'),
-        ('PDF', 'PDF'),
-        ('TIF', 'TIF'),
-        ('JPG', 'JPG'),
-        ('Otro', 'Otro'),      
-    )
-    FormatFileChoose = (
-        ('doc', u'word'),
-        ('xls', u'excel'),
-        ('pdf', u'pdf'),
-        ('otr', u'otro'),
-    )
+    lists = SelectList()
 
     ipmanejo = models.OneToOneField('inidpmestud')
     ipminfdt = models.CharField(formato, max_length = 4,
-        choices = FormatFileChoose) 
+        choices = lists.FormatFileChoose()) 
     ipminetr = models.PositiveIntegerField(escatra)
     ipminepu = models.PositiveIntegerField(escapub)
     ipminesa = models.PositiveIntegerField(escasal)
     ipminmfo = models.CharField(mapfoem, max_length = 4,
-        choices = FormatMapChoose)
+        choices = lists.FormatMapChoose())
     ipminmex = models.CharField(mapexte, max_length = 9,
-        choices = MapChoose)
+        choices = lists.MapChoose())
     
     class Meta:
         verbose_name = u'11.2 Plan de manejo'
@@ -1855,19 +1675,16 @@ class inidseasdet(models.Model):
     actore = u'Base de datos de actores, organizaciones sociales, \
         institucionales  y sectoriales'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     isesocio = models.OneToOneField('inidseceinf')
     isesomet = models.CharField(metodo, max_length = 500)
     isesodoc = models.CharField(docume, max_length = 500)
-    isesomap = models.BooleanField(mapaac, choices = BoolChoose,
+    isesomap = models.BooleanField(mapaac, choices = lists.BoolChoose(),
         default = False)
-    isesomat = models.BooleanField(matriz, choices = BoolChoose, 
+    isesomat = models.BooleanField(matriz, choices = lists.BoolChoose(), 
         default = False)
-    isesoact = models.BooleanField(actore, choices = BoolChoose,
+    isesoact = models.BooleanField(actore, choices = lists.BoolChoose(),
         default = False)
 
     class Meta:
@@ -1899,16 +1716,13 @@ class inidseepdet(models.Model):
     estado = u'Estado actual de la estructura de participación'
     estrat = u'Estrategia de comunicación'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     iseestra = models.OneToOneField('inidseepinf')
     isepaest = models.CharField(estruc, max_length = 500)
-    isepainc = models.BooleanField(incorp, choices = BoolChoose,
+    isepainc = models.BooleanField(incorp, choices = lists.BoolChoose(),
         default = True)
-    isepainf = models.BooleanField(inform, choices = BoolChoose,
+    isepainf = models.BooleanField(inform, choices = lists.BoolChoose(),
         default = True)
     isepamet = models.CharField(metodo, max_length = 500)
     isepasta = models.CharField(estado, max_length = 500)
@@ -1946,20 +1760,17 @@ class inidsecedet(models.Model):
         comunidades étnicas'
     existen = u'Existencia de estudios de participación con comunidades étnicas'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     iseparti = models.OneToOneField('inidseceinf')
-    iseceide = models.BooleanField(identif, choices = BoolChoose,
+    iseceide = models.BooleanField(identif, choices = lists.BoolChoose(),
         default = False)
     isececer = models.CharField(certifi, max_length = 500)
     isececon = models.CharField(consult, max_length = 500)
     iseceres = models.CharField(resulta, max_length = 500)
-    isecesis = models.BooleanField(sistema, choices = BoolChoose, 
+    isecesis = models.BooleanField(sistema, choices = lists.BoolChoose(), 
         default = False)
-    iseceexi = models.BooleanField(existen, choices = BoolChoose, 
+    iseceexi = models.BooleanField(existen, choices = lists.BoolChoose(), 
         default = False)
 
     class Meta:
@@ -1996,28 +1807,25 @@ class inidsdsedet(models.Model):
     predia = u'Análisis predial o de tenencia de la tierra'
     seguri = u'Seguridad y convivencia' 
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     isediagn = models.OneToOneField('inidsedsinf')
-    isedsinf = models.BooleanField(inform, choices = BoolChoose,
+    isedsinf = models.BooleanField(inform, choices = lists.BoolChoose(),
         default = True)
     isedsdes = models.CharField(descri, max_length = 500)
-    isedsseg = models.BooleanField(segual, choices = BoolChoose,
+    isedsseg = models.BooleanField(segual, choices = lists.BoolChoose(),
         default = True)
-    isedsact = models.BooleanField(activi, choices = BoolChoose,
+    isedsact = models.BooleanField(activi, choices = lists.BoolChoose(),
         default = True)
-    isedspro = models.BooleanField(proyec, choices = BoolChoose,
+    isedspro = models.BooleanField(proyec, choices = lists.BoolChoose(),
         default = True)
-    isedscon = models.BooleanField(confli, choices = BoolChoose,
+    isedscon = models.BooleanField(confli, choices = lists.BoolChoose(),
         default = True)
-    isedspol = models.BooleanField(politi, choices = BoolChoose,
+    isedspol = models.BooleanField(politi, choices = lists.BoolChoose(),
         default = True)
-    isedspre = models.BooleanField(predia, choices = BoolChoose,
+    isedspre = models.BooleanField(predia, choices = lists.BoolChoose(),
         default = True)
-    isedscon = models.BooleanField(seguri, choices = BoolChoose,
+    isedscon = models.BooleanField(seguri, choices = lists.BoolChoose(),
         default = True)
 
     class Meta:
@@ -2047,15 +1855,12 @@ class inidseccdet(models.Model):
     pract = u'Análisis de prácticas culturales, relacionadas con el \
         aprovechamiento y uso de la biodiversidad'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
 
     isecarac = models.OneToOneField('inidseccinf')
-    isecucul = models.BooleanField(cultu, choices = BoolChoose,
+    isecucul = models.BooleanField(cultu, choices = lists.BoolChoose(),
         default = True)
-    isecupat = models.BooleanField(patro, choices = BoolChoose,
+    isecupat = models.BooleanField(patro, choices = lists.BoolChoose(),
         default = True)
     isesupra = models.CharField(pract, max_length = 500)
 
@@ -2084,11 +1889,6 @@ class inidsevsdet(models.Model):
     servic = u'Servicios ecosistémicos analizados'
     result = u'Resultados de la valoración económica de los servicios ecosistémicos'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
-    
     isevalor = models.OneToOneField('inidsevsinf')
     isesemet = models.CharField(metodo, max_length = 500)
     iseseser = models.CharField(servic, max_length = 500)
@@ -2119,16 +1919,14 @@ class inidserfdet(models.Model):
     conect = u'Análisis de conectividad y movilidad'
     capaci = u'Análisis de capacidad de soporte ambiental de la región'
 
-    BoolChoose = (
-        (True, 'si'),
-        (False, 'no'),
-    )
+    lists = SelectList()
+
     iserelaf = models.OneToOneField('inidserfinf')
-    iserfcmp = models.BooleanField(compet, choices = BoolChoose, 
+    iserfcmp = models.BooleanField(compet, choices = lists.BoolChoose(), 
         default = False)
-    iserfcon = models.BooleanField(conect, choices = BoolChoose, 
+    iserfcon = models.BooleanField(conect, choices = lists.BoolChoose(), 
         default = False)
-    iserfcap = models.BooleanField(capaci, choices = BoolChoose, 
+    iserfcap = models.BooleanField(capaci, choices = lists.BoolChoose(), 
         default = False)
     
     class Meta:

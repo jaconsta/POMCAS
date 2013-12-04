@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.contrib import admin
-from matriz_infoidentifi.models import inforcompon, inforindice #General info
+from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, inicartsubt, \
     inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
