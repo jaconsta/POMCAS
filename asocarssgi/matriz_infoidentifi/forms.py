@@ -10,8 +10,8 @@ from django.forms import ModelForm
 
 #from cuencas.views import GetUserWatersheed
 #from corporacion.views import GetUserCorpo
-from matriz_infoidentifi.models import inidcardatg, inicartdatf, inicartsubt, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
+from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
+    inicartscat, inicartstra#, inicartshdr, inicartsrlv, inicartsete#Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumesue, \

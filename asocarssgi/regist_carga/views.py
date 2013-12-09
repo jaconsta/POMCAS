@@ -1,11 +1,10 @@
 #-*- coding: utf-8 -*-
+import re
+
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
-
-import re
-
 from django.contrib.auth.models import User
 
 from asocarssgi import default_names
@@ -36,7 +35,7 @@ def FileInTail(request, matrix):
             archnomb = matrix, 
             archuser = request.user,
             archesta__in = ['REC', 'APR']
-        ).count() ==0:
+        ).count() == 0:
         return False
     return True
 
@@ -69,16 +68,19 @@ def RecolCartografic(request):
     title = u'Matriz de Cartografía Básica'
     if not FileInTail(request, 'MATRIZ_CARTOGRAFICA'):
         message = u'Ya ha realizado el cargue de esta matriz'
-        return render_to_response('matriz_recibida.html', {'errors': message})
+        return render_to_response('matriz_recibida.html', {
+            'errors': message})
     if request.method == 'POST':
         error = ''
         form = UploadMCartogForm(request.POST, request.FILES)
         if form.is_valid():
             #Parse Matrix name
             arch_name = request.FILES['archivo'].name
-            [parsed, message] = ValidFileName(arch_name, 'CARTOGRAFICA', GetExcelExt())
+            [parsed, message] = ValidFileName(arch_name, 'CARTOGRAFICA', 
+                GetExcelExt())
             if not parsed:
-                return render_to_response('matriz_recibida.html', {'errors': message})
+                return render_to_response('matriz_recibida.html', {
+                    'errors': message})
 
             #Upload The Matrix
             SetFile('MATRIZ_CARTOGRAFICA', request.FILES['archivo'])
@@ -86,31 +88,38 @@ def RecolCartografic(request):
     else: 
         form = UploadMCartogForm()
         title = u'Matriz de Cartografía básica'
-    return render_to_response('cargue_archivos.html', {'form':form, 'title': title}, context_instance =RequestContext(request))
+    return render_to_response('cargue_archivos.html', {
+        'form':form, 'title': title}, 
+        context_instance = RequestContext(request))
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def RecolInstitucional(request):
     title = u'Matriz de Diagnóstico institucional'
     if not FileInTail(request, 'MARTIZ_INSTITUCIONAL'):
         message = u'Ya ha realizado el cargue de esta matriz'
-        return render_to_response('matriz_recibida.html', {'title': title, 'errors': message})
+        return render_to_response('matriz_recibida.html', {
+            'title': title, 'errors': message})
     if request.method == 'POST':
         error = ''
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             #Parse Matrix name
             arch_name = request.FILES['archivo'].name
-            [parsed, message] = ValidFileName(arch_name, 'INSTITUCIONAL', GetExcelExt())
+            [parsed, message] = ValidFileName(arch_name, 'INSTITUCIONAL', 
+                GetExcelExt())
             error += message
             if not parsed:
-                return render_to_response('matriz_recibida.html', {'errors': message}) #HttpResponseRedirect('/proyecto85/b')
+                return render_to_response('matriz_recibida.html', {
+                    'errors': message}) #HttpResponseRedirect('/proyecto85/b')
             arch_ext = message
             #Parse attached files
             sop_name = request.FILES['soportes'].name
-            [parsed, message] = ValidFileName(sop_name, 'INSTITUCIONAL_SOPORTES', GetComprExt())
+            [parsed, message] = ValidFileName(sop_name, 
+                'INSTITUCIONAL_SOPORTES', GetComprExt())
             error += message
             if not parsed:
-                return render_to_response('matriz_recibida.html', {'errors': message})
+                return render_to_response('matriz_recibida.html', {
+                    'errors': message})
             sop_ext = message
             #Upload The Matrices
             SetFile('MATRIZ_INSTITUCIONAL', request.FILES['archivo'])
@@ -118,4 +127,6 @@ def RecolInstitucional(request):
             return render_to_response('matriz_recibida.html', {'errors': error})
     else: 
         form = UploadFileForm()
-    return render_to_response('cargue_archivos.html', {'form':form, 'title':title}, context_instance =RequestContext(request))
+    return render_to_response('cargue_archivos.html', {
+        'form':form, 'title':title}, 
+        context_instance =RequestContext(request))

@@ -1,0 +1,16 @@
+<h1>Listado de planchas sin Repetir</h1>
+<p>Total: {{ count }} Planchas</p>
+<table border = 1>
+    <tr>
+        <th>Corporación</th><th>Plancha</th><th>Escala</th><th>Año fuente</th>
+        <th>Año Elaboracion</th>
+    </tr>
+    {% for grid in listado %}
+        <tr>
+            <td>{{ grid.cartuser.username}}</td>
+            <td>{{ grid.cartplan|upper }}</td><td>1:{{ grid.cartesca }}</td>
+            <td>{{ grid.cartfano|default_if_none:"." }}</td>
+            <td>{{ grid.carteano|default_if_none:"."  }}</td>
+        </tr>
+    {% endfor %}
+</table>

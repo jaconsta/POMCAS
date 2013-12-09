@@ -344,7 +344,7 @@ def CartoUpdtOne(request):
     log += 'CORANTIOQUIA \r\n' 
     log += u'\'Año de Fuente\' year must be from 1986.\r\n'
     grids = cartoginven.objects.filter(cartuser = 20, cartfano = None)
-    log += grids 
+    log += u'%s' % grids 
     grids.update(cartfano = 1986)
     log += u'\r\n\r\n'
 
@@ -353,12 +353,12 @@ def CartoUpdtOne(request):
     log += u'CARDER\r\n'
     log += u'\'Año de elaboración\' year must be from 1997.\r\n'
     grids = cartoginven.objects.filter(cartuser = 13, cartfano = None)
-    log += grids
+    log += u'%s' % grids
     grids.update(cartfano = 1997)
     # Delete all grids starting with 'P' or 'p'.
     log += u'Delete all grids starting with \'P\' or \'p\'.'
     grids = cartoginven.objects.filter(cartplan__istartswith = 'p')
-    log += grids
+    log += u'%s' % grids
     grids.delete()
     log += u'\r\n\r\n'
 
@@ -367,13 +367,13 @@ def CartoUpdtOne(request):
     log += u'CORPOGUAVIO\r\n'
     log += u'\'Año de Fuente\' is 2007.\r\n'
     grids = cartoginven.objects.filter(cartuser = 22, cartfano = None)
-    log += grids
+    log += u'%s' % grids
     grids.update(cartfano = 2007)
     log += u'\r\n\r\n'
     # 'Año de Elaboración' is 2010.
     log += u'\'Año de Elaboración\' is 2010.'
     grids = cartoginven.objects.filter(cartuser = 22, carteano = None)
-    log += grids
+    log += u'%s' % grids
     grids.update(carteano = 2010)
     log += u'\r\n\r\n'
 
@@ -382,7 +382,7 @@ def CartoUpdtOne(request):
     log += u'CORPOAMAZONIA\r\n'
     log += u'Empty \'Año de Elaboración\' Is assumed to be as equal from the others 1987'
     grids = cartoginven.objects.filter(cartuser = 30, cartfano = None)
-    log += grids
+    log += u'%s' % grids
     grids.update(cartfano = None)
     log += u'\r\n\r\n'
 
@@ -393,15 +393,27 @@ def CartoUpdtOne(request):
 
 def Consolidado(request):
     '''
+    Returns the grids list classified by corporation, without been repeated, 
+    and only with the most recent source year reported.
     '''
     # select distinct(cartuser_id) from matriz_cartografica_cartoginven;
     corpora = cartoginven.objects.all().distinct('cartuser')
     invent = []
     for corpo in corpora:
         cartog = cartoginven.objects.filter(cartuser = corpo.cartuser)
-        carto = cartog.order_by('cartplan', 'cartfano', 'carteano').distinct('cartplan')
+        carto = cartog.order_by('cartplan', '-cartfano', '-carteano').distinct('cartplan')
         count = len(carto)
         invent.append([corpo, carto, count])
 
     return render(request, 'consolidado_cartog.html', {'listado':invent})
 
+def Planchas(request):
+    '''
+    Returns all grids without repeats and the most recent source year reported.
+    And classified in grid scale
+    '''
+    #First get those grids correnponding to 25.000 scale
+    cartog = cartoginven.objects.order_by('cartplan', '-cartfano', '-carteano').distinct('cartplan')
+    count = len(cartog)
+
+    return render(request, 'consolidado_grids.html', {'listado':cartog})

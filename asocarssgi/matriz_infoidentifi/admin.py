@@ -1,8 +1,8 @@
 #-*- coding: utf-8 -*-
 from django.contrib import admin
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
-from matriz_infoidentifi.models import inidcardatg, inicartdatf, inicartsubt, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
+from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
+    inicartscat, inicartstra#, inicartshdr, inicartsrlv, inicartsete#Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumesue, \
@@ -45,17 +45,17 @@ class CarSCatAdmin(admin.StackedInline):
     model = inicartscat
 class CarSTraAdmin(admin.StackedInline):
     model = inicartstra
-class CarSHdrAdmin(admin.StackedInline):
-    model = inicartshdr
-class CarSRlvAdmin(admin.StackedInline):
-    model = inicartsrlv
-class CarSEteAdmin(admin.StackedInline):
-    model = inicartsete
+#class CarSHdrAdmin(admin.StackedInline):
+#    model = inicartshdr
+#class CarSRlvAdmin(admin.StackedInline):
+#    model = inicartsrlv
+#class CarSEteAdmin(admin.StackedInline):
+#    model = inicartsete
 
 class CartoAdmin(admin.ModelAdmin):
     list_display = ['icartnum', 'icartess', 'icartcua']
-    inlines = [CartFuenAdmin, CarSCatAdmin, CarSTraAdmin, CarSHdrAdmin,
-        CarSRlvAdmin, CarSEteAdmin]
+    inlines = [CartFuenAdmin, CarSCatAdmin, CarSTraAdmin]#, CarSHdrAdmin,
+#        CarSRlvAdmin, CarSEteAdmin]
 
 #Imágenes                              
 class ImageAdmin(admin.ModelAdmin):

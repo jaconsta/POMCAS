@@ -199,6 +199,7 @@ class SelectList:
             ('tas', u'tabla asociada'),
             ('dbf', u'dbf'),
         )
+        return InfoCartChoose 
     def SectChoose(self):
         SectChoose = (
             ('pre', u'presuntivamente'),
@@ -206,9 +207,35 @@ class SelectList:
             ('amb', u'Ambos'),
             (False, u'No Aplica'),
         )
+        return SectChoose 
+    def CartoSubteChoose(self):
+        CartoSubteChoose = (
+            ('CATAS', u'Catastro'),
+            ('TRANS', u'Transporte'),
+            ('HIDRO', u'Hidrografía'),
+            ('RELIE', u'Relieve'),
+            ('ENTID', u'Entidad Territorial'),
+        )
 
 #Caracterización general, Identificación del estudio
 #Hay
+class inididinden(models.Model):
+    '''
+    User data of the filled formats.
+    
+    '''
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
+
+    class Meta:
+        abstract = True
+
 class inididestud(models.Model):
     '''
     Formato de evaluación de información, Caracterización general, 
@@ -265,41 +292,80 @@ class inididestud(models.Model):
     class Meta:
         abstract = True
 
-class inicartsubt(models.Model):
+class inicartogra(models.Model):
     '''
-    Cartografía base
-    Subtema cartográfico
-    ####
-    For filling purposes a table will be used for each component
-    Later, a single table with an aditional field can represent all of them
+    Componente cartográfico. 
+    Preguntas comunes
     '''
-    presen = u'Presencia de elementos que hacen parte del tema en el \
-        catálogo de objetos'
-    cuapre = u'Especifique cuáles'
-    qualit = u'Calidad de datos'
-    reltop = u'Relaciones topológicas'
-    # help_text
-    presen_help = None
-    cuapre_help = None
-    qualit_help = None
-    reltop_help = u'¿Consistencia en las relaciones topológicas?'
+    cubria = u'Área de cubrimiento con relación a la cuenca'
+    cubrip = u'Porcentaje de cobertura con relación a la cuenca'
+    formaf = u'Formato del archivo'
+    archex = u'Extensión del archivo'
+    archeo = u'Otro'
+    reessc = u'Referencia espacial. Sistema de coordenadas'
+    reessr = u'Referencia espacial. Sistema de referencia'
+    reesoc = u'Referencia espacial. Orígen de coordenadas'
+    reesda = u'Referencia espacial. Dátum'
+    licenc = u'Licencia de uso'
+    author = u'Autor'
+    lugpub = u'Lugar de publicación'
+    annopu = u'Año'
+    tamano = u'Tamaño del archivo'
 
     lists = SelectList()
 
-    icarsubt = models.OneToOneField('inidcardatg')
-    icarspre = models.BooleanField(presen, choices = lists.BoolChoose(),
-        help_text = presen_help)
-    icarsexi = models.CharField(cuapre, max_length = 500, 
-        help_text = cuapre_help)
-    icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose(),
-        help_text = qualit_help)
-    icarsrel = models.BooleanField(reltop, choices = lists.BoolChoose(),
-        help_text = reltop_help)
+    iniescor = models.ForeignKey(corporaname, verbose_name = u'Corporación')
+    iniescue = models.ForeignKey(cuencompart, verbose_name = u'Cuenca')
+    inieswho = models.ForeignKey(User, 
+        verbose_name = u'Usuario que llena el formulario',
+        related_name = '%(app_label)s_%(class)s_user_create')
+    inieswhu = models.ForeignKey(User, 
+        verbose_name = u'Último usuario actualiza el formulario',
+        related_name = '%(app_label)s_%(class)s_user_edit')
+    ifoformf = models.CharField(formaf, max_length = 4, 
+        choices = lists.FormatMapChoose())
+    ifoforme = models.CharField(fotoex, max_length = 5, 
+        choices = lists.FotoFormChoose())
+    ifoformo = models.CharField(fotoot, max_length = 15, null = True,
+        blank = True) 
 
     class Meta:
-        verbose_name = u'1.2 Subtema cartográfico'
-        verbose_name_plural = u'1.2 Subtemas cartográficos'
         abstract = True
+#class inicartsubt(models.Model):
+#    '''
+#    Cartografía base
+#    Subtema cartográfico
+#    ####
+#    For filling purposes a table will be used for each component
+#    Later, a single table with an aditional field can represent all of them
+#    '''
+#    presen = u'Presencia de elementos que hacen parte del tema en el \
+#        catálogo de objetos'
+#    cuapre = u'Especifique cuáles'
+#    qualit = u'Calidad de datos'
+#    reltop = u'Relaciones topológicas'
+#    # help_text
+#    presen_help = None
+#    cuapre_help = None
+#    qualit_help = None
+#    reltop_help = u'¿Consistencia en las relaciones topológicas?'
+#
+#    lists = SelectList()
+#
+#    icarsubt = models.OneToOneField('inidcardatg')
+#    icarspre = models.BooleanField(presen, choices = lists.BoolChoose(),
+#        help_text = presen_help)
+#    icarsexi = models.CharField(cuapre, max_length = 500, 
+#        help_text = cuapre_help)
+#    icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose(),
+#        help_text = qualit_help)
+#    icarsrel = models.BooleanField(reltop, choices = lists.BoolChoose(),
+#        help_text = reltop_help)
+#
+#    class Meta:
+#        verbose_name = u'1.2 Subtema cartográfico'
+#        verbose_name_plural = u'1.2 Subtemas cartográficos'
+#        abstract = True
 
 class inidgeorefe(models.Model):
     '''
@@ -375,6 +441,13 @@ class inidcardatg(models.Model):
     #help_text
     escala_help = u'Escala de presentación de la cartografía'
     numero_help = u'Número de las planchas IGAC. '
+    respon_help = u'Entidad que desarrolló la cartografía: \
+        IGAC, Invías, Corporación, Alcaldía, etc.'
+    cubrim_help = u'Área de la catografía con la descripción de las \
+        entidades territoriales y administrativas presentes como: \
+        departamentos, municipios y veredas, entre otros.'
+    cubria_help = u'Área en hectáres (ha)'
+    cubrip_help = u'En porcentaje (%)'
     
     lists = SelectList()
 
@@ -388,12 +461,15 @@ class inidcardatg(models.Model):
         related_name = '%(app_label)s_%(class)s_user_edit')
     icartess = models.PositiveIntegerField(escala, 
         choices = lists.ScaleChoose(),
-        default = 25000)
-    icartnum = models.CharField(numero, max_length = 8)
-    icartres = models.CharField(respon, max_length = 125)
-    icartcug = models.CharField(cubrim, max_length = 500)
-    icartcua = models.FloatField(cubria)
-    icartcup = models.FloatField(cubrip)
+        default = 25000, help_text = escala_help)
+    icartnum = models.CharField(numero, max_length = 8,
+        help_text = numero_help)
+    icartres = models.CharField(respon, max_length = 125,
+        help_text = respon_help)
+    icartcug = models.CharField(cubrim, max_length = 500,
+        help_text = cubrim_help)
+    icartcua = models.FloatField(cubria, help_text = cubria_help)
+    icartcup = models.FloatField(cubrip, help_text = cubrip_help)
     icartfor = models.CharField(formato, max_length = 4, 
         choices = lists.FormatMapChoose())
     icartfex = models.CharField(forext, max_length = 5,
@@ -418,6 +494,7 @@ class inicartdatf(models.Model):
     '''
     Cartografía base
     Datos generales - Fuentes y fecha'
+    Utilizado como fuente de información para la cartografía IGAC
     '''
     icarfuen = models.ForeignKey('inidcardatg')
     icarfnom = models.CharField(u'Nombre', max_length = 125) 
@@ -434,58 +511,122 @@ class inicartdatf(models.Model):
         verbose_name = '01.1 Fuente y Fecha'
         verbose_name_plural = '01.1 Fuentes y Fechas'
 
+class inicartsubt(models.Model):
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Catastro inicartscat
+    '''
+    presen = u'Presencia de elementos que hacen parte del tema en el \
+        catálogo de objetos'
+    cuapre = u'Especifique cuáles'
+    qualit = u'Calidad de datos'
+    reltop = u'Relaciones topológicas'
+    # Help_text
+    presen_help = None
+    cuapre_help = None
+    qualit_help = None
+    reltop_help = u'¿Consistencia en las relaciones topológicas?'
+
+    lists = SelectList()
+
+    icarsubt = models.ForeignKey('inidcardatg') #models.OneToOneField('inidcardatg')
+    icarsnam = models.CharField(u'Subtema', max_length = 5, editable = False,
+        choices = lists.CartoSubteChoose())
+    icarspre = models.BooleanField(presen, choices = lists.BoolChoose())
+        help_text = presen_help)
+    icarsexi = models.CharField(cuapre, max_length = 500, 
+        help_text = cuapre_help)
+    icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose(),
+        help_text = qualit_help)
+    icarsrel = models.BooleanField(reltop, choices = lists.BoolChoose(),
+        help_text = reltop_help)
+
+    class Meta:
+        verbose_name = u'1.2 Subtema cartográfico'
+        verbose_name_plural = u'1.2 Subtemas cartográficos'
+
 class inicartscat(inicartsubt):
-    #Help_text
-    presen_help = u'Presencia de elementos que hacen parte del tema\
-        Catastro del catálogo de objetos?'
-    cuapre_help = u'Especifique cuales. Ej. <br />ÁREAS CATASTRALES: <br />\
-        Manzanas, predios. <br />EDIFICACIONES y OBRAS CIVILES: <br />\
-        construcciones, áreas deportivas, cercas, sitios de interés, \
-        canteras, etc'
-    qualit_help = u'En la tabla de atributos. <br />\
-        Coherencia de la información con respecto a rasgos \
-        característicos de la zona demarcada. Es decir, se verifica que \
-        existan elementos del tema Catastro conocidos en el área de \
-        cubrimiento de la plancha.'
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Catastro
+    '''
+    ##presen_help = u'Presencia de elementos que hacen parte del tema\
+    ##    Catastro del catálogo de objetos?'
+    ##cuapre_help = u'Especifique cuales. Ej. <br />ÁREAS CATASTRALES: <br />\
+    ##    Manzanas, predios. <br />EDIFICACIONES y OBRAS CIVILES: <br />\
+    ##    construcciones, áreas deportivas, cercas, sitios de interés, \
+    ##    canteras, etc'
+    ##qualit_help = u'En la tabla de atributos. <br />\
+    ##    Coherencia de la información con respecto a rasgos \
+    ##    característicos de la zona demarcada. Es decir, se verifica que \
+    ##    existan elementos del tema Catastro conocidos en el área de \
+    ##    cubrimiento de la plancha.'
 
     class Meta:
         verbose_name = u'01.2.1 Subtema. Catastro'
         verbose_name_plural = verbose_name
+        proxy = True
 
 class inicartstra(inicartsubt):
-    # help_text
-    presen_help = u'Presencia de elementos que hacen parte del tema \
-        Transporte del catálogo de objectos?'
-    cuapre_help = u'Especifique cuales. Ej. <br />TRANSPORTE TERRESTRE: <br />\
-        vía principal, vía secundaria, vía terciaria, camino, carreteable, \
-        ferrocaril, etc.\
-        <br />INSTALACIONES y CONSTRUCCIONES:<br />\
-        puentes, líneas de alta tensión, poliducto, torres de alta tensión, \
-        etc.'
-    qualit_help = u'En la tabla de atributos. <br />\
-        Coherencia de la información con respecto a rasgos \
-        característicos de la zona demarcada. Es decir, se verifica que \
-        existan elementos del tema Transporte conocidos en el área de \
-        cubrimiento de la plancha.'
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Transporte
+    '''
+    ## Help_text
+    ##presen_help = u'Presencia de elementos que hacen parte del tema \
+    ##    Transporte del catálogo de objectos?'
+    ##cuapre_help = u'Especifique cuales. Ej. <br />TRANSPORTE TERRESTRE: <br />\
+    ##    vía principal, vía secundaria, vía terciaria, camino, carreteable, \
+    ##    ferrocaril, etc.\
+    ##    <br />INSTALACIONES y CONSTRUCCIONES:<br />\
+    ##    puentes, líneas de alta tensión, poliducto, torres de alta tensión, \
+    ##    etc.'
+    ##qualit_help = u'En la tabla de atributos. <br />\
+    ##    Coherencia de la información con respecto a rasgos \
+    ##    característicos de la zona demarcada. Es decir, se verifica que \
+    ##    existan elementos del tema Transporte conocidos en el área de \
+    ##    cubrimiento de la plancha.'
 
     class Meta:
         verbose_name = u'01.2.2 Subtema. Transporte'
         verbose_name_plural = verbose_name
+        proxy = True
 
 class inicartshdr(inicartsubt):
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Hidrografía
+    '''
     class Meta:
         verbose_name = u'01.2.3 Subtema. Hidrografía'
         verbose_name_plural = verbose_name
+        proxy = True
 
 class inicartsrlv(inicartsubt):
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Relieve
+    '''
     class Meta:
         verbose_name = u'01.2.4 Subtema. Relieve'
         verbose_name_plural = verbose_name
+        proxy = True
 
 class inicartsete(inicartsubt):
+    '''
+    Cartografía base
+    Subtema cartográfico
+    Entidad Territorial'
+    '''
     class Meta:
         verbose_name = u'01.2.5 Subtema. Entidad Territorial'
         verbose_name_plural = verbose_name
+        proxy = True
 
 #Imágenes
 
@@ -496,20 +637,19 @@ class inidimagsat(models.Model):
     '''
     nombre = u'Nombre de la imagen'
     sensor = u'Sensor / Satélite'
-    seotro = u'Otro'
-    fechai = u'Fecha y hora de la imagen'
+    seotro = u'Cuál?'
+    fechai = u'Fecha y hora de la imágen'
     cubrim = u'Cubrimiento geográfico de la imagen'
-    cubrid = u'Entidades territoriales y administrativas presentes \
-        en el área de cubrimiento'
     cubria = u'Área de cubrimiento con relación a la cuenca'
     cubrip = u'Porcentaje de cobertura con relación a la cuenca'
     formai = u'Formato de la imágen'
     formae = u'Extensión de la imágen'
+    formeo = u'Cuál?'
     reessc = u'Referencia espacial. Sistema de coordenadas'
     reessr = u'Referencia espacial. Sistema de referencia'
     reesoc = u'Referencia espacial. Orígen de coordenadas'
     reesda = u'Referencia espacial. Dátum'
-    banpae = u'Banda pancromática'
+    banpae = u'¿Tiene banda pancromática?'
     banpac = u'Especique cuales'
     banmul = u'Bandas multiespectrales'
     resolu = u'Resolución espacial'
@@ -521,8 +661,26 @@ class inidimagsat(models.Model):
     licenc = u'Licencia de uso'
     author = u'Autor'
     lugpub = u'Lugar de publicación'
-    annopu = u'Año'
+    annopu = u'Año de publicación'
     tamano = u'Tamaño del archivo'
+    # Help_text
+    cubrim_help = u'Área de la imágen con la descripción de las entidades \
+        territoriales y administrativas presentes como: departamentos, \
+        municipio, veredas, entre otros'
+    cubria_help = u'Área en hectáreas (ha)'
+    cubrip_help = u'Valor en porcentaje (%)'
+    reessr_help = u'Ej. MAGNA SIRGAS'
+    reesda_help = u'Ej. WGS84'
+    banmul_help = u'Identificar las bandas multiespectrales con que cuenta \
+        la imágen. Ej: Azul, rojo, verde, infrarrojo, etc'
+    resolu_help = u'El tamaño de los pixeles'
+    cosuix_help = u'Límite superior en las coordenadas disponibles'
+    coindx_help = u'Límite inferior en las coordenadas disponibles'
+    pornub_help = u'Expresaro en términos de hectáreas con respecto al \
+        total de las imágenes'
+    licenc_help = u'Presente la información del tipo de licencia de uso de la \
+        imágen y las restricciones para su manejo y distribución'
+    tamano_help = u'Expresado en MB'
 
     lists = SelectList()
 
@@ -540,38 +698,49 @@ class inidimagsat(models.Model):
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
     iimadate = models.DateTimeField(fechai)
-    iimacubr = models.FloatField(cubrim, null = True, blank = True)
-    iimacubd = models.CharField(cubrid, max_length = 300, null = True,
-        blank = True)
-    iimacuba = models.FloatField(cubria)
-    iimacubp = models.FloatField(cubrip)
+    iimacubr = models.FloatField(cubrim, null = True, blank = True, 
+        help_text = cubrim_help)
+    iimacuba = models.FloatField(cubria, help_text = cubria_help)
+    iimacubp = models.FloatField(cubrip, null = True, blank = True,
+        help_text = cubrip_help)
     iimaform = models.CharField(formai, max_length = 4, 
         choices = lists.FormatMapChoose())
     iimafore = models.CharField(formae, max_length = 5, 
         choices = lists.MapChoose())
+    iimaforo = models.CharField(formeo, max_length = 25, null = True,
+        blank = True) 
     iimaresc = models.CharField(reessc, max_length = 4, 
         choices = lists.SisCoordChoose())
-    iimaresr = models.CharField(reessr, max_length = 25)
+    iimaresr = models.CharField(reessr, max_length = 25,
+        help_text = reessr_help)
     iimareoc = models.CharField(reesoc, max_length = 3, 
         choices = lists.OriCoordChoose())
-    iimareda = models.CharField(reesda, max_length = 25)
+    iimareda = models.CharField(reesda, max_length = 25,
+        help_text = reesda_help)
     iimabanp = models.BooleanField(banpae, choices = lists.BoolChoose(), 
         default = False)
     iimabanc = models.CharField(banpac, max_length = 500, null = True, 
         blank = True)
-    iimabanm = models.CharField(banmul, max_length = 300)
-    iimarese = models.CharField(resolu, max_length = 50)
-    iimacsix = models.FloatField(cosuix, null = True, blank = True)
+    iimabanm = models.CharField(banmul, max_length = 300, bull = True,
+        blank = True, help_text = banmul_help)
+    iimarese = models.CharField(resolu, max_length = 50,
+        help_text = resolu_help)
+    iimacsix = models.FloatField(cosuix, null = True, blank = True,
+        help_text = cosuix_help)
     iimacsiy = models.FloatField(cosuiy, null = True, blank = True)
-    iimacidx = models.FloatField(coindx, null = True, blank = True)
+    iimacidx = models.FloatField(coindx, null = True, blank = True,
+        help_text = coindx_help)
     iimacidy = models.FloatField(coindy, null = True, blank = True)
-    iimanubp = models.FloatField(pornub)
+    iimanubp = models.FloatField(pornub, null = True, blank = True,
+        help_text = pornub_help)
     iimalice = models.CharField(licenc, max_length = 250, null = True,
         blank = True)
     iimafaut = models.CharField(author, max_length = 125)
     iimaflug = models.CharField(lugpub, max_length = 125)
-    iimafano = models.PositiveSmallIntegerField(annopu)
-    iimaftam = models.FloatField(tamano)
+    iimafano = models.PositiveSmallIntegerField(annopu, 
+        choices = lists.YearChoose(), default = lists.ThisYear())
+    iimaftam = models.FloatField(tamano, null = True, blank = True,
+        help_text = tamano_help)
 
     class Meta:
         verbose_name = u'02 Imagen'
@@ -586,13 +755,11 @@ class inidfotogra(models.Model):
     nombre = u'Nombre de la fotografía'
     formaf = u'Formato de la fotografía'
     fotoex = u'Extensión de la fotografía'
-    inivue = u'Fecha y hora de inicio del vuelo'
-    finvue = u'Fecha y hora de finalización del vuelo'
+    fotoeo = u'Otro'
     numsob = u'Número de sobre'
     escala = u'Escala de las fotografías aéreas'
     tipoca = u'Tipo de cámara'
     altvue = u'Altura del vuelo'
-    numfot = u'Número de fotos por banda o pasada'
     punfot = u'Puntos de fotocontrol'
     pornub = u'Porcentaje de nubosidad'
     cubria = u'Área de cubrimiento con relación a la cuenca'
@@ -622,8 +789,8 @@ class inidfotogra(models.Model):
         choices = lists.FormatMapChoose())
     ifoforme = models.CharField(fotoex, max_length = 5, 
         choices = lists.FotoFormChoose())
-    ifoinivu = models.DateTimeField(inivue, null = True, blank = True)
-    ifofinvu = models.DateTimeField(finvue, null = True, blank = True)
+    ifoformo = models.CharField(fotoot, max_length = 15, null = True,
+        blank = True) 
     ifonumes = models.CharField(numsob, max_length = 50)
     ifoescaf = models.PositiveIntegerField(escala, 
         choices = lists.ScaleChoose(),
@@ -631,7 +798,6 @@ class inidfotogra(models.Model):
     ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
         blank = True)
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
-    ifonumfo = models.PositiveIntegerField(numfot)
     ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
     ifoanubp = models.FloatField(pornub)
@@ -647,7 +813,8 @@ class inidfotogra(models.Model):
         blank = True)
     ifoafaut = models.CharField(author, max_length = 125)
     ifoaflug = models.CharField(lugpub, max_length = 125)
-    ifoafano = models.PositiveSmallIntegerField(annopu)
+    ifoafano = models.PositiveSmallIntegerField(annopu, 
+        choices = lists.YearChoose(), default = lists.ThisYear())
     ifoaftam = models.FloatField(tamano)
 
     class Meta:
@@ -711,7 +878,7 @@ class inidsumesue(models.Model):
     metodo = u'Metodología utilizada para determinar las unidades cartográficas \
         (unidades de suelos).'
     labres = u'¿Se cuenta los resultados del laboratorio de suelos?'
-    georef = u'¿El documento tiene la ubicación georeferenciada de las \
+k   georef = u'¿El documento tiene la ubicación georeferenciada de las \
         observaciones de suelos?'
     #Help Text
     metodo_help = u'Aclarar si el estudio tuvo trabajo de campo y detalle \

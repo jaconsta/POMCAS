@@ -16,9 +16,12 @@ urlpatterns = patterns('',
     #Matriz Cartográfica
     url(r'^matrix/cartografica/capture', 'regist_carga.views.RecolCartografic', 
             name='matrix_institucional_upload'),
-    url(r'^matrix/cartografica/consolidado/$', 
+    url(r'^matrix/cartografica/reports/coporacion/$', 
             'matriz_cartografica.views.Consolidado', 
             name='matrix_cartografica_consolidado'),
+    url(r'^matrix/cartografica/reports/planchas/$', 
+            'matriz_cartografica.views.Planchas', 
+            name='matrix_cartografica_planchas'),
 #    #Matriz Información a identificar
 #    url(r'^matrix/recoleccion_informacion/$', 
 #            'matriz_recolinfo.views.CuencasDeCorpo', 
