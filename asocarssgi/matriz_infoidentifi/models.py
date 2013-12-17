@@ -50,7 +50,7 @@ class inforindice(models.Model):
     infocomp = models.ForeignKey('inforcompon' , verbose_name = u'Componente')
     infosubc = models.CharField(u'Subcomponente', max_length = 75)
     infotema = models.CharField(u'Tema a evaluar', max_length = 125)
-    infonota = models.CharField(u'Preguntas aclaratorias', max_length = 1000)
+    infonota = models.CharField(u'Preguntas orientadora', max_length = 1000)
     infoalca = models.CharField(u'Alcance', max_length = 1000)
     infourlc = models.URLField(u'Dirección capacitación')
     infoprot = models.FileField(u'Archivo de Protocolo', upload_to = 'protocolos/')
@@ -60,8 +60,8 @@ class inforindice(models.Model):
         return '%s, %s, %s, %s' % (self.infosubc, self.infotema, self.infourlc,
            self.infonota)
     class Meta:
-        verbose_name = u'Formato de evaluación de información disponible.'
-        verbose_name_plural = u'Índice de formatos de evaluación de información disponible.'
+        verbose_name = u'Formato de información disponible'
+        verbose_name_plural = u'Índice de formatos de evaluación de información disponible'
 
 #Select list.
 class SelectList:
@@ -378,7 +378,7 @@ class inididestud(inididinden):
     Identificación del estudio
     ''' 
     subcom = u'Subcomponente de estudio'
-    nombre = u'Nombre del estudio *'
+    nombre = u'Nombre del estudio'
     docfor = u'Formato del documento técnico'
     docext = u'Extensión del documento técnico'
     doceot = u'Otro'
@@ -393,11 +393,11 @@ class inididestud(inididinden):
     ubarea = u'Ubicación geográfica. Área'
     coarea = u'Área de cobertura del estudio sobre la cuenca'
     coperc = u'Porcentaje de cobertura del estudio sobre la cuenca'
-    autor  = u'Autor del estudio *'
-    nit    = u'Numero de Identificación *'
+    autor  = u'Autor del estudio'
+    nit    = u'Numero de Identificación'
     studin = u'Fecha de inicio del estudio'
-    realiz = u'Año de realización del estudio *'
-    public = u'Año de publicación *'
+    realiz = u'Año de realización del estudio'
+    public = u'Año de publicación'
     acuerd = u'¿Existe acuerdo de aprobación de línea base de carga \
         contaminante de DBO y SST y metas de reducción de carga contaminante?'
     #HelpText
@@ -803,7 +803,7 @@ class inidimagsat(inicartogra):
     resolu_help = u'El tamaño de los pixeles'
     cosuix_help = u'Límite superior en las coordenadas disponibles'
     coindx_help = u'Límite inferior en las coordenadas disponibles'
-    pornub_help = u'Expresaro en términos de hectáreas con respecto al \
+    pornub_help = u'Expresado en términos de hectáreas con respecto al \
         total de las imágenes'
 
     lists = SelectList()
@@ -838,7 +838,7 @@ class inidimagsat(inicartogra):
         verbose_name = u'02 Imágenes'
 
 #Fotografías
-class inidfotogra(models.Model):
+class inidfotogra(inicartogra):
     '''
     Fotografías
     Fotografías. Áreas
@@ -850,6 +850,9 @@ class inidfotogra(models.Model):
     altvue = u'Altura del vuelo'
     punfot = u'Puntos de fotocontrol'
     pornub = u'Porcentaje de nubosidad'
+    # Help_text
+    pornub_help = u'Expresado en términos de hectáreas con respecto al \
+        total de las imágenes'
 
     lists = SelectList()
 
@@ -863,7 +866,7 @@ class inidfotogra(models.Model):
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
     ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
-    ifoanubp = models.FloatField(pornub)
+    ifoanubp = models.FloatField(pornub, help_text = pornub_help)
 
     class Meta:
         verbose_name = u'03 Fotografía'
@@ -899,23 +902,29 @@ class inidsumegeo(models.Model):
     amenti = u'¿Qué tipo de amenazas de asocian?'
     amenot = u'Otra'
     #Help Text
-    metodo_help = u'¿Con qué criterios se definieron las unidades?'
+    metodo_help = u'Especificar la metogología utilizada para realizar \
+        el levanteamiento de unidades geomorfológicas - Nivel de escala \
+        utilizado para el levantamiento de suelos'
+    proces_help = u'Aplica para estudios recientes'
+    amenaz_help = u'Ej. Movimientos en masa, inundaciones, flujos \
+        torrenciales, otros'
     
     lists = SelectList()
 
     geoindic = models.OneToOneField('inidsuestud', 
         verbose_name=u'Caracterización general')
-    geometod = models.CharField(metodo, max_length = 500)
+    geometod = models.CharField(metodo, max_length = 500,
+        help_text = metodo_help)
     geoclasi = models.BooleanField(clasif, choices = lists.BoolChoose(), 
         default = False)
     geoclaso = models.CharField(observ, max_length = 500, 
         null = True, blank = True)
     geoproce = models.BooleanField(proces, choices = lists.BoolChoose(), 
-        default = False)
+        default = False, help_text = proces_help)
     geoproco = models.CharField(observ, max_length = 500, 
         null = True, blank = True)
     geoamena = models.BooleanField(amenaz, choices = lists.BoolChoose(), 
-        default = False)
+        default = False, help_text = amenaz_help)
     geoament = models.ManyToManyField('inidsumegea', verbose_name = amenti, 
         null = True, blank = True)
     geoameno = models.CharField(amenot, max_length = 500, 
@@ -1044,7 +1053,7 @@ class inidhlmetod(models.Model):
         blank = True)
     
     class Meta:
-        verbose_name = u'05.1 Metodología. hidrología/climatología'
+        verbose_name = u'05.1 Metodología hidro/climatología'
         verbose_name_plural = verbose_name 
 
 class ihlmethaest(models.Model):
@@ -1078,8 +1087,8 @@ class ihlmethaest(models.Model):
         choices = lists.EscTempChoose())
 
     class Meta:
-        verbose_name = u'05.1.1 Estación utilizada dentro del estudio'
-        verbose_name_plural = u'Estaciones utilizadas dentro del estudio'
+        verbose_name = u'05.1.1 Estación dentro del estudio'
+        verbose_name_plural = u'Estaciones dentro del estudio'
     
 class ihlmethafor(models.Model):
     '''
@@ -1117,7 +1126,7 @@ class inidhlcarto(inidcartog):
     '''
 
     class Meta:
-        verbose_name = u'05.2 Información general cartográfica'
+        verbose_name = u'05.2 Información gener cartográfica'
         verbose_name_plural = verbose_name
         proxy = True
 
@@ -1128,7 +1137,7 @@ class inidhlvarib(inididestud):
     Estudios de variabilidad climática (niño o niña) para la cuenca en estudio    
     '''
     class Meta:
-        verbose_name = u'05.3.1 Estudio de variabilidad climática'
+        verbose_name = u'05.3.1 Estudio variab. climática'
         verbose_name_plural = verbose_name
         proxy = True
 
@@ -1320,7 +1329,7 @@ class inidhgcarto(inidcartog):
     '''
 
     class Meta:
-        verbose_name = u'06.2 Información general cartográfica'
+        verbose_name = u'06.2 Información gen cartográfica'
         verbose_name_plural = verbose_name
         proxy = True
 
@@ -2621,3 +2630,6 @@ class inidserfure(models.Model):
     inseural = models.CharField(alcan, max_length = 500, null = True,
         blank = True)
 
+    class Meta:
+        verbose_name = u'Competitividad y prodducción'
+        verbose_name_plural = verbose_name
