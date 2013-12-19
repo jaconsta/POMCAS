@@ -268,7 +268,9 @@ class SelectList:
             ('ZORU', u'Zona rural'),
             ('CENT', u'Centro'),
             ('BOTH', u'Ambos'),
+            (False, u'Ninguno'),
         )
+        return CacaParaChoose 
     def CacaFuenChoose(self):
         CacaFuenChoose = (
             ('USU', u'Usuarios'),
@@ -292,6 +294,7 @@ class SelectList:
             ('OTR', u'Otro'),
             (False, u'Ninguno'),
         )
+        return CacaDiscChoose
     def CobeSensChoose(self):
         CobeSensChoose = (
             ('FOT', u'Fotografías'),
@@ -300,6 +303,7 @@ class SelectList:
             ('RAD', u'Radar'),
             ('OTR', u'Otros'),
         )
+        return CobeSensChoose 
     def CobeMetoChoose(self):
         CobeMetoChoose = (
             ('VIS', u'Visual'),
@@ -385,6 +389,7 @@ class inididestud(inididinden):
     locali = u'Localización física del estudio'
     respon = u'Funcionario responsable de su custodia y/o manejo'
     udepar = u'Ubicación geográfica. Departamento'
+    udemun = u'Ubicación geográfica. Municipio'
     usubcu = u'Ubicación geográfica. Subcuenca'
     usecto = u'Ubicación geográfica. Sector'
     utramo = u'Ubicación geográfica. Tramo'
@@ -400,6 +405,7 @@ class inididestud(inididinden):
     public = u'Año de publicación'
     acuerd = u'¿Existe acuerdo de aprobación de línea base de carga \
         contaminante de DBO y SST y metas de reducción de carga contaminante?'
+    ambito = u'Ámbito de aplicación del diagnóstico'
     #HelpText
     docext_help = u'En caso que sea digital'
     locali_help = u'Dependencia en la que reposa'
@@ -407,6 +413,7 @@ class inididestud(inididinden):
     coperc_help = u'Porcentaje (%)'
     nit_help    = u'NIT o Documento de identificación del autor. \
         Ej. 123456789-0'
+    ambito_help = u'Planificación territorial, ordenación de la cuenca, otros'
     
     lists = SelectList()
 
@@ -424,6 +431,8 @@ class inididestud(inididinden):
     inidresp = models.CharField(respon, max_length = 250, null = True,
         blank = True)
     inidudep = models.CharField(udepar, max_length = 150, null = True,
+        blank = True)
+    inidumun = models.CharField(udemun, max_length = 150, null = True,
         blank = True)
     inidusub = models.CharField(usubcu, max_length = 150, null = True,
         blank = True)
@@ -450,6 +459,10 @@ class inididestud(inididinden):
         choices = lists.YearList(), default = lists.ThisYear())
     inidanop = models.PositiveSmallIntegerField(public, 
         choices = lists.YearList(), default = lists.ThisYear())
+    inidacue = models.NullBooleanField(acuerd, choices = lists.BoolChoose(), 
+        default = False)
+    inidambi = models.CharField(ambito, max_length = 150, null = True,
+        blank = True, help_text = ambito_help)
     
     def __unicode__(self):
         return '%s, %s, %s' % (self.inidnomb, self.inidauth, 
@@ -506,47 +519,47 @@ class inidcartog(models.Model):
 
     lists = SelectList()
 
-    suelindi = models.ForeignKey('inidsuestud',
+    cartestu = models.ForeignKey('inididestud',
         verbose_name = u'Caracterización general')
-    inisuess = models.CharField(escsal, max_length = 9, null = True, 
+    carescs = models.CharField(escsal, max_length = 9, null = True, 
         blank = True)
-    inisuesl = models.CharField(esclev, max_length = 9, null = True, 
+    caruesle = models.CharField(esclev, max_length = 9, null = True, 
         blank = True)
-    inisuesp = models.CharField(escpub, max_length = 9, null = True, 
+    caruespu = models.CharField(escpub, max_length = 9, null = True, 
         blank = True)
-    inisufor = models.CharField(mapfor, max_length = 4, 
+    carmafor = models.CharField(mapfor, max_length = 4, 
         choices = lists.FormatChoose(), null = True, blank = True)
-    inisumex = models.CharField(mapext, max_length = 9, 
+    carmamex = models.CharField(mapext, max_length = 9, 
         choices = lists.MapExtChoose(), null = True, blank = True,
         help_text = mapext_help)
-    inisumot = models.CharField(mapotr, max_length = 9, 
+    carmamot = models.CharField(mapotr, max_length = 9, 
         null = True, blank = True)
-    inisumet = models.NullBooleanField(metada, choices = lists.BoolChoose(), 
+    carmetad = models.NullBooleanField(metada, choices = lists.BoolChoose(), 
         default = False)
-    inisumei = models.CharField(metind, max_length = 500, 
+    carmeind = models.CharField(metind, max_length = 500, 
         null = True, blank = True)
-    inisumef = models.CharField(metinf, max_length = 500, 
+    carmeinf = models.CharField(metinf, max_length = 500, 
         null = True, blank = True)
-    inisumea = models.CharField(metaut, max_length = 125, 
+    carmeaut = models.CharField(metaut, max_length = 125, 
         null = True, blank = True)
-    inisumen = models.NullBooleanField(metnit, max_length = 12, 
+    carmenit = models.NullBooleanField(metnit, max_length = 12, 
         null = True, blank = True)
-    inisumef = models.PositiveSmallIntegerField(metano, null = True, 
+    carmedat = models.PositiveSmallIntegerField(metano, null = True, 
         blank = True, choices = lists.YearList(), default = lists.ThisYear())
-    inisuina = models.CharField(infaso, max_length = 125, null = True, 
+    carinaso = models.CharField(infaso, max_length = 125, null = True, 
         blank = True, help_text = infaso_help)
-    inisuinf = models.NullBooleanField(infflo, null = True, blank = True)
-    inisuley = models.NullBooleanField(mapley, choices = lists.BoolChoose(), 
+    carinflo = models.NullBooleanField(infflo, null = True, blank = True)
+    carleyen = models.NullBooleanField(mapley, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
-    inisufue = models.CharField(fuente, max_length = 75, null = True, 
+    carfuent = models.CharField(fuente, max_length = 75, null = True, 
         blank = True)
-    inisuqua = models.CharField(qualit, max_length = 125, null = True, 
+    carqualy = models.CharField(qualit, max_length = 125, null = True, 
         blank = True, help_text = qualit_help)
-    inihldfo = models.CharField(docfor, max_length = 4,
+    cardocfo = models.CharField(docfor, max_length = 4,
         choices = lists.FormatChoose()) 
-    inihldex = models.CharField(docext, max_length = 4,
+    cardocex = models.CharField(docext, max_length = 4,
         choices = lists.FileExtChoose(), null = True, blank = True)
-    inihldot = models.CharField(docotr, max_length = 10, null = True, 
+    cardocot = models.CharField(docotr, max_length = 10, null = True, 
         blank = True)
 
 # Subtema Cartografía.
@@ -636,7 +649,7 @@ class inidcardatg(inicartogra):
     '''
     escala = u'Escala de salida'
     numero = u'Identificación'
-    respon = u'Responsable'
+    respon = u'Responsable de la cartografía'
     cubrim = u'Cubrimiento geográfico de la cartografía'
     esccap = u'Escala de captura'
     #help_text
@@ -1387,7 +1400,7 @@ class inidcameth(models.Model):
         choices = lists.FormatChoose(), blank = True, null = True)
     inicaimx = models.CharField(icamex, max_length = 9,
         choices = lists.MapExtChoose(), null = True, blank = True)
-    inicaimf = models.CharField(icameo, max_length = 25,
+    inicaixo = models.CharField(icameo, max_length = 25,
         null = True, blank = True)
 
     class Meta:
@@ -1507,8 +1520,8 @@ class inicainfoco(models.Model):
         choices = lists.BoolChoose(), default = False)
     iicaifca = models.BooleanField(capasim,
         choices = lists.BoolChoose(), default = False)
-    iicaincy = models.CharField(capayea, max_length = 150, 
-        help_text = capayea_help, null = True, blank = True)
+    #iicaincy = models.CharField(capayea, max_length = 150, 
+    #    help_text = capayea_help, null = True, blank = True)
     
     class Meta:
         verbose_name = '07.3 Información complementaria'
@@ -1564,14 +1577,16 @@ class inidccmetho(models.Model):
         de la Jurisdicción o han sido generados por la CAR?'
     invent = 'Si no existiera línea base de carga contaminante de DBO y SST \
         del último quinquenio, la corporación cuenta con:'
-    carsec = u'¿Se discriminan las cargas contaminantes por sectores productivos'
+    carsec = u'¿Se discriminan las cargas contaminantes por sectores productivos?'
     # Help Text
+    metodo_help = u'Aclarar si el cálculo de cargas contaminantes se realizó \
+        de forma presuntiva o por caracterización de vertimientos'
 
     lists = SelectList()
 
     iiccmeth = models.OneToOneField('inidccestud')
     iiccmobj = models.CharField(objeto, max_length = 500)
-    iiccmmet = models.CharField(metodo, max_length = 500)
+    iiccmmet = models.CharField(metodo, max_length = 500, help_text = metodo_help)
     iiccmest = models.CharField(estima, max_length = 5, 
         null = True, blank = True, choices = lists.CacaEstiChoose())
     iiccmlin = models.CharField(lineab, max_length = 5,
@@ -1618,7 +1633,8 @@ class inidccminfe(models.Model):
     iicciper = models.FloatField(percen, null = True, blank = True)
     iiccipar = models.ManyToManyField('incainfpara', verbose_name = parame,
         null = True, blank = True)
-    iiccipao = models.CharField(paraot, max_length = 70)
+    iiccipao = models.CharField(paraot, max_length = 70, blank = True,
+        null = True)
 
     class Meta:
         verbose_name = u'08.2 Información del estudio'
@@ -1695,6 +1711,10 @@ class iniccicomps(models.Model):
         verbose_name = u'Información complementaria')
     munipio = models.CharField(munici, max_length = 30)
     estadoi = models.CharField(estado, max_length = 150)
+
+    class Meta:
+        verbose_name = u'Municipio con PSMV'
+        verbose_name_plural = u'Municipios con PSMV'
     
 #Cobertura de la tierra
 
@@ -1704,8 +1724,8 @@ class inidcoestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'09 Estudio de Cobertura'
-        verbose_name_plural = u'09 Estudios de Cobertura'
+        verbose_name = u'09 Cobertura de la tierra'
+        verbose_name_plural = u'09 Coberturas de la tierra'
         proxy = True
 
 class inidcometho(models.Model):
@@ -1727,13 +1747,13 @@ class inidcometho(models.Model):
     cartes = u'Escala de cartografía base'
     cartan = u'Año de cartografía base'
     # Help text
+    interp_help = u'Supervisado'
     verifi_help = u'Época del año en que fue realizado'
 
     lists = SelectList()
 
     iicometh = models.OneToOneField('inidcoestud')
-    iicomsen = models.CharField(sensor, max_length = 3, 
-        choices = lists.CobeSensChoose())
+    iicomsen = models.ManyToManyField('inidcometho', verbose_name = sensor) 
     iicomseo = models.CharField(sensoo, max_length = 25, null  = True,
         blank = True)
     iicomfot = models.CharField(fotfor, max_length = 9, 
@@ -1749,15 +1769,16 @@ class inidcometho(models.Model):
     iicomniv = models.CharField(nivley, max_length = 250, null = True, 
         blank = True)
     iicomint = models.CharField(interp, max_length = 4, 
-        choices = lists.CobeMetoChoose(), null = True, blank = True)
+        choices = lists.CobeMetoChoose(), null = True, blank = True,
+        help_text = interp_help)
     iicomver = models.CharField(verifi, max_length = 200, 
-        null = True, blank = True)
+        null = True, blank = True, help_text = verifi_help)
     iicomcfu = models.CharField(cartfu, max_length = 75)
     iicomces = models.IntegerField(cartes)
     iicomcan = models.IntegerField(cartan, choices = lists.YearList(), 
         null = True, blank = True)
 
-    class meta:
+    class Meta:
         verbose_name = u'09.1 Metodología de levantamiento'
         verbose_name_plural = verbose_name
 
@@ -1771,6 +1792,52 @@ class inidcoinfog(inidcartog):
         verbose_name = '09.2 Información cartográfica'
         verbose_name_plural = verbose_name
         proxy = True
+
+class inidcoanmul(models.Model):
+    '''
+    Cobertura de la tierra
+    Análisis multitemporales'
+    '''
+    analis = u'¿El estudio es un análisis multitemporal?'
+    period = u'Periodo del estudio'
+    metodo = u'Metodología utilizada'
+    escala = u'Escala'
+
+    lists = SelectList()
+
+    cobertur = models.OneToOneField('inidcoestud')
+    mulanali = models.BooleanField(analis, choices = lists.BoolChoose(),
+        default = False)
+    mulperio = models.CharField(period, max_length = 150)
+    mulmetod = models.CharField(metodo, max_length = 500)
+    mulescal = models.ForeignKey('inidcoanmue', verbose_name = escala)
+
+    class Meta:
+        verbose_name = u'Análisis multitemporal'
+        verbose_name_plural = u'Análisis multitemporales'
+
+class inidcometho(models.Model):
+    '''
+    Cobertura de la tierra 
+    Metodología utilizada para levantamiento de coberturas'
+    Sensores utilizados
+    '''
+    sensor = models.CharField(u'Sensor Utilizado', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = False)
+    
+    def __unicode__(self):
+        return self.sensor
+
+class inidcoanmue(models.Model):
+    '''
+    Cobertura de la tierra
+    Análisis multitemporales'
+    Escala
+    '''
+    escala = models.CharField(u'Valor de escala', max_length = 50)
+    
+    def __unicode__(self):
+        return self.escala
 
 #Flora y Fauna
 
@@ -1808,17 +1875,19 @@ class inidffmeth(models.Model):
         realizó a partir de fuentes:'
     espame = u'¿Se han identificado especies de flora y/o fauna en \
         amenaza, peligro de extinción o endémicas?'
-    espacu = u'¿Cuál?'
+    espacu = u'¿Cuál o cuáles especies?'
     geoame = u'¿Existe georeferenciación de las mismas?'
     #Help text
-    metfau_help = u'Incluye época del año de realización del estudio'
+    meinve_help = u'Incluye época del año de realización del estudio'
+    metfau_help = meinve_help
     clafau_help = u'Mamíferos, aves, peces, reptiles, etc.'
     
     lists = SelectList()
 
     iffmeto = models.OneToOneField('inidffestud')
     iffmesm = models.CharField(metodo, max_length = 500)
-    iffmein = models.CharField(meinve, max_length = 500)
+    iffmein = models.CharField(meinve, max_length = 500, 
+        help_text = meinve_help)
     ifftico = models.CharField(ticobe, max_length = 500)
     iffvegi = models.CharField(vegete, max_length = 4,
         choices = lists.FlofInveChoose(), blank = True)
@@ -1826,11 +1895,11 @@ class inidffmeth(models.Model):
     iffnupa = models.PositiveSmallIntegerField(numpar, 
         null = True, blank = True)
     iffmeif = models.CharField(metfau, max_length = 500,
-        null = True, blank = True)
+        null = True, blank = True, help_text = metfau_help)
     iffclaj = models.CharField(clafau, max_length = 500, 
-        null = True, blank = True)
+        null = True, blank = True, help_text = clafau_help)
     iffgeoi = models.CharField(georef, max_length = 4, 
-        choices = lists.BoolChoose(), null = True, blank = True)
+        choices = lists.FlofGeoChoose(), null = True, blank = True)
     iffinfc = models.CharField(carfue, max_length = 4,
         choices = lists.FlofPMEFuenChoose())
     iffamen = models.CharField(espame, max_length = 4,
@@ -1884,13 +1953,15 @@ class inidpmecofo(models.Model):
     lists = SelectList()
 
     ipmformu = models.OneToOneField('inidpmestud')
-    ipmfplan = models.ManyToManyField('pmecoplanma', null = True, blank = True)
+    ipmfplan = models.ManyToManyField('pmecoplanma', verbose_name = planma,
+        null = True, blank = True)
     ipmfplao = models.CharField(planot, max_length = 500, 
         null = True, blank = True)
     ipmfobje = models.CharField(objeto, max_length = 500)
     ipmfadop = models.BooleanField(planco, choices = lists.BoolChoose(), 
         default = False)
-    ipmfvige = models.CharField(vigepl, max_length = 125)
+    ipmfvige = models.PositiveSmallIntegerField(vigepl, 
+        choices = lists.YearList(), default = lists.ThisYear())
     ipmfplae = models.BooleanField(planex, choices = lists.BoolChoose())
 
     class Meta:
@@ -1925,16 +1996,16 @@ class inidpmecopm(inidcartog):
 
 ## Identificación de Amenazas
 # Caracterización de estudios
-class inidriesame(inididestud):
-    '''
-    Riesgos
-    Identificación de amenazas
-    Información general
-    '''
-
-    class Meta:
-        verbose_name = u'12.1 Identificación de amanaza'
-        verbose_name_plural = u'12.1 Identificación de amanazas'
+#class inidriesame(inididestud):
+#    '''
+#    Riesgos
+#    Identificación de amenazas
+#    Información general
+#    '''
+#
+#    class Meta:
+#        verbose_name = u'12.1 Identificación de amanaza'
+#        verbose_name_plural = u'12.1 Identificación de amanazas'
 
 class inriesamepr(models.Model):
     '''
@@ -1964,6 +2035,7 @@ class inriesamepr(models.Model):
    
     lists = SelectList()
 
+#    amenazas = models.ForeignKey('inidriesame', verbose_name = u'Amenazas en la cuenca')
     ameniden = models.ForeignKey('amenaidenti', verbose_name = amenaz)
     amenotra = models.CharField(amenao, max_length = 100, null = True,
         blank = True)
@@ -1979,12 +2051,16 @@ class inriesamepr(models.Model):
         blank = True)
     eventrec = models.CharField(recurr, max_length = 125, null = True,
         blank = True)
+    evencaus = models.CharField(causas, max_length = 250, null = True, 
+        blank = True)
     elemento = models.ManyToManyField('elemenexpue', verbose_name = elemen, 
         null = True, blank = True)
     elemotro = models.CharField(elemot, max_length = 250, null = True, 
         blank = True)
-    activida = models.BooleanField(actsoc, choices = lists.BoolChoose(),
+    actosoci = models.BooleanField(actsoc, choices = lists.BoolChoose(),
         default = False)
+    activida = models.CharField(activi, max_length = 250, null = True, 
+        blank = True)
     amenmapa = models.FileField(mapaam, upload_to = 'amen_map/',
         null = True, blank = True)
     amengeor = models.CharField(georef, max_length = 250, null = True, 
@@ -2092,20 +2168,19 @@ class inidseasdet(models.Model):
     methde = u'Describa la metodología del análisis de actores'
     docume = u'¿Existen documentos, fichas, herramientas u otros que \
         consoliden la  caracterización de actores?'
-    docesp = u'Especificar los documentos que consolidan la caracterización \
-        de actores'
+    docesp = u'¿Cuáles son los documentos que consolidan la caracterización \
+        de actores?'
+    docasp = u'Aspectos abordados en la caracterización'
     actmap = u'¿Existen Mapa de actores?'
-    priori = u'¿Existen matrices de priorización de actores?, qué actores \
-        están priorizados?'
-    priode = u'Realizar una breve descripción de la prioridad de \
-        actores sociales'
+    priori = u'¿Existen matrices de priorización de actores?'
+    priode = u'¿Qué actores están priorizados?'
     dbacto = u'¿Existen Base de datos de actores, organizaciones sociales, \
         institucionales  y sectoriales?'
     dbvari = u'¿Cuáles son las variables de la base de datos?'
 
     lists = SelectList()
 
-    isesocio = models.OneToOneField('inidseceinf')
+    isesocio = models.OneToOneField('inidseasinf')
     isemetho = models.BooleanField(method, choices = lists.BoolChoose(),
         default = False)
     isemethd = models.CharField(methde, max_length = 500, 
@@ -2113,6 +2188,8 @@ class inidseasdet(models.Model):
     isedocum = models.BooleanField(docume, choices = lists.BoolChoose(),
         default = False)
     isedocud = models.CharField(docesp, max_length = 500, 
+        null = True, blank = True)
+    isedocas = models.CharField(docasp, max_length = 500, 
         null = True, blank = True)
     iseactma = models.BooleanField(actmap, choices = lists.BoolChoose(),
         default = False)
@@ -2149,7 +2226,9 @@ class inidseepdet(models.Model):
     '''
     estrat = u'¿Se han desarrollado estrategias de participación en  las \
         fases del POMCA?' 
-    estrwh = u'¿Cuáles estrategias han sido implementadas?'
+    estrwh = u'Realizar una descripción de las estrategias desarrolladas \
+        en la fase del POMCA'
+    estter = u'Especificar los territorios en que se ha desarrollado'
     partic = u'¿Se incorporó la participación de los actores sociales en \
         la construcción del diagnóstico?'
     parmet = u'Describir el método de participación que se implementó \
@@ -2169,7 +2248,7 @@ class inidseepdet(models.Model):
     partic_help = u'Físico- biótico y socioeconómico'
     instan_help = u'Mesas regionales, mesas de trabajo municipales, \
         consejo de cuenca, entre otros'
-    iambien = u'Mesas ambientales municipales, entre otros'
+    iambien_help = u'Mesas ambientales municipales, entre otros'
 
     lists = SelectList()
 
@@ -2178,18 +2257,20 @@ class inidseepdet(models.Model):
         default = False)
     isepestd = models.CharField(estrwh, max_length = 500, 
         null = True, blank = True)
+    isepestd = models.CharField(estter, max_length = 500, 
+        null = True, blank = True)
     iseppart = models.BooleanField(partic, choices = lists.BoolChoose(),
-        default = False)
+        default = False, help_text = partic_help)
     isepparm = models.CharField(parmet, max_length = 500, 
         null = True, blank = True)
     isepinst = models.BooleanField(instan, choices = lists.BoolChoose(),
-        default = False)
+        default = False, help_text = instan_help)
     isepcomu = models.BooleanField(comunic, choices = lists.BoolChoose(),
         default = False)
     isepcomd = models.CharField(comudes, max_length = 500, 
         null = True, blank = True)
     isepiamb = models.BooleanField(iambien, choices = lists.BoolChoose(),
-        default = False)
+        default = False, help_text = iambien_help)
     isepiamd = models.CharField(iamdes, max_length = 500, 
         null = True, blank = True)
     isepesta = models.CharField(estado, max_length = 500, 
@@ -2235,8 +2316,9 @@ class inidsecedet(models.Model):
     Participación de comunidades étnicas 
     Detalle de la información
     '''
-    caract = u'¿Existe Identificación y caracterización de grupos étnicos \         asentados en la cuenca?' 
-    carwho = u'Indique los grupos étnicos asentados en la cuenca'
+    caract = u'¿Existe Identificación y caracterización de grupos étnicos \
+         asentados en la cuenca?' 
+    carwho = u'¿Cuáles son los grupos étnicos asentados en la cuenca?'
     certif = u'¿Existen Certificados expedidos por el Ministerio de \
         Interior sobre la existencia de grupos étnicos presentes en la cuenca?'
     develp = u'¿La corporación ha desarrollado estrategias de participación \
@@ -2318,6 +2400,7 @@ class inidsdsedet(models.Model):
     actido = u'Otros'
     situac = u'¿Existe análisis o descripción de la situación de pobreza \
         y desigualdad de los territorios de  la cuenca?'
+    situde = u'Realizar una breve descripción de los indicadores analizados'
     proyec = u'¿Existe análisis de proyectos regionales de impacto en la \
         cuenca, en desarrollo y futuros?'
     proyde = u'Realizar una breve descripción de los proyectos regionales \
@@ -2327,9 +2410,9 @@ class inidsdsedet(models.Model):
         la cuenca'
     politi = u'¿Existe documentos con la descripción político \
         administrativa e institucional de la cuenca?'
-    polide = u'Realizar una breve descripción de los documentos politico  \
-        administrativa e institucional de la cuenca'
-    predia = u'¿Existe documento con análisis predial o de tenencia de \
+    polide = u'Describir la jurisdicción político administrativa \
+        institucional de la cuenca'
+    predia = u'¿Existe un documento con análisis predial o de tenencia de \
         la tierra?'
     predco = u'Indicar la cobertura del documento con el análisis \
         predial o de tenencia de la tierra'
@@ -2356,7 +2439,7 @@ class inidsdsedet(models.Model):
     isedsero = models.CharField(servco, max_length = 250, null = True, 
         blank = True)
     isedseal = models.BooleanField(segali, choices = lists.BoolChoose(),
-        default = False)
+        default = False, help_text = segali_help)
     isedseai = models.CharField(segcob, max_length = 500, null = True, 
         blank = True)
     isedsede = models.CharField(segdes, max_length = 500, null = True, 
@@ -2369,6 +2452,8 @@ class inidsdsedet(models.Model):
         blank = True)
     isedsitu = models.BooleanField(situac, choices = lists.BoolChoose(),
         default = False)
+    isedsitd = models.CharField(situde, max_length = 500, null = True, 
+        blank = True)
     isedproy = models.BooleanField(proyec, choices = lists.BoolChoose(),
         default = False)
     isedprod = models.CharField(proyde, max_length = 500, null = True, 
@@ -2379,16 +2464,16 @@ class inidsdsedet(models.Model):
         blank = True)
     isedpoli = models.BooleanField(politi, choices = lists.BoolChoose(),
         default = False)
-    isedpoli = models.CharField(polide, max_length = 500, null = True, 
+    isedpold = models.CharField(polide, max_length = 500, null = True, 
         blank = True)
     isedpred = models.BooleanField(predia, choices = lists.BoolChoose(),
         default = False)
-    isedpred = models.CharField(predco, max_length = 500, null = True, 
+    isedprec = models.CharField(predco, max_length = 500, null = True, 
         blank = True)
     isedsegu = models.BooleanField(seguri, choices = lists.BoolChoose(),
         default = False)
     isedsegd = models.CharField(seguco, max_length = 500, null = True, 
-        blank = True)
+        blank = True, help_text = seguco_help)
 
     class Meta:
         verbose_name = u'13.4.1 Detalle de la información'
@@ -2461,6 +2546,9 @@ class inidseccdet(models.Model):
     Detalle de la información
     '''
     cultur = u'¿Existen documentos de caracterización cultural?'
+    cultco = u'Indicar la cobertura del estudio de caracterización \
+        cultural'
+    cultva = u'Variables caracterizadas'
     patron = u'¿Existen documentos con la caracterización de patrones \
         de uso,  ocupación y apropiación del territorio?' 
     cobert = u'Indicar la cobertura del estudio'
@@ -2468,22 +2556,27 @@ class inidseccdet(models.Model):
         relacionadas con el aprovechamiento y uso de la biodiversidad?' 
     docuco = u'Indicar la cobertura del estudio'
     # Help text
-    cobert_help = u'Regional, municipal, otros'
-    docuco_help = cobert_help
+    cultco_help = u'Regional, municipal, otros'
+    cobert_help = cultco_help 
+    docuco_help = cultco_help 
 
     lists = SelectList()
 
     isecarac = models.OneToOneField('inidseccinf')
     isecccul = models.BooleanField(cultur, choices = lists.BoolChoose(),
         default = False)
+    isecccuc = models.CharField(cultco, max_length = 500, null = True, 
+        blank = True, help_text = cultco_help)
+    isecccuv = models.CharField(cultva, max_length = 500, null = True, 
+        blank = True)
     iseccpat = models.BooleanField(patron, choices = lists.BoolChoose(),
         default = False)
     iseccpad = models.CharField(cobert, max_length = 500, null = True, 
-        blank = True)
+        blank = True, help_text = cobert_help)
     iseccdoc = models.BooleanField(docume, choices = lists.BoolChoose(),
         default = False)
     iseccdcc = models.CharField(docuco, max_length = 500, null = True, 
-        blank = True)
+        blank = True, help_text = docuco_help)
 
     class Meta:
         verbose_name = u'13.5.1 Detalle de la información'
@@ -2529,9 +2622,9 @@ class inidsevsdet(models.Model):
     sercio = u'Otros'
     piloto = u'¿Hay estudios piloto de valoración de servicios \
         ecosistemicos en curso?'
-    piloal = u'Alcance del estudio piloto de valoración económica de \
-        bienes y servicios ambientales como herramienta estratégica para \
-        la conservación y uso sostenible de la cuenca'
+    piloal = u'Describir el alcance del estudio piloto de valoración \
+        económica de bienes y servicios ambientales como herramienta \
+        estratégica para la conservación y uso sostenible de la cuenca'
 
     lists = SelectList()
 
@@ -2591,6 +2684,8 @@ class inidserfdet(models.Model):
 
     lists = SelectList()
 
+    infuurre = models.OneToOneField('inidserfinf', 
+        verbose_name = u'Relac. Func. Urb.-Reg.')
     infucomp = models.BooleanField(compet, choices = lists.BoolChoose(),
         default = False)
     infucone = models.BooleanField(conect, choices = lists.BoolChoose(),

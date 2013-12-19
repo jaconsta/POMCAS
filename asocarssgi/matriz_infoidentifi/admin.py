@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.contrib import admin
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
+from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
     inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
@@ -15,12 +16,13 @@ from matriz_infoidentifi.models import inidcaestud, inidcameth, inidcamecam, \
     inicainfoes, inicainflab, inicainfgeo, incainfpara, inicainfoco, inicaicca #Calidad de Agua
 from matriz_infoidentifi.models import inidccestud, inidccmetho, inidccminfe, \
     iniccinflab, inidccmigeo, iniccicompl, iniccicomps #Cargas Contaminantes
-from matriz_infoidentifi.models import inidcoestud, inidcometho, inidcoinfog #Cobertura
+from matriz_infoidentifi.models import inidcoestud, inidcometho, inidcoinfog, \
+    inidcoanmul #Cobertura
 from matriz_infoidentifi.models import inidffestud, inidffmeth, inidffcart #Flora y Fauna
 from matriz_infoidentifi.models import inidpmestud, inidpmecofo, pmecoplanma, \
     inidpmecopm #PM Ecosistemas
-from matriz_infoidentifi.models import inidriesame, inriesamepr,amenaidenti, \
-    eventocurri, elemenexpue, inriesameac #Riesgos - Amenazas
+from matriz_infoidentifi.models import inriesamepr,amenaidenti, \
+    eventocurri, elemenexpue, inriesameac #Riesgos - Amenazas inidriesame, 
 from matriz_infoidentifi.models import inidriestud, inidriescar #Riesgos - Estudios
 from matriz_infoidentifi.models import inidseasinf, inidseasdet #Socioeconómico - Actores Sociales
 from matriz_infoidentifi.models import inidseepinf, inidseepdet, inidseepdin #Socioeconómico - Estrategia de Participación
@@ -81,6 +83,7 @@ class MetodTieAdmin(admin.StackedInline):
     model = inidsumesue
 class SueCartAdmin(admin.StackedInline):
     model = inidsuinfor
+    extra = 1
 
 class SuelosAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
@@ -100,7 +103,7 @@ class AforMethAdmin(admin.TabularInline):
 
 class HidrolAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
-    inlines = [MethoHidroAdmin, MethoHEstaAdmin, CartHidroAdmin] 
+    inlines = [MethoHidroAdmin, CartHidroAdmin] 
         #InfoCHidroAdmin]
 
 class MethHidrAdmin(admin.ModelAdmin):
@@ -114,7 +117,7 @@ class MetHdgModeAdmin(admin.StackedInline):
 class MethoHidrgAdmin(admin.StackedInline):
     model = inidhgmetho
 class CartHidrgAdmin(admin.StackedInline):
-    model = inidhgcarto
+    model = inidcartog #inidhgcarto
 
 class HidrgAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
@@ -153,7 +156,7 @@ class CalAguaAdmin(admin.ModelAdmin):
 class CAMetoAdmin(admin.ModelAdmin):
     inlines = [CalACampaAdmin]
 class CAInfoeAdmin(admin.ModelAdmin):
-    inlines = [CalAGeoAdmin, CalALaborAdmin, CalAParFiAdmin]
+    inlines = [CalAGeoAdmin, CalALaborAdmin]
 class CAInfocAdmin(admin.ModelAdmin):
     inlines = [CalAcapaAdmin]
 
@@ -166,28 +169,35 @@ class CaCoiIcomAdmin(admin.StackedInline):
     model = iniccicompl 
 class CacoGeoAdmin(admin.TabularInline):
     model = inidccmigeo
+class CacoPSMVMuni(admin.TabularInline):
+    model = iniccicomps
 
 class CargContAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
     inlines = [CaCoMetoAdmin, CaCoIestAdmin, CaCoiIcomAdmin]
 class CacoInfeAdmin(admin.ModelAdmin):
     inlines = [CacoGeoAdmin]
+class CacoInfcAdmin(admin.ModelAdmin):
+    inlines = [CacoPSMVMuni]
 
 # Cobertura
 class CobeMetoAdmin(admin.StackedInline):
     model = inidcometho
 class CobeCartoAdmin(admin.StackedInline):
     model = inidcoinfog 
+    extra = 1
+class CobeAnMultAdmin(admin.StackedInline):
+    model = inidcoanmul
 
 class CoberAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
-    inlines = [CobeMetoAdmin, CobeCartoAdmin]
+    inlines = [CobeMetoAdmin, CobeCartoAdmin, CobeAnMultAdmin]
 
 # Flora y Fauna
 class FloraMetoAdmin(admin.StackedInline):
     model = inidffmeth
 class FloraCartAdmin(admin.StackedInline):
-    model = inidffcart 
+    model = inidcartog #inidffcart 
 
 class FloraAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
@@ -210,17 +220,19 @@ class PMEFormAdmin(admin.ModelAdmin):
     inlines = [PlaManEjeAdmin]
 
 # Riesgos - Amenazas
-class AmenSitAdmin(admin.StackedInline):
-    model = inriesamepr
+#class AmenSitAdmin(admin.StackedInline):
+#    model = inriesamepr
 class AmenActAdmin(admin.TabularInline):
+    model = inriesameac
+class AmenActoAdmi(admin.TabularInline):
     model = inriesameac
 
 class AmenazAdmin(admin.ModelAdmin):
-    inlines = [AmenSitAdmin]
+    inlines = [AmenActoAdmi]
 
 # Riesgos - Estudios
 class RiesCArtoAdmin(admin.StackedInline):
-    model = inidriescar
+    model = inidcartog #inidriescar
 
 class RiesgoAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
@@ -283,14 +295,10 @@ class CaCUDetAdmin(admin.ModelAdmin):
 #Socioeconómico - Valoración de Servicios Ecosistémicos
 class DetaValorAdmin(admin.StackedInline):
     model = inidsevsdet 
-class DeAnValorAdmin(admin.StackedInline):
-    model = inidseserec
 
 class ValorAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']#['isocinfo', 'isocubic', 'isocauto']
     inlines = [DetaValorAdmin]
-class ValorDetAdmin(admin.ModelAdmin):
-    inlines = [DeAnValorAdmin]
 
 #Socioeconómico - Relaciones funcionales urbano- regionales
 class DetaRelacAdmin(admin.StackedInline):
@@ -322,11 +330,12 @@ admin.site.register(inicainfoes, CAInfoeAdmin)
 admin.site.register(inicainfoco, CAInfocAdmin)
 admin.site.register(inidccestud, CargContAdmin)
 admin.site.register(inidccminfe, CacoInfeAdmin)
+admin.site.register(iniccicompl, CacoInfcAdmin)
 admin.site.register(inidcoestud, CoberAdmin)
 admin.site.register(inidffestud, FloraAdmin)
 admin.site.register(inidpmestud, PMEcoAdmin)
 admin.site.register(inidpmecofo, PMEFormAdmin)
-admin.site.register(inidriesame, AmenazAdmin)
+admin.site.register(inriesamepr, AmenazAdmin)
 admin.site.register(inidriestud, RiesgoAdmin)
 admin.site.register(inidseasinf, ActSocAdmin)
 admin.site.register(inidseepinf, EstrParAdmin)
@@ -336,6 +345,5 @@ admin.site.register(inidsecedet, CoEtDeAdmin)
 admin.site.register(inidsedsinf, DiagSocAdmin)
 admin.site.register(inidseccinf, CarCultAdmin)
 admin.site.register(inidsevsinf, ValorAdmin)
-admin.site.register(inidsevsdet, ValorDetAdmin)
 admin.site.register(inidserfinf, RelacAdmin)
 admin.site.register(inidserfdet, RelacDetaAdmin)
