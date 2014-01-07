@@ -1,5 +1,5 @@
-{{usr}}
-{{corpo.corponit}}
+{% extends 'main.html' %}
+{% block naviside %}
 <h1>{{ title }}</h1>
 <h2>Seleccione la cuenca con la cual desea trabajar</h2>
 <ul>
@@ -7,3 +7,4 @@
     <li><a href="{{ cuenca.id }}">{{ cuenca.cuencano.cuencano }}</a>
 {%endfor%}
 </ul>
+{% endblock %}

@@ -52,13 +52,14 @@ class inforindice(models.Model):
     infotema = models.CharField(u'Tema a evaluar', max_length = 125)
     infonota = models.CharField(u'Preguntas orientadora', max_length = 1000)
     infoalca = models.CharField(u'Alcance', max_length = 1000)
-    infourlc = models.URLField(u'Dirección capacitación')
-    infoprot = models.FileField(u'Archivo de Protocolo', upload_to = 'protocolos/')
+    infourlc = models.URLField(u'Dirección capacitación', null = True,
+        blank = True)
+    infoprot = models.FileField(u'Archivo de Protocolo', upload_to = 'protocolos/',
+        null = True)
     infoprio = models.PositiveSmallIntegerField(u'Prioridad')
     
     def __unicode__(self):
-        return '%s, %s, %s, %s' % (self.infosubc, self.infotema, self.infourlc,
-           self.infonota)
+        return self.infotema
     class Meta:
         verbose_name = u'Formato de información disponible'
         verbose_name_plural = u'Índice de formatos de evaluación de información disponible'
@@ -260,13 +261,12 @@ class SelectList:
             ('PRES', u'Forma presuntiva'),
             ('VERT', u'Caracterización de vertimento'),
             ('BOTH', u'Ambos'),
-            (False, u'Ninguno'),
         )
         return CacaEstiChoose 
     def CacaParaChoose(self):
         CacaParaChoose = (
             ('ZORU', u'Zona rural'),
-            ('CENT', u'Centro'),
+            ('CENT', u'Centro Poblado'),
             ('BOTH', u'Ambos'),
             (False, u'Ninguno'),
         )
@@ -388,8 +388,8 @@ class inididestud(inididinden):
     doceot = u'Otro'
     locali = u'Localización física del estudio'
     respon = u'Funcionario responsable de su custodia y/o manejo'
-    udepar = u'Ubicación geográfica. Departamento'
-    udemun = u'Ubicación geográfica. Municipio'
+    udepar = u'Ubicación geográfica del estudio. Departamento'
+    udemun = u'Ubicación geográfica del estudio. Municipio'
     usubcu = u'Ubicación geográfica. Subcuenca'
     usecto = u'Ubicación geográfica. Sector'
     utramo = u'Ubicación geográfica. Tramo'
@@ -1314,7 +1314,7 @@ class inidhgmetho(models.Model):
         null = True, blank = True)
     inghasco = models.NullBooleanField(agsucon, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
-    inghmoma = models.ManyToManyField('inidhgmmoma', verbose_name = acuiana, 
+    inghmoma = models.ManyToManyField('inidhgmmoma', verbose_name = modmate, 
         null = True, blank = True)
     inghmomo = models.CharField(modmato, max_length = 25, 
         null = True, blank = True)
@@ -1367,7 +1367,7 @@ class inidcameth(models.Model):
     metodo = u'Metodología utilizada para muestreos'
     estaci = u'Número de estaciones de la Red de monitoreo del recurso hídrico'
     numeca = u'Numero de Campañas de muestreo'
-    camani = u'Año desde que iniciaron las campañas de muestreo'
+    camani = u'Año desde que se realizan las campañas de muestreo'
     icaexi = u'¿Se han realizado cálculos para el Índice de Calidad de Agua \
         - (ICA)?'
     icatra = u'ICA. Tramos o corrientes a los cuales se ha realizado cálculos'
@@ -1376,12 +1376,15 @@ class inidcameth(models.Model):
     icamfo = u'ICA. Formato de mapas'
     icamex = u'ICA. Extensión de los mapas'
     icameo = u'ICA. Otra'
+    #Help Text
+    metodo_help = u'Aclarar si los muestreos fueron compuestos o simples'
 
     lists = SelectList()
 
     inidcala = models.OneToOneField('inidcaestud')
     inicaobj = models.CharField(objeto, max_length = 500)
-    inicamet = models.CharField(metodo, max_length = 500)
+    inicamet = models.CharField(metodo, max_length = 500, 
+        help_text = metodo_help)
     inicaest = models.PositiveSmallIntegerField(estaci, null = True, 
         blank = True)
     inicacan = models.PositiveSmallIntegerField(numeca, null = True, 
@@ -1640,12 +1643,22 @@ class inidccminfe(models.Model):
         verbose_name = u'08.2 Información del estudio'
         verbose_name_plural = verbose_name
 
-class iniccinflab(inicainflab):
+class iniccinflab(models.Model):
     '''
     Cargas Contaminantes
     Información que debe contener el estudio
     Laboratorios acreditados por el IDEAM
     '''
+    estudi = models.ForeignKey('inidccminfe', verbose_name = u'Estudio')
+    labora = models.CharField(u'Nombre del laboratorio acreditado por \
+        el IDEAM', max_length = 150)
+    identi = models.CharField(u'NIT', max_length = 25,
+        help_text = 'Ej. 123456789-0')
+
+    class Meta:
+        verbose_name = u'Laboratorio acreditado'
+        verbose_name_plural = u'Laboratorios acreditados' 
+
     #Local field clashes with field of similar name from base class
     #estudi = models.ForeignKey('inidccminfe', verbose_name = u'Estudio')
 
@@ -1685,10 +1698,12 @@ class iniccicompl(models.Model):
     iicccmue = models.BooleanField(muestre, choices = lists.BoolChoose(), 
         default = False)
     iicccper = models.FloatField(percent, null = True, blank = True)
-    iicccprm = models.CharField(inverti, max_length = 125,
-        null = True, blank = True)
+    iicccprm = models.NullBooleanField(inverti, choices = lists.BoolChoose(),
+        default = False)
     iicccpor = models.NullBooleanField(porhexi, choices = lists.BoolChoose(),
         default = False)
+    iicccpse = models.CharField(secporh, max_length = 500, blank = True,
+        null = True) 
     iicccpur = models.NullBooleanField(pueaaes, choices = lists.BoolChoose(),
         default = False)
     iicccpma = models.NullBooleanField(pmaaexi, choices = lists.BoolChoose(),
@@ -1715,6 +1730,25 @@ class iniccicomps(models.Model):
     class Meta:
         verbose_name = u'Municipio con PSMV'
         verbose_name_plural = u'Municipios con PSMV'
+
+class iniccicompu(models.Model):
+    '''
+    Cargas contaminantes
+    Información complementaria
+    Municipios con Planes de Uso Eficiente y Ahorro de Agua 
+    '''
+    munici = u'Municipio o sector productivo'
+    estado = u'Estado de implementación de los Planes\
+        de Uso Eficiente y Ahorro de Agua'
+
+    estudio = models.ForeignKey('iniccicompl', 
+        verbose_name = u'Información complementaria')
+    munipio = models.CharField(munici, max_length = 30)
+    estadoi = models.CharField(estado, max_length = 150)
+
+    class Meta:
+        verbose_name = u'Municipio con PUEyAA'
+        verbose_name_plural = u'Municipios con PUEyAA'
     
 #Cobertura de la tierra
 
@@ -2007,7 +2041,7 @@ class inidpmecopm(inidcartog):
 #        verbose_name = u'12.1 Identificación de amanaza'
 #        verbose_name_plural = u'12.1 Identificación de amanazas'
 
-class inriesamepr(models.Model):
+class inriesamepr(inididinden):
     '''
     Riesgos
     Identificación de amenazas
@@ -2067,7 +2101,7 @@ class inriesamepr(models.Model):
         blank = True) 
 
     class Meta:
-        verbose_name = u'12.1 Identificación preeliminar'
+        verbose_name = u'12.1 Riesgos - Amenazas'
         verbose_name_plural = verbose_name
 
 class amenaidenti(models.Model):
@@ -2130,8 +2164,8 @@ class inidriestud(inididestud):
     Identificación del estudio
     '''
     class Meta:
-        verbose_name = u'12.2.1 Estudio Riesgos'
-        verbose_name_plural = u'12.2.1 Estudios Riesgos'
+        verbose_name = u'12.2.1 Estudio de Riesgos'
+        verbose_name_plural = u'12.2.1 Estudios de Riesgos'
         proxy = True
 
 class inidriescar(inidcartog):
@@ -2255,7 +2289,7 @@ class inidseepdet(models.Model):
     iseestra = models.OneToOneField('inidseepinf')
     isepestr = models.BooleanField(estrat, choices = lists.BoolChoose(),
         default = False)
-    isepestd = models.CharField(estrwh, max_length = 500, 
+    isepestg = models.CharField(estrwh, max_length = 500, 
         null = True, blank = True)
     isepestd = models.CharField(estter, max_length = 500, 
         null = True, blank = True)
@@ -2593,7 +2627,7 @@ class inidseccdcc(models.Model):
     #Help text
     cobert_help = u'Regional, municipal, otros'
 
-    caracter = models.ForeignKey('inidsecedet', 
+    caracter = models.ForeignKey('inidseccdet', 
         verbose_name = u'Caracterización cultural')
     cobertur = models.CharField(cobert, max_length = 250,
         help_text = cobert_help)

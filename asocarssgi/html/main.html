@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="ASOCARS - Javier Constain" />
+    <meta name = "description" content="Sistema de Gestión de Información de ASOCARS
+        para el contrato 085 del 2013 entre ASOCARS con el Ministerio de Ambiente y Desarrollo
+        Sostenible y el Fondo de Adaptación"/>
+    <title>{% block title %}Proyecto POMCAS{% endblock %} - ASOCARS</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+</head>
+<body>
+    <header>
+    <nav id="top_menu">
+        <ul>
+            <li><a href = "http://asocars.org.co">ASOCARS.org.co</a> | </li>
+            <li><a href = "/">Inicio</a> | </li>
+            {% if user.is_authenticated %}
+             <li><a href = "/corporation">Corporación</a> | </li>
+             <li><a href = "/matrix">Matrices<a> | </li>
+             <li><a href = "/reports">Reportes<a> | </li>
+             <li><a href = "/logout">Cerrar sesión</a></li>
+            {% else %}
+             <li><a href = "/login">Iniciar sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div id = "business_logos">
+        <div id="asocars_logo">
+            <img src="{% static "logo/asocars_whitebg_logo.png" %}" alt="ASOCARS_logo" height="60" />
+        </div>
+        {% if user.is_authenticated %}
+        <div id = "corpora_logo">
+            <img src= "{% static "logo/{{corporacion_logo}}.png" %}" alt="{{corporacion}}_logo" height="60" />
+        </div>
+        {% endif %}
+    </div>
+    </header>
+    <section>
+    {% block naviside %}
+    {% endblock %}
+    </section>
+    <footer>
+    <div id="bottom_images">
+        <img src="{% static "logo/minambiente_logo.png" %}" alt="Minambiente" height="80" />
+        <img src="{% static "logo/fondo_adaptacion.png" %}" alt="Fondo_Adaptacion" height="80" />
+    </div>
+    <div id="bottom_text">
+    <p>Asociación de Corporaciones Autónomas Regionales y de Desarrollo Sostenible</p>
+    <p>NIT: 830.027.275-7</p>
+    <p>Calle 70 No. 11A - 24</p>
+    <p>Telefax: 317 2888 - 317 2711</p>
+    <p>Bogotá - Colombia</p>
+    </div>
+    <div id="Copyright">
+        <p>Copyright 2014 ASOCARS</p>
+        <p>Developed by Javier Constaín</p>
+    </div>
+    </footer>
+</body>
+</html>

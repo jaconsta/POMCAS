@@ -45,12 +45,13 @@ def logoutuser(request):
     logout(request)
     return HttpResponseRedirect('%s' %(default_names.SUB_SITE))
 
-@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+#@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def infouser(request):
     '''
     By now, It'll do nothing
     '''
-    return matrixlist(request)
+    #return matrixlist(request)
+    return render_to_response('main.html')
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def matrixlist(request):

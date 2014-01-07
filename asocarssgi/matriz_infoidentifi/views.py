@@ -10,7 +10,7 @@ from cuencas.views import GetCorpoCuencas, GetUserWatersheed
 from corporacion.views import GetUserCorpo, GetUserCorpo
 
 from matriz_infoidentifi.models import inforcompon, inforindice
-from matriz_infoidentifi import forms 
+from matriz_infoidentifi import forms
 
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
@@ -89,7 +89,28 @@ def add(request, shared_id, subcompo):
     usrattr = GetUserAttr(request, shared_id)
     ####
     if request.method == 'POST':
-        form = getattr(forms, '%sForm(request.POST)' % subcompo.title())
+        formlist = {u'Cartografia' : forms.CartografiaForm(request.POST),
+            u'Imagenes' : forms.ImagenesForm(request.POST),
+            u'Fotografias' : forms.FotografiasForm(request.POST),
+            u'Suelos' : forms.SuelosForm(request.POST),
+            u'Hidrologia' : forms.HidrologiaForm(request.POST),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST),
+            u'Cobertura' : forms.CoberturaForm(request.POST),
+            u'FloraYFauna' : forms.FloraYFaunaForm(request.POST),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(request.POST),
+            u'Amenazas' : forms.AmenazasForm(request.POST),
+            u'Riesgos' : forms.RiesgosForm(request.POST),
+            u'seActoresSoc' : forms.seActoresSocForm(request.POST),
+            u'seEstrParticip' : forms.seEstrParticipForm(request.POST),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(request.POST),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(request.POST),
+            u'seCaractCultural' : forms.seCaractCulturalForm(request.POST),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST),
+        }
+        form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
         if form.is_valid():
             form.iniescor = usrattr.corpora
             form.iniescue = usrattr.watersheed
@@ -97,11 +118,32 @@ def add(request, shared_id, subcompo):
             form.inieswhu = usrattr.user
             return 
     else:
-        form = getattr(forms, '%sForm()' % subcompo.title())
-        return render(request, 'form.html', {
+        formlist = {u'Cartografia' : forms.CartografiaForm(),
+            u'Imagenes' : forms.ImagenesForm(),
+            u'Fotografias' : forms.FotografiasForm(),
+            u'Suelos' : forms.SuelosForm(),
+            u'Hidrologia' : forms.HidrologiaForm(),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(),
+            u'Cobertura' : forms.CoberturaForm(),
+            u'FloraYFauna' : forms.FloraYFaunaForm(),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(),
+            u'Amenazas' : forms.AmenazasForm(),
+            u'Riesgos' : forms.RiesgosForm(),
+            u'seActoresSoc' : forms.seActoresSocForm(),
+            u'seEstrParticip' : forms.seEstrParticipForm(),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(),
+            u'seCaractCultural' : forms.seCaractCulturalForm(),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(),
+        }
+        form = formlist[subcompo] # getattr(forms, '%sForm()' % subcompo.title())
+        return render(request, 'forms.html', {
             'form': form,
             'title' : GetName(), 
-            'compo' : GetCompo(),
+            #'compo' : GetCompo(),
         })
     ####
     return getattr(forms, 'add_%s(request, usrattr)' % subcompo)

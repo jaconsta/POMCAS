@@ -1,0 +1,79 @@
+body{
+    margin:0px;
+}
+header{
+    height : 400px;
+    background-color:green;
+    background-image:url('http://lunar.thegamez.net/greentechnology/environment/809environment-istock-000006175251mediumjpg-1701x1129.jpg');
+    background-repeat:no-repeat;
+}
+header #top_menu{
+    float:right;
+    background-color:rgba(120,74,10,0.8);/*#784A0A;*/
+    margin-top:50px;
+    padding-top:20px;
+    padding-bottom:20px;
+    padding-left:35px;
+    padding-right:20px;
+    z-index:2;
+}
+header #top_menu ul{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+#top_menu li{
+    float:left;
+}
+#top_menu a:link,a:visited{
+    text-decoration:none;
+    font-weight:bold;
+    color:#000000;
+    text-align:center;
+    padding:0px 9px 0px 3px;
+    z-index:3;
+}
+#business_logos{
+    top:20px;
+    border-top:20px solid transparent;
+    width:118px;/*62px;*/
+    z-index:-1;
+}
+#asocars_logo,#corpora_logo{
+    background-color:rgba(120,74,10,0.8);/*#784A0A;*/
+    /*margin-top:40px;*/
+    padding:6px 6px 6px 50px;
+}
+#asocars_logo{
+}
+#corpora_logo{
+    margin-top:33px;
+}
+section{
+    margin-right:auto;
+    margin-left:auto;
+    max-width:1000px;
+}
+footer{
+    background-color:#EDFFED;
+    border-top: thick solid #1B3280;
+}
+footer #bottom_images{
+    float:right;
+    margin-right:20px;
+}
+#bottom_images img{
+    float:left;
+}
+footer #bottom_text{
+    max-width:300px;
+}
+footer p{
+    font-size:0.875em;
+    /*line-height:3px;*/
+    margin:0%;
+    margin-left:20px;
+}
+#Copyright{
+    text-align:center;
+}

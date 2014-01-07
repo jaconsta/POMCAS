@@ -1,3 +1,5 @@
+{% extends 'main.html' %}
+{% block naviside %}
 <h1>{{ title }}</h1>
 <ol>
 {% for componen, i in compo %}
@@ -21,3 +23,4 @@
     <hr />
 {% endfor %}
 </ol>
+{% endblock %}

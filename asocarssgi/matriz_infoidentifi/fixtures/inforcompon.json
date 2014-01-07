@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Cartografía"
+        }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Suelos"
+        }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Recurso Hídrico"
+        }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Biótico"
+        }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Gestión del Riesgo"
+        }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.inforcompon",
+        "fields": {
+          "infocomp": "Socioeconómico y Cultural"
+        }
+}
+]

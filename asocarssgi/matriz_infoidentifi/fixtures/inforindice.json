@@ -1,0 +1,242 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 1, 
+            "infosubc": "Cartografia",
+            "infotema": "Cartografia Base",
+            "infonota": "La cartografía base a relacionar corresponde a la definida en el catálogo de objetos del IGAC a escala 1:25.000 y que se resume en cada una de las planchas que tiene establecido el IGAC en esta escala. No obstante, si la Corporación cuenta con cartografía a escala mayor (1:10.000) igualmente se debe relacionar en un formato independiente.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a la cartografía base,  con el fin de definir su pertinencia y suficiencia relacionada a la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 1
+        }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 1, 
+            "infosubc": "Imagenes",
+            "infotema": "Imágenes Satelitales",
+            "infonota": "",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a las imágenes de sensores remotos (satelitales, radar, entre otros),  con el fin de definir: la temporalidad,  porcentaje de cubrimiento efectivo en la cuenca, y demás características atribuibles a la imagen con respecto a la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 2
+        }
+},
+{    
+        "pk": 3,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 1, 
+            "infosubc": "Fotografias",
+            "infotema": "Fotografías Aéreas",
+            "infonota": "",
+            "infoalca": "El presente kormato pretende identificar y caracterizar la información existente en la Corporación referida a fotografías aéreas, fotomosaicos u ortofotomosaicos,  con el fin de definir su suficiencia con respecto a la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 3
+        }
+},
+{    
+        "pk": 4,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 2, 
+            "infosubc": "Suelos",
+            "infotema": "Capacidad de uso de la tierra y Geomorfología",
+            "infonota": "Antes de iniciar con el diligenciamiento del formato, tenga en cuenta si existen estudios de suelos y/o mapas de capacidad de suelos con cobertura departamental o con cobertura sobre la cuenca a escala 1:25.000. Si no existen estudios a esta escala no es necesario continuar con el diligenciamiento del presente formato.  En caso afirmativo diligencie y tenga en cuenta  que en la variable 'Metodología Estudio de Suelos' se pide averiguar si hubo fase de campo y a qué nivel taxonómico llegó.  Con lo anterior se podrá evaluar si el estudio fue realizado técnicamente con la escala requerida, ya que aunque la salida gráfica esté a escala 1:25.000, esto no garantiza que el estudio se haya hecho en ese nivel de detalle. Para lo anterior, pueden usar la georeferenciación de las observaciones y calicatas para determinar si se realizaron dentro de la cuenca o fueron por extrapolación.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a Estudios de Suelos que puedan llevar a determinar el mapa de capacidad de uso de las tierras y geomorfología (enfocada a suelos y gestión del riesgo); con el fin de definir su pertinencia y suficiencia con respecto a la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 1
+        }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 3, 
+            "infosubc": "Hidrologia",
+            "infotema": "Hidrología",
+            "infonota": "En el análisis de las metodologías de cálculo se debe especificar si se levantó información primaria para calibraciones de modelos",
+            "infoalca": "El presente formato busca identificar, caracterizar y reportar la información hidrológica y climática existente en la Corporación referida a estudios, reportes, modelaciones u otros relacionados con la  oferta y demanda que servirán de insumo para la estimación de los índices contemplados en el ERA 2010,  con el fin de establecer los referentes de análisis para la línea base con respecto a la cuenca objeto de ordenación, de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 1
+        }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 3,
+            "infosubc": "Hidrogeologia",
+            "infotema": "Hidrogeología",
+            "infonota": "Relacione los estudios que a la fecha se encuentran contratados y en ejecución",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a estudios hidrogeológicos,  con el fin de establecer la pertinencia y suficiencia de los estudios con respecto a la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 2
+        }
+},
+{
+        "pk": 7,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 3,
+            "infosubc": "CalidadDeAgua",
+            "infotema": "Calidad del Agua",
+            "infonota": "Se sugiere que la temporalidad de los estudios, muestreos de calidad, modelaciones u otros relacionados con la calidad del agua que sean objeto de caracterización en el presente formato, correspondan a los últimos tres (3) años. No obstante, la información por fuera del rango de esta temporalidad se deberá registrar como referente para otros análisis en el POMCA. La información complementaria sólo requiere ser relacionada",
+            "infoalca": "El  formato busca identificar, caracterizar y reportar la información existente en la Corporación referida a estudios, muestreos de calidad, modelaciones u otros relacionados con la calidad del agua, con el fin de establecer los referentes de análisis para la línea base con respecto a la cuenca objeto de ordenación,  los cuales serán el insumo para el cálculo de los índices de calidad del agua que contempla el ERA (2010); de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 3
+        }
+},
+{
+        "pk": 8,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 3,
+            "infosubc": "CargasContaminantes",
+            "infotema": "Cargas Contaminantes",
+            "infonota": "Se evaluará la información de los estudios existentes con énfasis en el más reciente y aquellos que la Corporación considere pertinentes para el análisis multitemporal",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a estudios de cobertura de la tierra, usos del suelo a escala 1:25.000 y análisis multitemporales de coberturas de la tierra a escala semidetallada o general; con el fin de establecer la pertinencia y suficiencia de la información con respecto a la cuenca objeto de ordenación, de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 3
+        }
+},
+{
+        "pk": 9,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 4,
+            "infosubc": "Cobertura",
+            "infotema": "Coberturas de la Tierra",
+            "infonota": "Se evaluará la información de los estudios existentes con énfasis en el más reciente y aquellos que la Corporación considere pertinentes para análisis multitemporal",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a estudios de cobertura de la tierra, usos del suelo a escala 1:25.00 y análisis multitemporales de coberturas de la tierras a escala semidetallada o genera, con el fin de establecer la pertinencia y suficiencia de la información con respecto a la cuenca objeto de ordenación, de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 1
+        }
+},
+{
+        "pk": 11,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 4,
+            "infosubc": "FloraYFauna",
+            "infotema": "Flora y Fauna",
+            "infonota": "Todos los estudios en orden cronológico son importantes y requieren ser referenciados",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a estudios e inventarios de flora y fauna, con el fin de establecer la suficiencia de la información con respecto a la cuenca objeto de ordenación, de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
+            "infoprio": 2
+        }
+},    
+{
+        "pk": 12,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields":{
+            "infocomp": 4,
+            "infosubc": "PMEcosistemas",
+            "infotema": "Planes de Manejo en Ecosistemas Estratégicos",
+            "infonota": "",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a los Planes de Manejo de Ecosistemas Estratégicos, con el fin de establecer los referentes de análisis para la línea base con respecto a la cuenca objeto de ordenación.",
+            "infoprio": 3
+        }
+}, 
+{
+        "pk": 13,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 5,
+            "infosubc": "Amenazas",
+            "infotema": "Identificación preliminar de amenazas",
+            "infonota": "1. El formato busca relacionar e identificar las zonas, sitios críticos, amenazas y eventos que estén en la cuenca o que puedan afectar a la misma. 2. Para el diligenciamiento de este formato, se debe tomar la información disponible de la cuenca en la Corporación sobre el registro histórico de eventos amenazantes naturales y sobre el registro de eventos de atención de emergencias, afectación en vidas, viviendas, infraestructura, cultivos, entre otros",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación relacionada con la identificación y evaluación de amenazas, análisis de vulnerabilidades y análisis de escenarios de riesgos, con el fin de establecer la pertinencia y suficiencia de esta información con respecto al componente de gestión de riesgo del POMCA de la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 14,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 5,
+            "infosubc": "Riesgos",
+            "infotema": "Estudios de riesgos",
+            "infonota": "1. Los estudios que se reporten deben estar relacionados con amenazas, vulnerabilidades y los escenarios de riesgo, respectivamente, que existan y que correspondan a la cuenca objeto de estudio.2. Para el diligenciamiento de este formato, se debe tomar la información disponible de la cuenca en la Corporación sobre el registro histórico de eventos amenazantes naturales y sobre el registro de eventos de atención de emergencias, afectación en vidas, viviendas, infraestructura, cultivos, entre otros.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación relacionada con la identificación y evaluación de amenazas, análisis de vulnerabilidades y análisis de escenarios de riesgos, con el fin de establecer la pertinencia y suficiencia de esta información con respecto al componente de gestión de riesgo del POMCA de la cuenca objeto de ordenación; de tal manera, que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 2
+        }
+}, 
+{
+        "pk": 15,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 6,
+            "infosubc": "seActoresSoc",
+            "infotema": "Actores Sociales",
+            "infonota": "Considere a la hora de emitir su concepto sobre los componentes socioeconómico y cultural, lo siguiente: * En la variable actores sociales se tendrá en cuenta información de dos años anteriores al 2013.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 16,
+        "model":"matriz_infoidentifi.inforindice",
+        "fields":{
+            "infocomp": 6,
+            "infosubc": "seEstrParticip",
+            "infotema": "Estratégias de participación",
+            "infonota": "En la variable de participación es necesario tomar las experiencias y estudios máximo de 5 años de las cuencas hidrográficas que son objeto de ajuste  e información complementarias en todas las cuencas.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 17,
+        "model":"matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 6,
+            "infosubc": "seParticComuEtnicas",
+            "infotema": "Participación de comunidades étnicas",
+            "infonota": "En la  variable de participación con comunidades étnicas se considera necesario reportar experiencias y estudios máximo de 5 años. Solo se identifica información para las cuencas donde existen grupos étnicos asentados.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 18,
+        "model":"matriz_infoidentifi.inforindice",
+        "fields":{
+            "infocomp": 6,
+            "infosubc": "seDiagSocioEconom",
+            "infotema": "Diagnósticos socioeconómicos",
+            "infonota": "Los diagnósticos socioeconómicos  no deben ser mayores a dos años.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 19,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 6,
+            "infosubc": "seCaractCultural",
+            "infotema": "Caracterización cultural",
+            "infonota": "En la caracterización cultural es importante y necesario tener presente todos los estudios en orden cronológico de todas las cuencas objeto de ordenación.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 20,
+        "model":"matriz_infoidentifi.inforindice",
+        "fields": {
+            "infocomp": 6,
+            "infosubc": "seValorServicEcos",
+            "infotema": "Valoración de servicios ecosistémicos",
+            "infonota": "En valoración de servicios ecosistémicos es necesario referenciar todos los estudios existentes.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+}, 
+{
+        "pk": 21,
+        "model": "matriz_infoidentifi.inforindice",
+        "fields":{
+            "infocomp": 6,
+            "infosubc": "seRelaFuncUrbaRegio",
+            "infotema": "Relaciones urbano regionales",
+            "infonota": "Para la variable relaciones funcionales  urbano-regionales se considera necesario tomar información máximo de cinco años, para todas las cuencas objeto de ordenación.",
+            "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
+            "infoprio": 1
+        }
+} 
+]
