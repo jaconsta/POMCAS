@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inffmeveget",
+        "fields": {
+            "value": "Terrestre"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inffmeveget",
+        "fields": {
+            "value": "Acuático"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inffmeveget",
+        "fields": {
+            "value": "Ambos"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inffmeveget",
+        "fields": {
+            "value": "Ninguno"
+         }
+}
+]

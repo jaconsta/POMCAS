@@ -1,0 +1,16 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.cartcoorsys",
+        "fields": {
+            "value": "Planas"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.cartcoorsys",
+        "fields": {
+            "value": "Geográficas"
+         }
+}
+]

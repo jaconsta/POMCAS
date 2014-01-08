@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inidseserec",
+        "fields": {
+            "servic": "Base"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inidseserec",
+        "fields": {
+            "servic": "Suministro"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inidseserec",
+        "fields": {
+            "servic": "Regulación"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inidseserec",
+        "fields": {
+            "servic": "Culturales"
+         }
+}
+]

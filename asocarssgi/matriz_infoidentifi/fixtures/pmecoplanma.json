@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.pmecoplanma",
+        "fields": {
+            "planmane": "Áreas protegidas presentes en la cuenca"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.pmecoplanma",
+        "fields": {
+            "planmane": "Zonificación forestal  Plan de Ordenación Forestal"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.pmecoplanma",
+        "fields": {
+            "planmane": "Planes de manejo Ambiental de páramos, humedales, ecosistemas de zonas secas, manglares presentes en las cuencas y otro tipo de ecosistemas identificados como estratégicos"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.pmecoplanma",
+        "fields": {
+            "planmane": "Planes de Manejo Integral de las Unidades Ambientales Marino Costeras"
+         }
+}
+]

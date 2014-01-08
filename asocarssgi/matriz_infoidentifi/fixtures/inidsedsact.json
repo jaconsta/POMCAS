@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Agropecuaria"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Agroindustrial"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Minería"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Petrolera"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Turística"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.inidsedsact",
+        "fields": {
+            "activi": "Otras"
+         }
+}
+]

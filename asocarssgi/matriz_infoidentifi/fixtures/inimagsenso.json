@@ -1,0 +1,37 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inimagsenso",
+        "fields": {
+            "value": "LandSat"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inimagsenso",
+        "fields": {
+            "value": "SPOT"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inimagsenso",
+        "fields": {
+            "value": "RapidEye"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inimagsenso",
+        "fields": {
+            "value": "IKONOS"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inimagsenso",
+        "fields": {
+            "value": "Otros"
+         }
+}
+]

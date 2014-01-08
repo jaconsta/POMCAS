@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:25.000"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:10.000"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:5.000"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:2.000"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:1.000"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.cartgridsca",
+        "fields": {
+            "value": "1:500"
+         }
+}
+]

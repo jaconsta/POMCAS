@@ -1,0 +1,51 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Erupciones volcánicas"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Sísmicos"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Inundaciones"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Avenidas torrenciales"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Movimientos en masa"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Incendios forestales"
+         }
+},
+{
+        "pk": 7,
+        "model": "matriz_infoidentifi.amenaidenti",
+        "fields": {
+            "amenaz": "Otra"
+         }
+}
+]

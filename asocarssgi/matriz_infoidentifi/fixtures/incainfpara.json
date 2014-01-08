@@ -1,0 +1,74 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Oxígeno disuelto (OD)",
+            "expres": "% saturación"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Sólidos en suspensión",
+            "expres": "mg/l"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Demanda Química de Oxígeno (DQO)",
+            "expres": "mg/l"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Demanda Bioquímica de Oxígeno (DBO)",
+            "expres": "mg/l"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Sólidos Suspendidos Totales (SST)",
+            "expres": "mg/l"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Conformes Fecales",
+            "expres": "NMP/1000"
+         }
+},
+{
+        "pk": 7,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Caudal",
+            "expres": "L/seg"
+         }
+},
+{
+        "pk": 8,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "Conductividad Eléctrica (CE)",
+            "expres": "uS/cm"
+         }
+},
+{
+        "pk": 9,
+        "model": "matriz_infoidentifi.incainfpara",
+        "fields": {
+            "variab": "PH Total",
+            "expres": "Unidades de PH"
+         }
+}
+]

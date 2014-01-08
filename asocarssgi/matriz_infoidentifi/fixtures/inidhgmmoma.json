@@ -1,0 +1,23 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inidhgmmoma",
+        "fields": {
+            "modelo": "Modelo de flujo"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inidhgmmoma",
+        "fields": {
+            "modelo": "Modelo de transporte de contaminantes"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inidhgmmoma",
+        "fields": {
+            "modelo": "Modelo de inteacción con aguas superficiales"
+         }
+}
+]

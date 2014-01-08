@@ -1,0 +1,23 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.incamequinq",
+        "fields": {
+            "value": "Inventario de usuarios objeto de cobro o de Tasa Retributiva"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.incamequinq",
+        "fields": {
+            "value": "Informe de usuarios por sector productivo"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.incamequinq",
+        "fields": {
+            "value": "Cargas contaminantes de DBO y SST"
+         }
+}
+]

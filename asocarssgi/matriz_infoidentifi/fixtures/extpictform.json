@@ -1,0 +1,37 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.extpictform",
+        "fields": {
+            "value": "TIFF"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.extpictform",
+        "fields": {
+            "value": "ECW"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.extpictform",
+        "fields": {
+            "value": "IMG"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.extpictform",
+        "fields": {
+            "value": "Análogo (Papel)"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.extpictform",
+        "fields": {
+            "value": "Otro"
+         }
+}
+]

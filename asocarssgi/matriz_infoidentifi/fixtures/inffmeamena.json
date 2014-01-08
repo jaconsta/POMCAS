@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inffmeamena",
+        "fields": {
+            "value": "Amenaza"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inffmeamena",
+        "fields": {
+            "value": "Peligro de extinción"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inffmeamena",
+        "fields": {
+            "value": "Endémica"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inffmeamena",
+        "fields": {
+            "value": "Otra"
+         }
+}
+]

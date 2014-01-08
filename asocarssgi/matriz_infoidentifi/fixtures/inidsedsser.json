@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Educación"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Salud"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Vivienda"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Recreación"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Cultura"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.inidsedsser",
+        "fields": {
+            "sevici": "Otro"
+         }
+}
+]

@@ -419,10 +419,11 @@ class inididestud(inididinden):
 
     inidsubc = models.CharField(subcom, max_length = 20)
     inidnomb = models.CharField(nombre, max_length = 500)
-    iniddocf = models.CharField(docfor, max_length = 4, null = True,
-        blank = True, choices = lists.FormatChoose())
-    iniddoce = models.CharField(docext, max_length = 4, null = True,
-        blank = True, choices = lists.FileExtChoose(),
+    iniddocf = models.ForeignKey('documformat', verbose_name = docfor,
+        null = True, blank = True)#CharField(docfor, max_length = 4, null = True,
+        #blank = True, choices = lists.FormatChoose())
+    iniddoce = models.ForeignKey('extdocuform', verbose_name = docext,#models.CharField(docext, max_length = 4, null = True,
+        null = True, blank = True, #blank = True, choices = lists.FileExtChoose(),
         help_text = docext_help)
     iniddoco = models.CharField(doceot, max_length = 10, null = True,
         blank = True)
@@ -527,10 +528,13 @@ class inidcartog(models.Model):
         blank = True)
     caruespu = models.CharField(escpub, max_length = 9, null = True, 
         blank = True)
-    carmafor = models.CharField(mapfor, max_length = 4, 
-        choices = lists.FormatChoose(), null = True, blank = True)
-    carmamex = models.CharField(mapext, max_length = 9, 
-        choices = lists.MapExtChoose(), null = True, blank = True,
+    carmafor = models.ForeignKey('documformat', verbose_name = mapfor,#CharField(mapfor, max_length = 4, 
+        null = True, blank = True,
+        related_name = '%(app_label)s_%(class)s_mapfor')
+        #choices = lists.FormatChoose(), null = True, blank = True)
+    carmamex = models.ForeignKey('mapfileexte', verbose_name = mapext, #CharField(mapext, max_length = 9, 
+        related_name = '%(app_label)s_%(class)s_mapext',
+        null = True, blank = True, #choices = lists.MapExtChoose(), null = True, blank = True,
         help_text = mapext_help)
     carmamot = models.CharField(mapotr, max_length = 9, 
         null = True, blank = True)
@@ -555,10 +559,12 @@ class inidcartog(models.Model):
         blank = True)
     carqualy = models.CharField(qualit, max_length = 125, null = True, 
         blank = True, help_text = qualit_help)
-    cardocfo = models.CharField(docfor, max_length = 4,
-        choices = lists.FormatChoose()) 
-    cardocex = models.CharField(docext, max_length = 4,
-        choices = lists.FileExtChoose(), null = True, blank = True)
+    cardocfo = models.ForeignKey('documformat', verbose_name = docfor,#CharField(docfor, max_length = 4,
+        related_name = '%(app_label)s_%(class)s_docfor')
+        #choices = lists.FormatChoose()) 
+    cardocex = models.ForeignKey('extdocuform', verbose_name = docext, #CharField(docext, max_length = 4,
+        related_name = '%(app_label)s_%(class)s_docext',
+        null = True, blank = True) #choices = lists.FileExtChoose(), null = True, blank = True)
     cardocot = models.CharField(docotr, max_length = 10, null = True, 
         blank = True)
 
@@ -592,17 +598,17 @@ class inicartogra(inididinden):
 
     incacuba = models.FloatField(cubria, help_text = cubria_help)
     incacubp = models.FloatField(cubrip, help_text = cubrip_help)
-    incaforf = models.CharField(formaf, max_length = 4, 
-        choices = lists.FormatChoose())
-    incafore = models.CharField(archex, max_length = 5, null = True,
-        blank = True)
+    incaforf = models.ForeignKey('documformat', verbose_name = formaf)#CharField(formaf, max_length = 4, 
+        #choices = lists.FormatChoose())
+    incafore = models.ForeignKey('extdocuform', verbose_name = archex,#CharField(archex, max_length = 5, null = True,
+        null = True, blank = True)
     incaforo = models.CharField(archeo, max_length = 25, null = True,
         blank = True)
-    incarsco = models.CharField(reessc, max_length = 4,
-        choices = lists.SisCoordChoose())
+    incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc)#CharField(reessc, max_length = 4,
+        #choices = lists.SisCoordChoose())
     incarsre = models.CharField(reessr, max_length = 25)
-    incaroco = models.CharField(reesoc, max_length = 3, 
-        choices = lists.OriCoordChoose())
+    incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc)#CharField(reesoc, max_length = 3, 
+        #choices = lists.OriCoordChoose())
     incardat = models.CharField(reesda, max_length = 25)
     incarlic = models.CharField(licenc, max_length = 250)
     incaraut = models.CharField(author, max_length = 150)  
@@ -640,6 +646,72 @@ class inicartsubt(models.Model):
         verbose_name = u'1.2 Subtema cartográfico'
         verbose_name_plural = u'1.2 Subtemas cartográficos'
 
+class documformat(models.Model):
+    '''
+    Componente cartográfico
+    Extensión del documento
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class matpfileexte(models.Model):
+    '''
+    Componente cartográfico
+    Extensión del documento
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class extdocuform(models.Model):
+    '''
+    Componente cartográfico
+    Extensión del documento
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class inimagsenso(models.Model):
+    '''
+    Componente cartográfico
+    Sensor de las imágenes
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class cartcoorsys(models.Model):
+    '''
+    Componente cartográfico
+    Sistema de coordinadas
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class cartcoorori(models.Model):
+    '''
+    Componente cartográfico
+    Orígen de coordenadas
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
 # Cartografía base
 
 class inidcardatg(inicartogra):
@@ -663,18 +735,22 @@ class inidcardatg(inicartogra):
     
     lists = SelectList()
 
-    icartess = models.PositiveIntegerField(escala, 
-        choices = lists.ScaleChoose(),
-        default = lists.DefaultScale(), help_text = escala_help)
+    icartess = models.ForeignKey('cartgridsca', verbose_name = escala, #PositiveIntegerField(escala, 
+        related_name = '%(app_label)s_%(class)s_icartess',
+        help_text = escala_help)
+        #choices = lists.ScaleChoose(),
+        #default = lists.DefaultScale(), help_text = escala_help)
     icartnum = models.CharField(numero, max_length = 8,
         help_text = numero_help)
     icartres = models.CharField(respon, max_length = 125,
         help_text = respon_help)
     icartcug = models.CharField(cubrim, max_length = 500,
         help_text = cubrim_help)
-    icartesc = models.PositiveIntegerField(esccap, 
-        choices = lists.ScaleChoose(),
-        default = lists.DefaultScale(), null = True, blank = True)
+    icartesc = models.ForeignKey('cartgridsca', verbose_name =esccap, #PositiveIntegerField(esccap, 
+        related_name = '%(app_label)s_%(class)s_icartesc',
+        null = True, blank = True)
+        #choices = lists.ScaleChoose(),
+        #default = lists.DefaultScale(), null = True, blank = True)
 
     def __unicode__(self):
         return '%s, %s, %s' % (self.incaraut, self.incacuba, self.icartess) 
@@ -822,8 +898,8 @@ class inidimagsat(inicartogra):
     lists = SelectList()
 
     iimanomb = models.CharField(nombre, max_length = 125)
-    iimasens = models.CharField(sensor, max_length = 10, 
-        choices = lists.SensChoose())
+    iimasens = models.ForeignKey('inimagsenso', verbose_name = sensor) #CharField(sensor, max_length = 10, 
+        #choices = lists.SensChoose())
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
     iimadate = models.DateTimeField(fechai)
@@ -871,9 +947,9 @@ class inidfotogra(inicartogra):
 
     ifonombr = models.CharField(nombre, max_length = 125)
     ifonumes = models.CharField(numsob, max_length = 50)
-    ifoescaf = models.PositiveIntegerField(escala, 
-        choices = lists.ScaleChoose(),
-        default = lists.DefaultScale())
+    ifoescaf = models.ForeignKey('cartgridsca', verbose_name = escala) #PositiveIntegerField(escala, 
+        #choices = lists.ScaleChoose(),
+        #default = lists.DefaultScale())
     ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
         blank = True)
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
@@ -884,6 +960,39 @@ class inidfotogra(inicartogra):
     class Meta:
         verbose_name = u'03 Fotografía'
         verbose_name_plural = u'03 Fotografías'
+
+class mapfileexte(models.Model):
+    '''
+    Componente cartográfico
+    Extensión de los mapas
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class extpictform(models.Model):
+    '''
+    Componente cartográfico
+    Extensión de las fotografías
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class cartgridsca(models.Model):
+    '''
+    Componente cartográfico
+    Escala de las planchas
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
 
 #Suelos
 
@@ -1096,8 +1205,8 @@ class ihlmethaest(models.Model):
         choices = lists.YearList(), default = lists.ThisYear())
     ihlmeesf = models.PositiveSmallIntegerField(periof, 
         choices = lists.YearList(), default = lists.ThisYear())
-    ihlmeese = models.CharField(escate, max_length = 2, 
-        choices = lists.EscTempChoose())
+    ihlmeese = models.ForeignKey('hlmetimesca', verbose_name = escate) #CharField(escate, max_length = 2, 
+        #choices = lists.EscTempChoose())
 
     class Meta:
         verbose_name = u'05.1.1 Estación dentro del estudio'
@@ -1119,8 +1228,8 @@ class ihlmethafor(models.Model):
     lists = SelectList()
  
     inihlmma = models.ForeignKey('inidhlmetod')
-    inihlmpe = models.CharField(period, max_length = 4, 
-        choices = lists.PeriAforChoose())
+    inihlmpe = models.ForeignKey('hdlaforperi', verbose_name = period) #CharField(period, max_length = 4, 
+        #choices = lists.PeriAforChoose())
     inihlmmp = models.FloatField(caperi, null = True, blank = True)
     inihlmca = models.FloatField(caudal, null = True, blank = True)
     inihlmni = models.FloatField(nivel, null = True, blank = True)
@@ -1131,6 +1240,28 @@ class ihlmethafor(models.Model):
     class Meta:
         verbose_name = u'05.1.2 Información de aforos'
         verbose_name_plural = verbose_name
+
+class hlmetimesca(models.Model):
+    '''
+    Hidrología
+    Escala temporal
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class hdlaforperi(models.Model):
+    '''
+    Hidrología
+    Periodo de la medición del aforo
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
 
 class inidhlcarto(inidcartog):
     '''
@@ -1188,14 +1319,26 @@ class inighgmetfa(models.Model):
 
     esthidrg = models.ForeignKey('inidhgestud', 
         verbose_name = u'Estudio de hidrogeología')
-    fasesest = models.CharField(u'Fase que contempló el estudio', 
-        max_length = 5, choices = lists.HdrFaseChoose())  
+    fasesest = models.ForeignKey('inhdrefases', 
+        verbose_name = u'Fase que contempló el estudio') #CharField(u'Fase que contempló el estudio', 
+        #max_length = 5, choices = lists.HdrFaseChoose())  
     metodolo = models.CharField(u'Metodología usada en la fase', 
         max_length = 500, null = True, blank = True)
     class Meta:
         verbose_name = u'Fase del estudio'
         verbose_name_plural = u'Fases del estudio'
         
+class inhdrefases(models.Model):
+    '''
+    Hidrogeología
+    Fases que contempló el estudio
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
 class inidhgmetho(models.Model):
     '''
     Hidrogeología
@@ -1306,8 +1449,9 @@ class inidhgmetho(models.Model):
         default = False)
     inghmhci = models.CharField(modhdin, max_length = 500,   
         null = True, blank = True)
-    inghtacu = models.CharField(acuiana, max_length = 5, 
-        choices = lists.HdrAcuifChoose(), null = True, blank = True)
+    inghtacu = models.ForeignKey('inhdrmeacui', verbose_name = acuiana, #CharField(acuiana, max_length = 5, 
+        null = True, blank = True)
+        #choices = lists.HdrAcuifChoose(), null = True, blank = True)
     inghagsu = models.BooleanField(aguasub, choices = lists.BoolChoose(), 
         default = False)
     inghasnp = models.PositiveSmallIntegerField(agsubnp, 
@@ -1323,13 +1467,27 @@ class inidhgmetho(models.Model):
         verbose_name = u'06.1 Metodología utilizada'
         verbose_name_plural = u'06.1 Metodologías utilizadas'
 
+class inhdrmeacui(models.Model):
+    '''
+    Hidrogeología
+    Tipo de acuifero analizado
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
 class inidhgmmoma(models.Model):
     '''
     Hidrogeología
     Metodología.
     Modelos matemáticos
     '''
-    modelo = models.CharField('Nombre del modelo matemático', max_length = 25)
+    modelo = models.CharField('Nombre del modelo matemático', max_length = 50)
+
+    def __unicode__(self):
+        return self.modelo
 
     class Meta:
         verbose_name = u'Modelo matemático'
@@ -1399,10 +1557,12 @@ class inidcameth(models.Model):
         default = False, null = True, blank = True)
     inicaime = models.PositiveIntegerField(icames, null = True,
         blank = True)
-    inicaimf = models.CharField(icamfo, max_length = 4,
-        choices = lists.FormatChoose(), blank = True, null = True)
-    inicaimx = models.CharField(icamex, max_length = 9,
-        choices = lists.MapExtChoose(), null = True, blank = True)
+    inicaimf = models.ForeignKey('documformat', verbose_name = icamfo, #CharField(icamfo, max_length = 4,
+        null = True, blank = True)
+        #choices = lists.FormatChoose(), blank = True, null = True)
+    inicaimx = models.ForeignKey('mapfileexte', verbose_name = icamex, #CharField(icamex, max_length = 9,
+        null = True, blank = True)
+        #choices = lists.MapExtChoose(), null = True, blank = True)
     inicaixo = models.CharField(icameo, max_length = 25,
         null = True, blank = True)
 
@@ -1499,6 +1659,8 @@ class incainfpara(models.Model):
     variab = models.CharField('Parámetro', max_length = 50)
     expres = models.CharField('Expresión', max_length = 20)
     
+    def __unicode__(self):
+        return '%s---%s' %(self.variab, self.expres)
     class Meta:
         verbose_name = u'Parámetro Fisicoquímicos'
         verbose_name_plural = verbose_name
@@ -1590,23 +1752,82 @@ class inidccmetho(models.Model):
     iiccmeth = models.OneToOneField('inidccestud')
     iiccmobj = models.CharField(objeto, max_length = 500)
     iiccmmet = models.CharField(metodo, max_length = 500, help_text = metodo_help)
-    iiccmest = models.CharField(estima, max_length = 5, 
-        null = True, blank = True, choices = lists.CacaEstiChoose())
-    iiccmlin = models.CharField(lineab, max_length = 5,
-        choices = lists.CacaParaChoose(), default = False)
+    iiccmest = models.ForeignKey('incameestim', verbose_name = estima, #CharField(estima, max_length = 5, 
+        null = True, blank = True) #, choices = lists.CacaEstiChoose())
+    iiccmlin = models.ForeignKey('incamelineb', verbose_name = lineab) #CharField(lineab, max_length = 5,
+        #choices = lists.CacaParaChoose(), default = False)
     iiccmdcc = models.BooleanField(concen, choices = lists.BoolChoose(), 
         default = False)  
-    iiccmsum = models.CharField(sumini, max_length = 5,
-        choices = lists.CacaFuenChoose(), default = False,
+    iiccmsum = models.ForeignKey('incamesourc', verbose_name = sumini, #CharField(sumini, max_length = 5,
         null = True, blank = True)  
-    iiccminv = models.CharField(invent, max_length = 4, 
-        choices = lists.CacaQuinChoose(), null = True, blank = True)
-    iiccmsec = models.CharField(carsec, max_length = 4, 
-        choices = lists.CacaDiscChoose(), default = False)
+        #choices = lists.CacaFuenChoose(), default = False,
+    iiccminv = models.ForeignKey('incamequinq', verbose_name = invent, #CharField(invent, max_length = 4, 
+        null = True, blank = True)  
+        #choices = lists.CacaQuinChoose(), null = True, blank = True)
+    iiccmsec = models.ForeignKey('incamediscr', verbose_name = carsec) #CharField(carsec, max_length = 4, 
+        #choices = lists.CacaDiscChoose(), default = False)
 
     class Meta:
         verbose_name = '08.1 Metodología del estudio'
         verbose_name_plural = verbose_name
+
+class incameestim(models.Model):
+    '''
+    Cargas Contaminantes
+    Estimación de cargas contaminantes
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class incamelineb(models.Model):
+    '''
+    Cargas Contaminantes
+    Cálculo de La línea Base de carga contaminante de DBO y SST
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+
+class incamesourc(models.Model):
+    '''
+    Cargas Contaminantes
+    La fuente de muestreos de vertimientos de aguas 
+        residuales
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class incamequinq(models.Model):
+    '''
+    Cargas Contaminantes
+    La corporación cuenta con. En caso de disponer información
+        del último quinquenio
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class incamediscr(models.Model):
+    '''
+    Cargas Contaminantes
+    Cargas contaminantes discriminadas por sectores productivos
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
 
 class inidccminfe(models.Model):
     '''
@@ -1787,24 +2008,27 @@ class inidcometho(models.Model):
     lists = SelectList()
 
     iicometh = models.OneToOneField('inidcoestud')
-    iicomsen = models.ManyToManyField('inidcometho', verbose_name = sensor) 
+    iicomsen = models.ManyToManyField('inidcosenso', verbose_name = sensor) 
     iicomseo = models.CharField(sensoo, max_length = 25, null  = True,
         blank = True)
-    iicomfot = models.CharField(fotfor, max_length = 9, 
-        choices = lists.MapExtChoose(), null= True, blank = True)
+    iicomfot = models.ForeignKey('mapfileexte',verbose_name = fotfor, #CharField(fotfor, max_length = 9, 
+        null= True, blank = True)
+        #choices = lists.MapExtChoose(), null= True, blank = True)
     iicomfoo = models.CharField(fotfoo, max_length = 25, null  = True,
         blank = True)
-    iicomimg = models.CharField(imgfor, max_length = 9,
-        choices = lists.SensChoose(), null = True, blank = True)
+    iicomimg = models.ForeignKey('inimagsenso', verbose_name = imgfor, #CharField(imgfor, max_length = 9,
+        null= True, blank = True)
+        #choices = lists.SensChoose(), null = True, blank = True)
     iicomimo = models.CharField(imgfoo, max_length = 25, null  = True,
         blank = True)
     iicomdat = models.PositiveSmallIntegerField(fechai, 
         choices = lists.YearList(), null = True, blank = True)
     iicomniv = models.CharField(nivley, max_length = 250, null = True, 
         blank = True)
-    iicomint = models.CharField(interp, max_length = 4, 
-        choices = lists.CobeMetoChoose(), null = True, blank = True,
+    iicomint = models.ForeignKey('incomeinter', verbose_name = interp, #CharField(interp, max_length = 4, 
+        null= True, blank = True,
         help_text = interp_help)
+        #choices = lists.CobeMetoChoose(), null = True, blank = True,
     iicomver = models.CharField(verifi, max_length = 200, 
         null = True, blank = True, help_text = verifi_help)
     iicomcfu = models.CharField(cartfu, max_length = 75)
@@ -1815,6 +2039,17 @@ class inidcometho(models.Model):
     class Meta:
         verbose_name = u'09.1 Metodología de levantamiento'
         verbose_name_plural = verbose_name
+
+class incomeinter(models.Model):
+    '''
+    Coberturas de la tierra
+    Método de interpretación utilizado
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
 
 class inidcoinfog(inidcartog):
     '''
@@ -1850,14 +2085,14 @@ class inidcoanmul(models.Model):
         verbose_name = u'Análisis multitemporal'
         verbose_name_plural = u'Análisis multitemporales'
 
-class inidcometho(models.Model):
+class inidcosenso(models.Model):
     '''
     Cobertura de la tierra 
     Metodología utilizada para levantamiento de coberturas'
     Sensores utilizados
     '''
     sensor = models.CharField(u'Sensor Utilizado', max_length = 150)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.sensor
@@ -1923,8 +2158,9 @@ class inidffmeth(models.Model):
     iffmein = models.CharField(meinve, max_length = 500, 
         help_text = meinve_help)
     ifftico = models.CharField(ticobe, max_length = 500)
-    iffvegi = models.CharField(vegete, max_length = 4,
-        choices = lists.FlofInveChoose(), blank = True)
+    iffvegi = models.ForeignKey('inffmeveget', verbose_name = vegete, #CharField(vegete, max_length = 4,
+        null = True, blank = True)
+        #choices = lists.FlofInveChoose(), blank = True)
     iffesli = models.NullBooleanField(ecoest, choices = lists.BoolNullChoose())
     iffnupa = models.PositiveSmallIntegerField(numpar, 
         null = True, blank = True)
@@ -1932,12 +2168,13 @@ class inidffmeth(models.Model):
         null = True, blank = True, help_text = metfau_help)
     iffclaj = models.CharField(clafau, max_length = 500, 
         null = True, blank = True, help_text = clafau_help)
-    iffgeoi = models.CharField(georef, max_length = 4, 
-        choices = lists.FlofGeoChoose(), null = True, blank = True)
-    iffinfc = models.CharField(carfue, max_length = 4,
-        choices = lists.FlofPMEFuenChoose())
-    iffamen = models.CharField(espame, max_length = 4,
-        choices = lists.FlofAmenChoose())
+    iffgeoi = models.ForeignKey('inffmegeore', verbose_name = georef, #CharField(georef, max_length = 4, 
+        null = True, blank = True)
+        #choices = lists.FlofGeoChoose(), null = True, blank = True)
+    iffinfc = models.ForeignKey('inffmesouri', verbose_name = carfue) #CharField(carfue, max_length = 4,
+        #choices = lists.FlofPMEFuenChoose())
+    iffamen = models.ForeignKey('inffmeamena', verbose_name = espame) #CharField(espame, max_length = 4,
+        #choices = lists.FlofAmenChoose())
     iffamec = models.CharField(espacu, max_length = 150, null = True, 
         blank = True)
     iffgeor = models.NullBooleanField(geoame, choices = lists.BoolChoose(),
@@ -1946,6 +2183,52 @@ class inidffmeth(models.Model):
     class Meta:
         verbose_name = u'10.1 Metodología de levantamiento'
         verbose_name_plural = verbose_name
+
+class inffmeveget(models.Model):
+    '''
+    Flora y Fauna
+    Tipo de vegetación en el área de estudio con inventario
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class inffmegeore(models.Model):
+    '''
+    Flora y Fauna
+    Georeferenciación de inventarios relacionados a municipio
+    o vereda
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class inffmesouri(models.Model):
+    '''
+    Flora y Fauna
+    Fuentes de caracterización de flora y fauna
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class inffmeamena(models.Model):
+    '''
+    Flora y fauna
+    Especies de flora y/o fauna en 
+        amenaza, peligro de extinción o endémicas.
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
     
 class inidffcart(inidcartog):
     '''
@@ -2008,7 +2291,7 @@ class pmecoplanma(models.Model):
     Formulación del Plan y Resultados
     Planes de manejo
     '''
-    pmecopla = models.ForeignKey('inidpmecofo')
+    #pmecopla = models.ForeignKey('inidpmecofo')
     planmane = models.CharField(u'Plan de manejo', max_length = 200)
 
     class Meta:
@@ -2110,7 +2393,7 @@ class amenaidenti(models.Model):
     Amenazas identificadas en la cuenca
     '''
     amenaz = models.CharField(u'Amenaza identificada', max_length = 150)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.amenaz
@@ -2121,7 +2404,7 @@ class eventocurri(models.Model):
     Eventos que han ocurrido en la cuenca
     '''
     evento = models.CharField(u'Evento ocurrido', max_length = 150)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
 
     def __unicode__(self):  
         return self.evento
@@ -2132,7 +2415,7 @@ class elemenexpue(models.Model):
     Elementos expuestos que se vieron afectados
     '''
     elemen = models.CharField(u'Elemento ocurrido', max_length = 150)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
 
     def __unicode__(self):
         return self.elemen
@@ -2520,7 +2803,7 @@ class inidsedsvar(models.Model):
     Variables analizadas
     '''
     variab = models.CharField(u'Variables analizadas', max_length = 50)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.variab
@@ -2536,7 +2819,7 @@ class inidsedsser(models.Model):
     Servicios sociales
     '''
     sevici = models.CharField(u'Servicios sociales', max_length = 50)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.servici
@@ -2552,7 +2835,7 @@ class inidsedsact(models.Model):
     Actividades económicas en la cuenca caracterizadas.
     '''
     activi = models.CharField(u'Actividades económicas', max_length = 50)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.activi
@@ -2685,7 +2968,7 @@ class inidseserec(models.Model):
     '''
     servic = models.CharField(u'Servicio ecosistémico analizado', 
         max_length = 50)
-    enable = models.BooleanField(u'Enabled', default = False)
+    enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
         return self.servic

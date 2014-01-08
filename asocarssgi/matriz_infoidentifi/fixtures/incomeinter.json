@@ -1,0 +1,16 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.incomeinter",
+        "fields": {
+            "value": "Visual"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.incomeinter",
+        "fields": {
+            "value": "Digital"
+         }
+}
+]

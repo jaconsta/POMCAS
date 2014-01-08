@@ -1,0 +1,23 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inffmesouri",
+        "fields": {
+            "value": "Primarias"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inffmesouri",
+        "fields": {
+            "value": "Secundarias"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inffmesouri",
+        "fields": {
+            "value": "Mixtas"
+         }
+}
+]

@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.incamesourc",
+        "fields": {
+            "value": "Usuarios"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.incamesourc",
+        "fields": {
+            "value": "Municipios"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.incamesourc",
+        "fields": {
+            "value": "CAR"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.incamesourc",
+        "fields": {
+            "value": "Mixtos"
+         }
+}
+]

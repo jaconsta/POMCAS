@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Estructura de la población"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Densidad"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Natalidad"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Mortalidad"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Migraciones"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.inidsedsvar",
+        "fields": {
+            "variab": "Otros"
+         }
+}
+]

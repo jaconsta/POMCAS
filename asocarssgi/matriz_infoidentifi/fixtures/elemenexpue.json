@@ -1,0 +1,44 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Personas"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Cultivos"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Viviendas"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Infraestructura"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Vías"
+         }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.elemenexpue",
+        "fields": {
+            "elemen": "Otro"
+         }
+}
+]

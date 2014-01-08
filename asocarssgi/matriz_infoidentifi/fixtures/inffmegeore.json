@@ -1,0 +1,37 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.inffmegeore",
+        "fields": {
+            "value": "Georeferenciación"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.inffmegeore",
+        "fields": {
+            "value": "Relacionados a municipio"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.inffmegeore",
+        "fields": {
+            "value": "Relacionados a vereda"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.inffmegeore",
+        "fields": {
+            "value": "Otros"
+         }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.inffmegeore",
+        "fields": {
+            "value": "No aplica"
+         }
+}
+]

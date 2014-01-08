@@ -1,0 +1,30 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.extdocuform",
+        "fields": {
+            "value": "Word"
+        }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.extdocuform",
+        "fields": {
+            "value": "Excel"
+        }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.extdocuform",
+        "fields": {
+            "value": "PDF"
+        }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.extdocuform",
+        "fields": {
+            "value": "Otro"
+        }
+}
+]

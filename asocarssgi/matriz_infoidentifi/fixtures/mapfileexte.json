@@ -1,0 +1,86 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "ECW"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "Generate"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "SHP"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "e00"
+        }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "ArcInfo"
+        }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "DWG"
+         }
+},
+{
+        "pk": 7,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "DGN"
+         }
+},
+{
+        "pk": 8,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "DXF"
+         }
+},
+{
+        "pk": 9,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "PDF"
+         }
+},
+{
+        "pk": 10,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "TIF"
+         }
+},
+{
+        "pk": 11,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "JPG"
+         }
+},
+{
+        "pk": 12,
+        "model": "matriz_infoidentifi.mapfileexte",
+        "fields": {
+            "value": "Otro"
+        }
+}
+]
