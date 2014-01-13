@@ -51,7 +51,9 @@ def infouser(request):
     By now, It'll do nothing
     '''
     #return matrixlist(request)
-    return render_to_response('main.html')
+    return render(request, 'main.html', {
+        'usr': request.user,
+    })
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def matrixlist(request):

@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block naviside %}
+<h1>{{ title }}</h1>
+    <a href="add" class="style_button">Agregar Nuevo</a>
+    <a href="{% url matrix_infoident_index shared_id=shared_id %}" class="style_button">Volver</a>
+<h2>Resumen de formatos</h2>
+{% for row in forms %}
+    <p class ="rowlist">{{ row }}
+    <a href="{{ row.id }}" class="style_button">Editar</a>
+    {% for subform in subtree %}
+        <a href="{% url matrix_infoident_subte shared_id=shared_id subcompo=subcompo pk=row.id subtema=subform %}" class="style_button">Agregar {{ subform }}</a>
+    {% endfor %}
+    </p>
+{% empty %}
+    <p>No ha diligenciado ningún formato para este componente</p>
+    <a href="add" class="style_buton">Agregar el primer formato</a>
+    <br />
+{% endfor %}
+{% if forms %}
+    <a href="add" class="style_button">Agregar Nuevo</a>
+{% endif %}
+{% endblock %}

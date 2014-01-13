@@ -14,4 +14,4 @@ class corporaname(models.Model):
     corpodir = models.CharField(u'Nombre del director', max_length = 75, null = True, blank = True)
 
     def __unicode__(self):
-        return u'%s, %s, %s, %s, %s, %s'%(self.corporac, self.corposig, self.corpoadd, self.cropodep, self.corpocit, self.corpodir)
+        return u'%s, %s' % (self.corposig, self.corponit)

@@ -560,7 +560,8 @@ class inidcartog(models.Model):
     carqualy = models.CharField(qualit, max_length = 125, null = True, 
         blank = True, help_text = qualit_help)
     cardocfo = models.ForeignKey('documformat', verbose_name = docfor,#CharField(docfor, max_length = 4,
-        related_name = '%(app_label)s_%(class)s_docfor')
+        related_name = '%(app_label)s_%(class)s_docfor', 
+        null = True, blank = True)
         #choices = lists.FormatChoose()) 
     cardocex = models.ForeignKey('extdocuform', verbose_name = docext, #CharField(docext, max_length = 4,
         related_name = '%(app_label)s_%(class)s_docext',
@@ -574,6 +575,7 @@ class inicartogra(inididinden):
     Componente cartográfico. 
     Preguntas comunes
     '''
+    subcom = u'Subcomponente de estudio'
     cubria = u'Área de cubrimiento con relación a la cuenca'
     cubrip = u'Porcentaje de cobertura con relación a la cuenca'
     formaf = u'Formato del archivo'
@@ -596,6 +598,7 @@ class inicartogra(inididinden):
 
     lists = SelectList()
 
+    inidsubc = models.CharField(subcom, max_length = 20)
     incacuba = models.FloatField(cubria, help_text = cubria_help)
     incacubp = models.FloatField(cubrip, help_text = cubrip_help)
     incaforf = models.ForeignKey('documformat', verbose_name = formaf)#CharField(formaf, max_length = 4, 
@@ -2822,7 +2825,7 @@ class inidsedsser(models.Model):
     enable = models.BooleanField(u'Enabled', default = True)
     
     def __unicode__(self):
-        return self.servici
+        return self.sevici
 
     class Meta:
         verbose_name = u'Servicio social'
@@ -2915,6 +2918,10 @@ class inidseccdcc(models.Model):
     cobertur = models.CharField(cobert, max_length = 250,
         help_text = cobert_help)
     variable = models.CharField(variab, max_length = 300)
+
+    class Meta:
+        verbose_name = u'13.5.1.1 Cobertura del documento'
+        verbose_name_plural = u'13.5.1.1 Cobertura del documento'
 
 ## Valoración de Servicios Ecosistémicos
 class inidsevsinf(inididestud):
@@ -3043,5 +3050,5 @@ class inidserfure(models.Model):
         blank = True)
 
     class Meta:
-        verbose_name = u'Competitividad y prodducción'
+        verbose_name = u'Competitividad y producción'
         verbose_name_plural = verbose_name

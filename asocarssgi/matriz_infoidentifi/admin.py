@@ -1,4 +1,7 @@
 #-*- coding: utf-8 -*-
+#
+# Copyright 2013-2014 ASOCARS
+#
 from django.contrib import admin
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
@@ -437,8 +440,8 @@ class PlanManeInfoAdmin(admin.StackedInline):
     fields = ('caruesle', 'caruespu', 'carescs', 'carmafor',
         ('carmamex', 'carmamot'),
     )
-class PlaManEjeAdmin(admin.TabularInline):
-    model = pmecoplanma
+#class PlaManEjeAdmin(admin.TabularInline):
+#    model = pmecoplanma
 
 class PMEcoAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
@@ -457,8 +460,8 @@ class PMEcoAdmin(admin.ModelAdmin):
         }),
     )
 
-class PMEFormAdmin(admin.ModelAdmin):
-    inlines = [PlaManEjeAdmin]
+#class PMEFormAdmin(admin.ModelAdmin):
+#    inlines = [PlaManEjeAdmin]
 
 # Riesgos - Amenazas
 #class AmenSitAdmin(admin.StackedInline):
@@ -742,7 +745,7 @@ admin.site.register(iniccicompl, CacoInfcAdmin)
 admin.site.register(inidcoestud, CoberAdmin)
 admin.site.register(inidffestud, FloraAdmin)
 admin.site.register(inidpmestud, PMEcoAdmin)
-admin.site.register(inidpmecofo, PMEFormAdmin)
+#admin.site.register(inidpmecofo, PMEFormAdmin)
 admin.site.register(inriesamepr, AmenazAdmin)
 admin.site.register(inidriestud, RiesgoAdmin)
 admin.site.register(inidseasinf, ActSocAdmin)

@@ -3,7 +3,7 @@ import re
 
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -28,16 +28,16 @@ def ValidFileName(filename, matrix, exten):
 
 def FileInTail(request, matrix):
     '''
-    Returns False if there is the user has already uploaded a file.
+    Returns True if the user has already uploaded a file.
     Pending to process or processed and approved
     '''
     if archivosb.objects.filter(
-            archnomb = matrix, 
+            archnomb__exact = matrix, 
             archuser = request.user,
             archesta__in = ['REC', 'APR']
         ).count() == 0:
-        return False
-    return True
+        return True 
+    return False
 
 def SetFile(matrix, upfile):
     try:
@@ -68,7 +68,7 @@ def RecolCartografic(request):
     title = u'Matriz de Cartografía Básica'
     if not FileInTail(request, 'MATRIZ_CARTOGRAFICA'):
         message = u'Ya ha realizado el cargue de esta matriz'
-        return render_to_response('matriz_recibida.html', {
+        return render(request, 'matriz_recibida.html', {
             'errors': message})
     if request.method == 'POST':
         error = ''
@@ -79,12 +79,12 @@ def RecolCartografic(request):
             [parsed, message] = ValidFileName(arch_name, 'CARTOGRAFICA', 
                 GetExcelExt())
             if not parsed:
-                return render_to_response('matriz_recibida.html', {
+                return render(request, 'matriz_recibida.html', {
                     'errors': message})
 
             #Upload The Matrix
             SetFile('MATRIZ_CARTOGRAFICA', request.FILES['archivo'])
-            return render_to_response('matriz_recibida.html', {'errors': error}) 
+            return render(request, 'matriz_recibida.html', {'errors': error}) 
     else: 
         form = UploadMCartogForm()
         title = u'Matriz de Cartografía básica'
@@ -95,9 +95,9 @@ def RecolCartografic(request):
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def RecolInstitucional(request):
     title = u'Matriz de Diagnóstico institucional'
-    if not FileInTail(request, 'MARTIZ_INSTITUCIONAL'):
+    if not FileInTail(request, 'MATRIZ_INSTITUCIONAL'):
         message = u'Ya ha realizado el cargue de esta matriz'
-        return render_to_response('matriz_recibida.html', {
+        return render(request, 'matriz_recibida.html', {
             'title': title, 'errors': message})
     if request.method == 'POST':
         error = ''
@@ -109,7 +109,7 @@ def RecolInstitucional(request):
                 GetExcelExt())
             error += message
             if not parsed:
-                return render_to_response('matriz_recibida.html', {
+                return render(request, 'matriz_recibida.html', {
                     'errors': message}) #HttpResponseRedirect('/proyecto85/b')
             arch_ext = message
             #Parse attached files
@@ -118,7 +118,7 @@ def RecolInstitucional(request):
                 'INSTITUCIONAL_SOPORTES', GetComprExt())
             error += message
             if not parsed:
-                return render_to_response('matriz_recibida.html', {
+                return render(request, 'matriz_recibida.html', {
                     'errors': message})
             sop_ext = message
             #Upload The Matrices

@@ -1,16 +1,21 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+#
+# Copyright 2013-2014 ASOCARS
+#
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 #from django.contrib.auth.models import User
 
 from asocarssgi import default_names
 from cuencas.views import GetCorpoCuencas, GetUserWatersheed
 from corporacion.views import GetUserCorpo, GetUserCorpo
 
-from matriz_infoidentifi.models import inforcompon, inforindice
+from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
 from matriz_infoidentifi import forms
+from matriz_infoidentifi.resume import GetResume
 
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
@@ -50,20 +55,8 @@ def CuencasDeCorpo(request):
         'title' : GetName(),
     }) 
 
-def list(request, shared_id):
-    '''
-    This should do something about showing a resume of all objects.
-    - List all forms filled  
-    - The evaluation concept
-    - Link to the different forms for this module
-    
-    Now it'll do nothing
-    '''
-    templink ='<a href="add">Click Aqui</a>'
-    return HttpResponse(templink)   
-    
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
-def addi(request, shared_id):
+def index(request, shared_id):
     '''
     Provides a link for all the forms avaliable. 
     As the Index page in the Excel file.
@@ -78,10 +71,125 @@ def addi(request, shared_id):
     return render(request, 'formlist.html', {
         'usr' : request.user, #'corpo': corpora, 'watersheed': watershed, 
         'title' : GetName(), 'compo' : GetCompo(),
+        'shared_id' : shared_id,
     }) 
+
+def resume(request, shared_id, subcompo):
+    '''
+    This should do something about showing a resume of all objects.
+    - List all forms filled  
+    - The evaluation concept
+    - Link to the different forms for this module
+    '''
+    #Get quantity of forms filled by the corporation for the subcompo. 
+    corpora = GetUserCorpo(request.user)
+    forms = GetResume(request.user, shared_id, subcompo)
+    subtree = {
+            u'Cartografia' : (u'SubCatastro', u'SubTranspor', 
+                u'SubHidrolog', u'SubeRelive', u'SubEntidade'),
+            u'Imagenes' : (None),
+            u'Fotografias' : (None),
+            u'Suelos' : (u'MetodGeomor', u'MetodSuelos', u'DocumYCarto'),
+            u'Hidrologia' : (u'Metodologia', u'DocumYCarto', u'Variabilida', u'CalcuCaudal'),
+            u'Hidrogeologia' : (u'Metodologia', u'DocumYCarto'),
+            u'CalidadDeAgua' : (u'Metodologia', u'InfoEstudio', u'InfoComplem'),
+            u'CargasContaminantes' :(u'Metodologia', u'InfoEstudio', u'InfoComplem'),
+            u'Cobertura' : (u'Metodologia', u'DocumYCarto', u'AnaliMultit'),
+            u'FloraYFauna' : (u'Metodologia', u'DocumYCarto'),
+            u'PMEcosistemas' : (u'Formulacion', u'InforPlanes'),
+            u'Amenazas' : (u'Actores'),
+            u'Riesgos' : (u'DocumYCarto'),
+            u'seActoresSoc' : (u'Detalle'),
+            u'seEstrParticip' : (u'Detalle'),
+            u'seParticComuEtnicas' : (u'Detalle'),
+            u'seDiagSocioEconom' : (u'Detalle'),
+            u'seCaractCultural' : (u'Detalle'),
+            u'seValorServicEcos' : (u'Detalle'),
+            u'seRelaFuncUrbaRegio' : (u'Detalle'),
+    }
+    return render(request, 'forms_resume.html', {
+        'usr': request.user,
+        'title': GetName(),
+        'forms': forms,
+        'subtree' : subtree[subcompo],
+        'shared_id' : shared_id,
+        'subcompo' : subcompo,
+    })   
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def add(request, shared_id, subcompo):
+    '''
+    Selects which subcomponent will be added, 
+        for that uses the subcompo variable
+    '''
+    usrattr = GetUserAttr(request, shared_id)
+    ####
+    if request.method == 'POST':
+        formlist = {
+            u'Cartografia' : forms.CartografiaForm(request.POST),
+            u'Imagenes' : forms.ImagenesForm(request.POST),
+            u'Fotografias' : forms.FotografiasForm(request.POST),
+            u'Suelos' : forms.SuelosForm(request.POST),
+            u'Hidrologia' : forms.HidrologiaForm(request.POST),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST),
+            u'Cobertura' : forms.CoberturaForm(request.POST),
+            u'FloraYFauna' : forms.FloraYFaunaForm(request.POST),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(request.POST),
+            u'Amenazas' : forms.AmenazasForm(request.POST),
+            u'Riesgos' : forms.RiesgosForm(request.POST),
+            u'seActoresSoc' : forms.seActoresSocForm(request.POST),
+            u'seEstrParticip' : forms.seEstrParticipForm(request.POST),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(request.POST),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(request.POST),
+            u'seCaractCultural' : forms.seCaractCulturalForm(request.POST),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST),
+        }
+        form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
+        if form.is_valid():
+            form.iniescor = usrattr.corpora
+            form.iniescue = usrattr.watersheed
+            form.inieswho = usrattr.user
+            form.inieswhu = usrattr.user
+            return 
+    else:
+        formlist = {
+            u'Cartografia' : forms.CartografiaForm(),
+            u'Imagenes' : forms.ImagenesForm(),
+            u'Fotografias' : forms.FotografiasForm(),
+            u'Suelos' : forms.SuelosForm(),
+            u'Hidrologia' : forms.HidrologiaForm(),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(),
+            u'Cobertura' : forms.CoberturaForm(),
+            u'FloraYFauna' : forms.FloraYFaunaForm(),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(),
+            u'Amenazas' : forms.AmenazasForm(),
+            u'Riesgos' : forms.RiesgosForm(),
+            u'seActoresSoc' : forms.seActoresSocForm(),
+            u'seEstrParticip' : forms.seEstrParticipForm(),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(),
+            u'seCaractCultural' : forms.seCaractCulturalForm(),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(),
+        }
+        form = formlist[subcompo] # getattr(forms, '%sForm()' % subcompo.title())
+        return render(request, 'forms.html', {
+            'form': form,
+            'title' : GetName(), 
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
+            #'compo' : GetCompo(),
+        })
+    ####
+    return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
+
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+def edit(request, shared_id, subcompo, pk):
     '''
     Selects which subcomponent will be added, 
         for that uses the subcompo variable
@@ -118,78 +226,161 @@ def add(request, shared_id, subcompo):
             form.inieswhu = usrattr.user
             return 
     else:
-        formlist = {u'Cartografia' : forms.CartografiaForm(),
-            u'Imagenes' : forms.ImagenesForm(),
-            u'Fotografias' : forms.FotografiasForm(),
-            u'Suelos' : forms.SuelosForm(),
-            u'Hidrologia' : forms.HidrologiaForm(),
-            u'Hidrogeologia' : forms.HidrogeologiaForm(),
-            u'CalidadDeAgua' : forms.CalidadDeAguaForm(),
-            u'CargasContaminantes' : forms.CargasContaminantesForm(),
-            u'Cobertura' : forms.CoberturaForm(),
-            u'FloraYFauna' : forms.FloraYFaunaForm(),
-            u'PMEcosistemas' : forms.PMEcosistemasForm(),
-            u'Amenazas' : forms.AmenazasForm(),
-            u'Riesgos' : forms.RiesgosForm(),
-            u'seActoresSoc' : forms.seActoresSocForm(),
-            u'seEstrParticip' : forms.seEstrParticipForm(),
-            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(),
-            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(),
-            u'seCaractCultural' : forms.seCaractCulturalForm(),
-            u'seValorServicEcos' : forms.seValorServicEcosForm(),
-            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(),
+        instance = get_object_or_404(inididestud, id = pk)
+        formlist = {
+            u'Cartografia' : forms.CartografiaForm(request.POST or None, instance = instance),
+            u'Imagenes' : forms.ImagenesForm(request.POST or None, instance = instance),
+            u'Fotografias' : forms.FotografiasForm(request.POST or None, instance = instance),
+            u'Suelos' : forms.SuelosForm(request.POST or None, instance = instance),
+            u'Hidrologia' : forms.HidrologiaForm(request.POST or None, instance = instance),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST or None, instance = instance),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST or None, instance = instance),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST or None, instance = instance),
+            u'Cobertura' : forms.CoberturaForm(request.POST or None, instance = instance),
+            u'FloraYFauna' : forms.FloraYFaunaForm(request.POST or None, instance = instance),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(request.POST or None, instance = instance),
+            u'Amenazas' : forms.AmenazasForm(request.POST or None, instance = instance),
+            u'Riesgos' : forms.RiesgosForm(request.POST or None, instance = instance),
+            u'seActoresSoc' : forms.seActoresSocForm(request.POST or None, instance = instance),
+            u'seEstrParticip' : forms.seEstrParticipForm(request.POST or None, instance = instance),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(request.POST or None, instance = instance),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(request.POST or None, instance = instance),
+            u'seCaractCultural' : forms.seCaractCulturalForm(request.POST or None, instance = instance),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST or None, instance = instance),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST or None, instance = instance),
         }
-        form = formlist[subcompo] # getattr(forms, '%sForm()' % subcompo.title())
+        form = formlist[subcompo] 
         return render(request, 'forms.html', {
             'form': form,
             'title' : GetName(), 
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
             #'compo' : GetCompo(),
         })
-    ####
-    return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
 
-#    #Fist, validate if subcompo is in the list of matrices avaliable
-#    #Kinda a security validation, because using 'eval'
-#    
-#    #Execute the add function to render or process the form
-##    eval('add_'+subcompo+'()')
-##    if subcompo == 'cartografia':
-##        return add_(request, shared_id)
-##    elif subcompo == 'imagenes':
-##        return add_(request, shared_id)
-##    elif subcompo == 'fotografias':
-##        return add_(request, shared_id)
-##    elif subcompo == 'suelos':
-##        return add_(request, shared_id)
-##    elif subcompo == 'hidrologia':
-##        return add_(request, shared_id)
-##    elif subcompo == 'hidrogeologia':
-##        return add_(request, shared_id)
-##    elif subcompo == 'calidaddeagua':
-##        return add_(request, shared_id)
-##    elif subcompo == 'cargascontaminantes':
-##        return add_(request, shared_id)
-##    elif subcompo == 'cobertura':
-##        return add_(request, shared_id)
-##    elif subcompo == 'florayfauna':
-##        return add_(request, shared_id)
-##    elif subcompo == 'pmecosistemas':
-##        return add_(request, shared_id)
-##    elif subcompo == 'riesgos':
-##        return add_(request, shared_id)
-##    elif subcompo == 'seactoressoc':
-##        return add_(request, shared_id)
-##    elif subcompo == 'seestrparticip':
-##        return add_(request, shared_id)
-##    elif subcompo == 'separticcomuetnicas':
-##        return add_(request, shared_id)
-##    elif subcompo == 'sediagsocioeconom':
-##        return add_(request, shared_id)
-##    elif subcompo == 'secaractcultural':
-##        return add_(request, shared_id)
-##    elif subcompo == 'sevalorservicecos':
-##        return add_(request, shared_id)
-##    elif subcompo == 'serelafuncurbaregio':
-##        return add_(request, shared_id)
-##    else:
-##        return HttpResponse('La matriz no existe')   
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+def subte(request, shared_id, subcompo, pk, subtema):
+    '''
+    Subtemas de formatos
+    '''
+    content = None
+    subtree = {
+            u'Cartografia' : {
+                u'SubCatastro': (u'Subtema catastro', 
+                    forms.CartogSubCatastroForm(content)),
+                u'SubTranspor': (u'Subtema transporte', 
+                    forms.CartogSubTransporForm(content)),
+                u'SubHidrolog': (u'Subtema Hidrología', 
+                    forms.CartogSubHidrologForm(content)),
+                u'SubeRelive': (u'Subtema Relieve', 
+                    forms.CartogSubeReliveForm(content)),
+                u'SubEntidade': (u'Subtema Entidades territoriales', 
+                    forms.SubEntidadeForm(content)),
+                },
+            u'Imagenes' : (None,None),
+            u'Fotografias' : (None,None),
+            u'Suelos' : {
+                u'MetodGeomor': (u'Metodología del estudio de geomorfología', 
+                    forms.SuelosMetodGeomorForm(content)),
+                u'MetodSuelos': (u'Metodología del estudio de suelos y \
+                    capacidad de la tierra', 
+                    forms.SuelosMetodSuelosForm(content)),
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.SuelosDocumYCartoForm(content)),
+                },
+            u'Hidrologia' : {
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.HidroloMetodologiaForm(content)),
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.HidroloDocumYCartoForm(content)),
+                u'Variabilida': (u'Estudios de variabilidad climática', 
+                    forms.HidroloVariabilidaForm(content)),
+                u'CalcuCaudal': (u'Cálculos de caudal ambiental', 
+                    forms.HidroloCalcuCaudalForm(content)),
+                },
+            u'Hidrogeologia' : {
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.HidrogeoMetodologiaForm(content)),
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.HidrogeoDocumYCartoForm(content)),
+                },
+            u'CalidadDeAgua' : {
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.CaliAguaMetodologiaForm(content)),
+                u'InfoEstudio': (u'Información del estudio', 
+                    forms.CaliAguaInfoEstudioForm(content)),
+                u'InfoComplem': (u'Información complementaria', 
+                    forms.CaliAguaInfoComplemForm(content)),
+                },
+            u'CargasContaminantes' :{ 
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.CargContMetodologiaForm(content)),
+                u'InfoEstudio': (u'Información del estudio', 
+                    forms.CargContInfoEstudioForm(content)),
+                u'InfoComplem': (u'Información complementaria', 
+                    forms.CargContInfoComplemForm(content)),
+                },
+            u'Cobertura' : {
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.CobertuMetodologiaForm(content)),
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.CobertuDocumYCartoForm(content)),
+                u'AnaliMultit': (u'Análisis multitemporal', 
+                    forms.CobertuAnaliMultitForm(content)),
+                },
+            u'FloraYFauna' : {
+                u'Metodologia': (u'Metodología del estudio', 
+                    forms.FloFauMetodologiaForm(content)),
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.FloFauDocumYCartoForm(content)),
+                },
+            u'PMEcosistemas' : {
+                u'Formulacion': (u'Formulación de planes y resultados', 
+                    forms.PMEecosFormulacionForm(content)),
+                u'InforPlanes': (u'Información de planes', 
+                    forms.PMEecosInforPlanesForm(content)),
+                },
+            u'Amenazas' : {
+                u'Actores': (u'Actores con influencia', 
+                    forms.AmenazActoresForm(content)),
+                },
+            u'Riesgos' : {
+                u'DocumYCarto': (u'Documento técnico y Cartografía', 
+                    forms.RiesgoDocumYCartoForm(content)),
+                },
+            u'seActoresSoc' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seActoDetalleForm(content)),
+                },
+            u'seEstrParticip' : {
+                u'Detalle': (u'Detalle de la información',
+                    forms.sePartipDetalleForm(content)),
+                },
+            u'seParticComuEtnicas' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seComuEtnicDetalleForm(content)),
+                },
+            u'seDiagSocioEconom' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seDiagSociDetalleForm(content)),
+                },
+            u'seCaractCultural' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seCaraCultDetalleForm(content)),
+                },
+            u'seValorServicEcos' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seServEcosDetalleForm(content)),
+                },
+            u'seRelaFuncUrbaRegio' : {
+                u'Detalle': (u'Detalle de la información', 
+                    forms.seRFUrbRegDetalleForm(content)),
+                },
+    }
+    return render(request, 'forms.html', {
+        'form': subtree[subcompo][subtema][1],
+        'title' : GetName(), 
+        'shared_id' : shared_id,
+        'subcompo' : subcompo,
+        #'compo' : GetCompo(),
+    })
