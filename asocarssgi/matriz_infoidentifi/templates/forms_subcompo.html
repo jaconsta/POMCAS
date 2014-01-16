@@ -1,9 +1,9 @@
 {% extends 'main.html' %}
 {% block naviside %}
-<form action="{% url matrix_infoident_subte shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema %}" method="post">
+<form action="{{ PREFIX_URL }}{% url matrix_infoident_subte shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema %}" method="post">
 {% csrf_token %}
 {{form.as_p}}
-<a href="{% url matrix_infoident_index shared_id=shared_id %}">Cancelar</a>
+<a href="{{ PREFIX_URL }}{% url matrix_infoident_index shared_id=shared_id %}">Cancelar</a>
 <input type="submit" value="Guardar" />
 </form>
 {% endblock %}

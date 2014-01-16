@@ -9,7 +9,7 @@
 <h1>Matrices disponibles</h1>
 <ol>
 {% for matrix in matrices %}
-    <li><a href="{{ matrix.url }}">{{ matrix.matrix }}</a></li>
+    <li><a href="{{ PREFIX_URL }}{{ matrix.url }}">{{ matrix.matrix }}</a></li>
 {% endfor %}
 </ol>
 {% endblock %}

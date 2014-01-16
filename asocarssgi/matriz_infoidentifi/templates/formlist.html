@@ -7,10 +7,10 @@
     <ul>
     {% for subcompo in i %}
         <li>
-            <a href="{{ subcompo.infosubc }}">{{ subcompo.infotema }}</a>
+            <a href="{{ PREFIX_URL }}{{ subcompo.infosubc }}">{{ subcompo.infotema }}</a>
             <br />
             {% if subcompo.infourlc %} <div class='capacit'>
-                <a href="{{ subcompo.infourlc }}">Ver enlace de capacitacion</a>
+                <a href="{{ PREFIX_URL }}{{ subcompo.infourlc }}">Ver enlace de capacitacion</a>
             </div> {% endif %}
             {% if subcompo.infonota %} <div class='condition'>
                 <h3>Pregunta aclaratoria</h3>
