@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse
 #from django.contrib.auth.models import User
 
 from asocarssgi import default_names
@@ -15,7 +16,8 @@ from corporacion.views import GetUserCorpo, GetUserCorpo
 
 from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
 from matriz_infoidentifi import forms
-from matriz_infoidentifi.resume import GetResume
+from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
+    GetSubtopicFK
 
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
@@ -65,7 +67,7 @@ def index(request, shared_id):
         comp = inforcompon.objects.all()
         compolist = []
         for i in comp:
-            subcom = inforindice.objects.filter(infocomp = i)
+            subcom = inforindice.objects.filter(infocomp = i).order_by('infoprio')
             compolist.append([i, subcom])
         return compolist
     return render(request, 'formlist.html', {
@@ -90,10 +92,13 @@ def resume(request, shared_id, subcompo):
             u'Imagenes' : (None),
             u'Fotografias' : (None),
             u'Suelos' : (u'MetodGeomor', u'MetodSuelos', u'DocumYCarto'),
-            u'Hidrologia' : (u'Metodologia', u'DocumYCarto', u'Variabilida', u'CalcuCaudal'),
+            u'Hidrologia' : (u'Metodologia', u'DocumYCarto'),
+            u'Variabilida': (None),
+            u'CalcuCaudal': (None),
             u'Hidrogeologia' : (u'Metodologia', u'DocumYCarto'),
             u'CalidadDeAgua' : (u'Metodologia', u'InfoEstudio', u'InfoComplem'),
-            u'CargasContaminantes' :(u'Metodologia', u'InfoEstudio', u'InfoComplem'),
+            u'CargasContaminantes' :(u'Metodologia', u'InfoEstudio', 
+                u'InfoComplem'),
             u'Cobertura' : (u'Metodologia', u'DocumYCarto', u'AnaliMultit'),
             u'FloraYFauna' : (u'Metodologia', u'DocumYCarto'),
             u'PMEcosistemas' : (u'Formulacion', u'InforPlanes'),
@@ -107,10 +112,16 @@ def resume(request, shared_id, subcompo):
             u'seValorServicEcos' : (u'Detalle'),
             u'seRelaFuncUrbaRegio' : (u'Detalle'),
     }
+    subfields = []
+    for study in forms:
+        subtopic = GetSubtopicResume(subcompo, study)
+        subfields.append({'study': study, 'subtopic': subtopic
+        })
     return render(request, 'forms_resume.html', {
         'usr': request.user,
         'title': GetName(),
         'forms': forms,
+        'subfields': subfields,
         'subtree' : subtree[subcompo],
         'shared_id' : shared_id,
         'subcompo' : subcompo,
@@ -131,6 +142,8 @@ def add(request, shared_id, subcompo):
             u'Fotografias' : forms.FotografiasForm(request.POST),
             u'Suelos' : forms.SuelosForm(request.POST),
             u'Hidrologia' : forms.HidrologiaForm(request.POST),
+            u'Variabilida': forms.HidroloVariabilidaForm(request.POST),
+            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(request.POST),
             u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST),
             u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST),
             u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST),
@@ -149,11 +162,26 @@ def add(request, shared_id, subcompo):
         }
         form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
         if form.is_valid():
-            form.iniescor = usrattr.corpora
-            form.iniescue = usrattr.watersheed
-            form.inieswho = usrattr.user
-            form.inieswhu = usrattr.user
-            return 
+            informacion = form.save(commit = False)
+            informacion.iniescor = usrattr.corpora[0]
+            informacion.iniescue = usrattr.watersheed
+            informacion.inieswho = usrattr.user
+            informacion.inieswhu = usrattr.user
+            if subcompo != 'Amenazas':
+                informacion.inidsubc = subcompo
+            informacion.save()
+            if subcompo == 'Amenazas':
+                #Amenazas is he only one which uses it many2many
+                form.save_m2m()
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
+        return render(request, 'forms.html', {
+            'form': form,
+            'title' : GetName(), 
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
+            #'compo' : GetCompo(),
+        })
+
     else:
         formlist = {
             u'Cartografia' : forms.CartografiaForm(),
@@ -161,6 +189,8 @@ def add(request, shared_id, subcompo):
             u'Fotografias' : forms.FotografiasForm(),
             u'Suelos' : forms.SuelosForm(),
             u'Hidrologia' : forms.HidrologiaForm(),
+            u'Variabilida': forms.HidroloVariabilidaForm(),
+            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(),
             u'Hidrogeologia' : forms.HidrogeologiaForm(),
             u'CalidadDeAgua' : forms.CalidadDeAguaForm(),
             u'CargasContaminantes' : forms.CargasContaminantesForm(),
@@ -186,7 +216,7 @@ def add(request, shared_id, subcompo):
             #'compo' : GetCompo(),
         })
     ####
-    return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
+    #return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def edit(request, shared_id, subcompo, pk):
@@ -197,11 +227,14 @@ def edit(request, shared_id, subcompo, pk):
     usrattr = GetUserAttr(request, shared_id)
     ####
     if request.method == 'POST':
-        formlist = {u'Cartografia' : forms.CartografiaForm(request.POST),
+        formlist = {
+            u'Cartografia' : forms.CartografiaForm(request.POST),
             u'Imagenes' : forms.ImagenesForm(request.POST),
             u'Fotografias' : forms.FotografiasForm(request.POST),
             u'Suelos' : forms.SuelosForm(request.POST),
             u'Hidrologia' : forms.HidrologiaForm(request.POST),
+            u'Variabilida': forms.HidroloVariabilidaForm(request.POST),
+            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(request.POST),
             u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST),
             u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST),
             u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST),
@@ -220,10 +253,16 @@ def edit(request, shared_id, subcompo, pk):
         }
         form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
         if form.is_valid():
-            form.iniescor = usrattr.corpora
-            form.iniescue = usrattr.watersheed
-            form.inieswho = usrattr.user
-            form.inieswhu = usrattr.user
+            #f = AuthorForm(request.POST)
+            #new_Author = f.save(commit=False)
+            #new_Author.some_field = 'some_value'
+            #new_Author.save()
+            #f.save_m2m()
+            informacion = form.save(commit = False)
+            informacion.inieswhu = usrattr.user #Updates the user who updates
+            #I should validate that the form belongs to the user and watersheed
+            # that is connected.
+            informacion.save()
             return 
     else:
         instance = get_object_or_404(inididestud, id = pk)
@@ -234,6 +273,8 @@ def edit(request, shared_id, subcompo, pk):
             u'Suelos' : forms.SuelosForm(request.POST or None, instance = instance),
             u'Hidrologia' : forms.HidrologiaForm(request.POST or None, instance = instance),
             u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST or None, instance = instance),
+            u'Variabilida': forms.HidroloVariabilidaForm(request.POST or None, instance = instance),
+            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(request.POST or None, instance = instance),
             u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST or None, instance = instance),
             u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST or None, instance = instance),
             u'Cobertura' : forms.CoberturaForm(request.POST or None, instance = instance),
@@ -263,7 +304,10 @@ def subte(request, shared_id, subcompo, pk, subtema):
     '''
     Subtemas de formatos
     '''
+    usrattr = GetUserAttr(request, shared_id)
     content = None
+    if request.method == 'POST':
+        content = request.POST
     subtree = {
             u'Cartografia' : {
                 u'SubCatastro': (u'Subtema catastro', 
@@ -293,11 +337,13 @@ def subte(request, shared_id, subcompo, pk, subtema):
                     forms.HidroloMetodologiaForm(content)),
                 u'DocumYCarto': (u'Documento técnico y Cartografía', 
                     forms.HidroloDocumYCartoForm(content)),
-                u'Variabilida': (u'Estudios de variabilidad climática', 
-                    forms.HidroloVariabilidaForm(content)),
-                u'CalcuCaudal': (u'Cálculos de caudal ambiental', 
-                    forms.HidroloCalcuCaudalForm(content)),
+                #u'Variabilida': (u'Estudios de variabilidad climática', 
+                #    forms.HidroloVariabilidaForm(content)),
+                #u'CalcuCaudal': (u'Cálculos de caudal ambiental', 
+                #    forms.HidroloCalcuCaudalForm(content)),
                 },
+            u'Variabilida' : (None,None),
+            u'CalcuCaudal' : (None,None),
             u'Hidrogeologia' : {
                 u'Metodologia': (u'Metodología del estudio', 
                     forms.HidrogeoMetodologiaForm(content)),
@@ -377,10 +423,44 @@ def subte(request, shared_id, subcompo, pk, subtema):
                     forms.seRFUrbRegDetalleForm(content)),
                 },
     }
-    return render(request, 'forms.html', {
-        'form': subtree[subcompo][subtema][1],
-        'title' : GetName(), 
-        'shared_id' : shared_id,
-        'subcompo' : subcompo,
-        #'compo' : GetCompo(),
-    })
+    if request.method == 'POST':
+        form = subtree[subcompo][subtema][1]
+        if form.is_valid():
+            subtopic = form.save(commit = False)
+            if subcompo == 'Cartografia':
+                subtopic.icarsnam = subtema
+                subtopic.icarsubt = GetSubtopicFK(pk)
+            subtopic.save()
+            form.save_m2m()
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
+        return render(request, 'forms_subcompo.html', {
+            'form': form,
+            'title' : GetName(), 
+            'subtitle' : subtree[subcompo][subtema][0],
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
+            'subtema' : subtema,
+            'pk': pk,
+            #'compo' : GetCompo(),
+        })
+    else:
+        return render(request, 'forms_subcompo.html', {
+            'form': subtree[subcompo][subtema][1],
+            'title' : GetName(), 
+            'subtitle' : subtree[subcompo][subtema][0],
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
+            'subtema' : subtema,
+            'pk': pk,
+            #'compo' : GetCompo(),
+        })
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+def subte_edit(request, shared_id, subcompo, pk, subtema, subte_pk):
+    '''
+    Subtemas de formatos.
+        Edición de subtemas diligenciados
+    '''
+    return HttpResponse(u'{% extends \'main.html\' %} \
+        {% block naviside %}\
+        <h2>Hello, on build</h2>\
+        {% endblock %}')

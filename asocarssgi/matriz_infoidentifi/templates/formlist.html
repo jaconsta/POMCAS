@@ -9,13 +9,13 @@
         <li>
             <a href="{{ subcompo.infosubc }}">{{ subcompo.infotema }}</a>
             <br />
-            <div class='capacit'>
+            {% if subcompo.infourlc %} <div class='capacit'>
                 <a href="{{ subcompo.infourlc }}">Ver enlace de capacitacion</a>
-            </div>
-            <div class='condition'>
+            </div> {% endif %}
+            {% if subcompo.infonota %} <div class='condition'>
                 <h3>Pregunta aclaratoria</h3>
                 {{ subcompo.infonota }}
-            </div>
+            </div> {% endif %}
         </li>
         <br />
     {% endfor %}

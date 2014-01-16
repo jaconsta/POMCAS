@@ -639,7 +639,7 @@ class inicartsubt(models.Model):
     lists = SelectList()
 
     icarsubt = models.ForeignKey('inidcardatg')
-    icarsnam = models.CharField(subtem, max_length = 5, editable = False)
+    icarsnam = models.CharField(subtem, max_length = 20, editable = False)
     icarspre = models.BooleanField(presen, choices = lists.BoolChoose())
     icarsexi = models.CharField(cuapre, max_length = 500) 
     icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose())
