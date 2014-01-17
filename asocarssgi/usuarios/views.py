@@ -43,7 +43,7 @@ def loginuser(request):
 
 def logoutuser(request):
     logout(request)
-    return HttpResponseRedirect('%s' %(default_names.SUB_SITE))
+    return HttpResponseRedirect(reverse('cargando'))#'%s' %(default_names.SUB_SITE))
 
 #@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def infouser(request):
@@ -71,10 +71,10 @@ def matrixlist(request):
             self.prio = prio
 
     matrix_list = [   
-        [u'matriz de diagnostico institucional', 'institucional/capture', 1],
-        [u'matriz de cartografia base', 'cartografica/capture', 2],
+        [u'matriz de diagnostico institucional', 'matrix_institucional_upload', 1],
+        [u'matriz de cartografia base', 'matrix_cartografica_upload', 2],
         [u'matriz de caracterizacion de informacion disponible', 
-            'caracterizacion', 3],
+            'matrix_infoident_cuencas', 3],
     ]
     matrices = []
     for i in matrix_list:
