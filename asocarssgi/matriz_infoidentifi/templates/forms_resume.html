@@ -1,14 +1,14 @@
 {% extends 'main.html' %}
 {% block naviside %}
 <h1>{{ title }}</h1>
-    <a href="{{ PREFIX_URL }}{% url matrix_infoident_add shared_id=shared_id subcompo=subcompo %}" class="style_button">Agregar Nuevo</a>
-    <a href="{{ PREFIX_URL }}{% url matrix_infoident_index shared_id=shared_id %}" class="style_button">Volver</a>
+    <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" class="style_button">Agregar Nuevo</a>
+    <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_index' shared_id=shared_id %}" class="style_button">Volver</a>
 <h2>Resumen de formatos</h2>
 {% for row in forms %}
     <p class ="rowlist">{{ row }}
     <a href="{{ PREFIX_URL }}{{ row.id }}" class="style_button">Editar</a>
     {% for subform in subtree %}
-        <a href="{{ PREFIX_URL }}{% url matrix_infoident_subte shared_id=shared_id subcompo=subcompo pk=row.id subtema=subform %}" class="style_button">Agregar {{ subform }}</a>
+        <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_subte' shared_id=shared_id subcompo=subcompo pk=row.id subtema=subform %}" class="style_button">Agregar {{ subform }}</a>
     {% endfor %}
     </p>
 {% empty %}
@@ -20,26 +20,26 @@
 <ol>
 {% for row in subfields %}
     <li>{{ row.study }}
-    <a href="{{ PREFIX_URL }}{% url matrix_infoident_edit shared_id=shared_id subcompo=subcompo pk=row.study.id %}" class="style_button">Editar</a>
+    <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=row.study.id %}" class="style_button">Editar</a>
     {% for topic in row.subtopic %}
         <h3>{{ topic.title }}</h3>
         <ol>
         {% for subform in topic.subtopic %}
             <li>{{ subform }}
-            <a href="{{ PREFIX_URL }}{% url matrix_infoident_subte_edit shared_id=shared_id subcompo=subcompo pk=row.study.id subtema=topic.modelname subte_pk=subform.id %}" class="style_button">Editar</a></li>
+            <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_subte_edit' shared_id=shared_id subcompo=subcompo pk=row.study.id subtema=topic.modelname subte_pk=subform.id %}" class="style_button">Editar</a></li>
         {% endfor %}
         </ol>
-        {% if not topic.subtopic or topic.add %}<a href="{{ PREFIX_URL }}{% url matrix_infoident_subte shared_id=shared_id subcompo=subcompo pk=row.study.id subtema=topic.modelname %}" class="style_button">Agregar nuevo</a>
+        {% if not topic.subtopic or topic.add %}<a href="{{ PREFIX_URL }}{% url 'matrix_infoident_subte' shared_id=shared_id subcompo=subcompo pk=row.study.id subtema=topic.modelname %}" class="style_button">Agregar nuevo</a>
         {% endif %}
     {% endfor %}
     </li>
 {% empty %}
     <p>No ha diligenciado ningún formato para este componente</p>
-    <a href="{{ PREFIX_URL }}{% url matrix_infoident_add shared_id=shared_id subcompo=subcompo %}" class="style_buton">Agregar el primer formato</a>
+    <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" class="style_buton">Agregar el primer formato</a>
     <br />
 {% endfor %}
 </ol>
 {% if forms %}
-    <a href="{{ PREFIX_URL }}{% url matrix_infoident_add shared_id=shared_id subcompo=subcompo %}" class="style_button">Agregar Nuevo</a>
+    <a href="{{ PREFIX_URL }}{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" class="style_button">Agregar Nuevo</a>
 {% endif %}
 {% endblock %}

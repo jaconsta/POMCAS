@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% block naviside %}
   <h3>Por favor, ingrese su usuario para poder continuar</h3>
-  <form action="{{ PREFIX_URL }}{% url usuarios.views.loginuser %}proyecto85/login/" method="post" >
+  <form action="{{ PREFIX_URL }}{% url 'usuarios.views.loginuser' %}" method="post" >
     {% csrf_token %}
     {{error}}
     {{ form.as_p }}
