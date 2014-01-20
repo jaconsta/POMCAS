@@ -28,11 +28,11 @@
     </nav>
     <div id = "business_logos">
         <div id="asocars_logo">
-            <img src="{% static "img/logo/asocars_whitebg_logo.png" %}" alt="ASOCARS_logo" height="60" />
+            <img src="{% static "img/logos/asocars_whitebg_logo.png" %}" alt="ASOCARS_logo" height="60" />
         </div>
         {% if user.is_authenticated %}
         <div id = "corpora_logo">
-            <img src= "{% static "img/logo/{{corporacion_logo}}.png" %}" alt="{{corporacion}}_logo" height="60" />
+            <img src= "{% static "img/logos/{{corporacion_logo}}.png" %}" alt="{{corporacion}}_logo" height="60" />
         </div>
         {% endif %}
     </div>
@@ -43,8 +43,8 @@
     </section>
     <footer>
     <div id="bottom_images">
-        <img src="{% static "img/logo/minambiente_logo.png" %}" alt="Minambiente" height="80" />
-        <img src="{% static "img/logo/fondo_adaptacion.png" %}" alt="Fondo_Adaptacion" height="80" />
+        <img src="{% static "img/logos/minambiente_logo.png" %}" alt="Minambiente" height="80" />
+        <img src="{% static "img/logos/fondo_adaptacion.png" %}" alt="Fondo_Adaptacion" height="80" />
     </div>
     <div id="bottom_text">
     <p>Asociación de Corporaciones Autónomas Regionales y de Desarrollo Sostenible</p>
