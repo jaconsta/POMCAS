@@ -32,7 +32,7 @@
         </div>
         {% if user.is_authenticated %}
         <div id = "corpora_logo">
-            <img src= "{% static "img/logos/{{corporacion_logo}}.png" %}" alt="{{corporacion}}_logo" height="60" />
+            <img src= "{% static "img/logos/" %}{{user.username}}.png" alt="{{user.username}}_logo" height="60" />
         </div>
         {% endif %}
     </div>

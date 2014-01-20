@@ -30,7 +30,7 @@ def loginuser(request):
 	    if user.is_active:
 		login(request, user)
 		#Success page
-		return HttpResponseRedirect('%s' %(default_names.SUB_SITE))
+		return HttpResponseRedirect(reverse('cargando'))
 	    else:
 		#Disabled account
 		error = 'La cuenta se encuentra deshabilitada.'
