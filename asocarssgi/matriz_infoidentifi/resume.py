@@ -185,22 +185,25 @@ def GetSubtopicResume(subcompo, subtemas):
             (u'Detalle de la información', u'Detalle', 'inidserfdet', False),
         ),
     }
-    for topic in subtree[subcompo]:
-        try: 
-            if not topic[3]: #If OneToOneField
-                topicquery = [eval('subtemas.%s' % (topic[2]))]#topicquery = [subtemas.topic[2]]
-            elif subcompo == 'Cartografia':
-                topicquery = eval('subtemas.inicartsubt_set.filter(icarsnam=\'%s\')'% (topic[1]))
-            else:
-                topicquery = eval('subtemas.%s_set.all()' % (topic[2]))#topicquery = subtemas.topic[2].all()
-        except ObjectDoesNotExist:
-            topicquery = []
-        subtopic.append({
-            u'title': topic[0],
-            u'modelname': topic[1], 
-            u'subtopic': topicquery,
-            u'add': topic[3],
-        })
+    try:
+        for topic in subtree[subcompo]:
+            try: 
+                if not topic[3]: #If OneToOneField
+                    topicquery = [eval('subtemas.%s' % (topic[2]))]#topicquery = [subtemas.topic[2]]
+                elif subcompo == 'Cartografia':
+                    topicquery = eval('subtemas.inicartsubt_set.filter(icarsnam=\'%s\')'% (topic[1]))
+                else:
+                    topicquery = eval('subtemas.%s_set.all()' % (topic[2]))#topicquery = subtemas.topic[2].all()
+            except ObjectDoesNotExist:
+                topicquery = []
+            subtopic.append({
+                u'title': topic[0],
+                u'modelname': topic[1], 
+                u'subtopic': topicquery,
+                u'add': topic[3],
+            })
+    except TypeError:
+        pass
     return subtopic
 
 def GetSubtopicFK(pk):
