@@ -43,10 +43,7 @@ from matriz_infoidentifi.models import inidseccinf, inidseccdet, inidseccdcc #So
 from matriz_infoidentifi.models import inidsevsinf, inidsevsdet, inidseserec #Socioeconómico - Valoración de Servicios Ecosistémicos
 from matriz_infoidentifi.models import inidserfinf, inidserfdet, inidserfure #Socioeconómico - Relaciones funcionales urbano- regionales
 
-def GetResume(user, shared_id, subcompo):
-    '''
-    Get quantity of forms filled by the corporation for the subcompo
-    '''
+def GetFormModel(subcompo):
     formlist = {
         u'Cartografia' : inidcardatg,
         u'Imagenes' : inidimagsat,
@@ -71,14 +68,21 @@ def GetResume(user, shared_id, subcompo):
         u'seValorServicEcos' : inidsevsinf,
         u'seRelaFuncUrbaRegio' : inidserfinf,
     }
+
+    return formlist[subcompo]
+
+def GetResume(user, shared_id, subcompo):
+    '''
+    Get quantity of forms filled by the corporation for the subcompo
+    '''
     #It's based in the user, should be the corporation
     if subcompo == 'Amenazas':
-        return formlist[subcompo].objects.filter(
+        return GetFormModel(subcompo).objects.filter(
             iniescue = shared_id,
             inieswho = user,
         )
 
-    return formlist[subcompo].objects.filter(
+    return GetFormModel(subcompo).objects.filter(
         iniescue = shared_id,
         inieswho = user,
         inidsubc = subcompo,
@@ -206,5 +210,19 @@ def GetSubtopicResume(subcompo, subtemas):
         pass
     return subtopic
 
-def GetSubtopicFK(pk):
+def GetCartoSubtopicFK(pk):
     return inidcardatg.objects.get(pk=pk)
+
+def GetEstudFK(subcompo, pk, subtopic):
+    name = ''
+    for field in subtopic._meta.fields:
+        if (field.get_internal_type() == 'ForeignKey' \
+            or field.get_internal_type() == 'OneToOneField') \
+            and (field.rel.to == GetFormModel(subcompo) \
+            or field.rel.to == inididestud):
+            name = field.name
+            break
+    value = subtopic._meta.get_field(name).rel.to.objects.get(pk=pk)
+    subtopic.__dict__['%s_id' % name] = value.id
+    return subtopic
+            #field.rel.to.get(pk = pk)

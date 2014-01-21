@@ -17,7 +17,7 @@ from corporacion.views import GetUserCorpo, GetUserCorpo
 from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
 from matriz_infoidentifi import forms
 from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
-    GetSubtopicFK
+    GetCartoSubtopicFK, GetEstudFK
 
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
@@ -426,10 +426,17 @@ def subte(request, shared_id, subcompo, pk, subtema):
     if request.method == 'POST':
         form = subtree[subcompo][subtema][1]
         if form.is_valid():
+            #im having a id null constraint because I should assign'
+            # 'the correct main topic in all the forms'
+            #Maybe i'll be easier to change all fk names in models
             subtopic = form.save(commit = False)
             if subcompo == 'Cartografia':
                 subtopic.icarsnam = subtema
-                subtopic.icarsubt = GetSubtopicFK(pk)
+                subtopic.icarsubt = GetCartoSubtopicFK(pk)
+            else:
+                #foreignfield = GetEstudFModel(pk, subtopic)
+                #subtopic._meta.get_field(foreignfield) = GetEstudFK(pk)
+                subtopic = GetEstudFK(subcompo, pk, subtopic)
             subtopic.save()
             form.save_m2m()
             return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
