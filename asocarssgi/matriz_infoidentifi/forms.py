@@ -322,7 +322,7 @@ class CaliAguaMetodologiaForm(ModelForm):
     class Meta:
         model = inidcameth
         fields = [
-            'inidcala', 'inicaobj', 'inicamet', 'inicaest',
+            'inicaobj', 'inicamet', 'inicaest',
             'inicacan', 'inicacaa', 'inicaiex',
             'inicaitr', 'inicaima', 'inicaime', 'inicaimf',
             'inicaimx', 'inicaixo',
@@ -394,7 +394,7 @@ class CargContInfoComplemForm(ModelForm):
     class Meta:
         model = iniccicompl 
         fields = [
-            'iiccicom', 'iicccmue', 'iicccper', 'iicccprm',
+            'iicccmue', 'iicccper', 'iicccprm',
             'iicccpor', 'iicccpse', 'iicccpur', 'iicccpma',
         ]
 
@@ -622,7 +622,7 @@ class sePartipDetalleForm(ModelForm):
     class Meta:
         model = inidseepdet 
         fields = [
-            'iseestra', 'isepestr', 'isepestg', 'isepestd',
+            'isepestr', 'isepestg', 'isepestd',
             'iseppart', 'isepparm', 'isepinst', 'isepcomu', 'isepcomd',
             'isepiamb', 'isepiamd', 'isepesta',
         ]

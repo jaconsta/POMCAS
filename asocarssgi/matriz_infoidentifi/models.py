@@ -399,7 +399,7 @@ class inididestud(inididinden):
     coarea = u'Área de cobertura del estudio sobre la cuenca'
     coperc = u'Porcentaje de cobertura del estudio sobre la cuenca'
     autor  = u'Autor del estudio'
-    nit    = u'Numero de Identificación'
+    nit    = u'Número de Identificación'
     studin = u'Fecha de inicio del estudio'
     realiz = u'Año de realización del estudio'
     public = u'Año de publicación'
@@ -2296,6 +2296,9 @@ class pmecoplanma(models.Model):
     '''
     #pmecopla = models.ForeignKey('inidpmecofo')
     planmane = models.CharField(u'Plan de manejo', max_length = 200)
+
+    def __unicode__(self):
+        return self.planmane 
 
     class Meta:
         verbose_name = u'11.1.1 Plan de manejo'
