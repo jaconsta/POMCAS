@@ -1,6 +1,10 @@
 {% extends 'main.html' %}
 {% block naviside %}
+{% if pk %}
+<form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post">
+{% else %}
 <form action="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" method="post">
+{% endif %}
 {% csrf_token %}
 {{form.as_p}}
 <a href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>

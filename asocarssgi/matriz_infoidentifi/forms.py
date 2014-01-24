@@ -7,8 +7,10 @@
 '''
 
 from django.forms import ModelForm
+from django import forms
 
 from corporacion.views import GetUserCorpo
+from matriz_infoidentifi.models import SelectList
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
@@ -63,6 +65,26 @@ class CartogSubCatastroForm(ModelForm):
     Subtema Cartográfico
     Catastro
     '''
+    lists = SelectList()
+
+    icarspre = forms.ChoiceField(label = u'Presencia de elementos que hacen \
+        parte del tema Catastro del catálogo de objetos?', 
+        choices = lists.BoolChoose(),
+        )
+    icarsexi = forms.CharField(label = u'Especifique cuales. Ej. \
+        ÁREAS CATASTRALES: \
+        Manzanas, predios. EDIFICACIONES y OBRAS CIVILES: \
+        Construcciones, áreas deportivas, cercas, sitios de interés, \
+        canteras, etc', 
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+    icarsqua = forms.ChoiceField(label = u'En la tabla de atributos. \
+        Coherencia de la información con respecto a rasgos \
+        característicos de la zona demarcada. Es decir, se verifica que \
+        existan elementos del tema Catastro conocidos en el área de \
+        cubrimiento de la plancha', 
+        choices = lists.BoolChoose(),
+        )
+
     class Meta:
         model = inicartscat
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
@@ -73,6 +95,27 @@ class CartogSubTransporForm(ModelForm):
     Subtema Cartográfico
     Transporte
     '''
+    lists = SelectList()
+
+    icarspre = forms.ChoiceField(label = u'Presencia de elementos que hacen\
+        parte del tema Transporte del catálogo de objetos', 
+        choices = lists.BoolChoose(),
+        )
+    icarsexi = forms.CharField(label = u'Especifique cuales.',
+        help_text = u' Ej. TRANSPORTE TERRESTRE: \
+            Vía principal, vía secundaria, vía terciaria, camino, carreteable, \
+            ferrocarril. \
+            INSTALACIONES Y CONSTRUCCIONES: \
+            Puente, líneas de alta tensión, poliducto, torres de alta tensión', 
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+    icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
+        respecto a rasgos característicos de la zona demarcada.', 
+        help_text = u'Se verifica que existan elementos del tema Transporte \
+        conocidos en el área de cubrimiento de la plancha. En la tabla de \
+        atributos.',
+        choices = lists.BoolChoose(),
+        )
+
     class Meta:
         model = inicartstra
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
@@ -83,6 +126,24 @@ class CartogSubHidrologForm(ModelForm):
     Subtema Cartográfico
     Hidrografía
     '''
+    lists = SelectList()
+
+    icarspre = forms.ChoiceField(label = u'Presencia de elementos que hacen\
+            parte del tema Hidrografía del catálogo de objetos', 
+        choices = lists.BoolChoose(),
+        )
+    icarsexi = forms.CharField(label = u'Especifique cuales.',
+        help_text = u'SUPERFICIES DE AGUA: Drenaje doble, canal, lago, \
+            pantano, humedal, drenaje sencillo o quebrada', 
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+    icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
+            respecto a rasgos característicos de la zona demarcada.', 
+        help_text = u'Se verifica que existan elementos del tema Hidrografía \
+            conocidos en el área de cubrimiento de la plancha. En la tabla \
+            de atributos',
+        choices = lists.BoolChoose(),
+        )
+
     class Meta:
         model = inicartshdr
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
@@ -93,6 +154,22 @@ class CartogSubeReliveForm(ModelForm):
     Subtema Cartográfico
     Relieve
     '''
+    lists = SelectList()
+
+    icarspre = forms.ChoiceField(label = u'Presencia de elementos que hacen\
+            parte del tema relieve del catálogo de objetos', 
+        choices = lists.BoolChoose(),
+        )
+    icarsexi = forms.CharField(label = u'Especifique cuales.',
+        help_text = u'CURVAS DE NIVEL: Índice e intermedia', 
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+    icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
+            respecto a rasgos característicos de la zona demarcada.', 
+        help_text = u'Identificación de las zonas planas, altas, declives, \
+            entre otros. En la tabla de atributos.',
+        choices = lists.BoolChoose(),
+        )
+
     class Meta:
         model = inicartsrlv
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
@@ -103,6 +180,30 @@ class SubEntidadeForm(ModelForm):
     Subtema Cartográfico
     Entidad territorial y unidad administrativa
     '''
+    lists = SelectList()
+
+    icarspre = forms.ChoiceField(label = u'Presencia de elementos que hacen\
+        parte del tema Entidad Territorial y Unidad Administrativa \
+        del catálogo de objetos', 
+        choices = lists.BoolChoose(),
+        )
+    icarsexi = forms.CharField(label = u'Especifique cuales.',
+        help_text = u'ENTIDAD TERRITORIAL: República, departamento, \
+            municipio, entidad territorial indígena. \
+            UNIDAD ADMINISTRATIVA: Región, área rural, área urbana, provincia, \
+            comuna o localidad, corregimiento, vereda, barrio, área \
+            metropolitana, resguardo indígena, comunidad negra, cabildo \
+            indígena, área protegida, área de reserva o área de manejo especial', 
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+    icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
+        respecto a rasgos característicos de la zona demarcada.', 
+        help_text = u'Se verifica que existan elementos del tema \
+            Entidad Territorial y Unidad Administrativa \
+            conocidos en el área de cubrimiento de la plancha. En la tabla \
+            de atributos',
+        choices = lists.BoolChoose(),
+        )
+
     class Meta:
         model = inicartsete
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
@@ -159,7 +260,7 @@ class SuelosForm(ModelForm):
         fields = [
             'inidnomb', 'iniddocf', 'iniddoce', 'iniddoco', 'inidlocf',
             'inidresp', 'inidumun', 'inidcare', 'inidcper',
-            'inidauth', 'inidanit', 'inidsini', 'inidanor', 
+            'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
 
 class SuelosMetodGeomorForm(ModelForm):
@@ -173,6 +274,11 @@ class SuelosMetodGeomorForm(ModelForm):
             'geometod', 'geoclasi', 'geoclaso',
             'geoproce', 'geoproco', 'geoamena', 'geoament', 'geoameno',
         ]
+        widgets = {
+            'geometod': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'geoclaso': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'geoproco': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+        }
 class SuelosMetodSuelosForm(ModelForm):
     '''
     Suelos
@@ -185,6 +291,9 @@ class SuelosMetodSuelosForm(ModelForm):
             'inisutle', 'inisutlo', 'inisutla', 'inisutln', 'inisutli',
             'inisutge',
         ]
+        widgets = {
+            'inisutlo': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+        }
 class SuelosDocumYCartoForm(ModelForm):
     '''
     Suelos
@@ -208,10 +317,21 @@ class HidrologiaForm(ModelForm):
         model = inidhlestud
         fields = ['inidnomb', 'iniddocf', 'iniddoce', 'iniddoco', 'inidlocf',
             'inidresp', 'inidusub', 'inidusec', 'inidutra', 'inidumun', 
-            'inidcare', 'inidcper', 'inidauth', 'inidanit', 'inidsini', 
+            'inidcare', 'inidcper', 'inidauth', 'inidanit', 
             'inidanor', 'inidanop',
         ]
 
+class HidroloEstacionesForm(ModelForm):
+    '''
+    Hidrología
+    Estaciones utilizadas dentro del estudio
+    '''
+    class Meta:
+        model = ihlmethaest
+        fields = [
+            'ihlmeesn', 'ihlmeesc', 'ihlmeesi', 'ihlmeesf',
+            'ihlmeese',
+        ]
 class HidroloMetodologiaForm(ModelForm):
     '''
     Hidrología
@@ -223,6 +343,12 @@ class HidroloMetodologiaForm(ModelForm):
             'inihlppa', 'inihlphd', 'inihlmin', 'inihlpid',
             'inihlcal' ,'inihlcad',
         ]
+        widgets = {
+            'inihlppa': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inihlphd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inihlpid': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inihlcad': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class HidroloDocumYCartoForm(ModelForm):
     '''
     Hidrología
@@ -289,6 +415,16 @@ class HidrogeoMetodologiaForm(ModelForm):
             'inghtacu','inghagsu','inghasnp', 'inghasco', 
             'inghmoma', 'inghmomo',
         ]
+        widgets = {
+            'inhgdbat': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inhgqupa': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghegme': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghchme': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghchpo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghvume': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghcupr': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inghmhci': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class HidrogeoDocumYCartoForm(ModelForm):
     '''
     Hidrogeología
@@ -327,6 +463,11 @@ class CaliAguaMetodologiaForm(ModelForm):
             'inicaitr', 'inicaima', 'inicaime', 'inicaimf',
             'inicaimx', 'inicaixo',
         ]
+        widgets = {
+            'inicaobj': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inicamet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inicaitr': forms.TextInput(attrs={'size': 40}),
+        }
 class CaliAguaInfoEstudioForm(ModelForm):
     '''
     Calidad de Agua
@@ -338,6 +479,10 @@ class CaliAguaInfoEstudioForm(ModelForm):
             'iicaiinf', 'iicaiafa', 'iicaiest', 'iicaiobs',
             'iicaipar', 'iicaipao', 
         ]
+        widgets = {
+            'iicaiinf': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iicaiobs': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class CaliAguaInfoComplemForm(ModelForm):
     '''
     Calidad de Agua
@@ -362,6 +507,7 @@ class CargasContaminantesForm(ModelForm):
         fields = ['inidnomb', 'iniddocf', 'iniddoce', 'iniddoco',
             'inidlocf', 'inidresp', 'inidudep', 'inidumun', 'inidcare',
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
+            'inidacue',
         ]
 
 class CargContMetodologiaForm(ModelForm):
@@ -375,6 +521,10 @@ class CargContMetodologiaForm(ModelForm):
             'iiccmobj', 'iiccmmet', 'iiccmest', 'iiccmlin',
             'iiccmdcc', 'iiccmsum', 'iiccminv', 'iiccmsec',
         ]
+        widgets = {
+            'iiccmobj': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iiccmmet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class CargContInfoEstudioForm(ModelForm):
     '''
     Cargas Contaminantes
@@ -386,6 +536,9 @@ class CargContInfoEstudioForm(ModelForm):
             'iicciinf', 'iiccigeo', 'iicciobs', 'iicciper',
             'iiccipar', 'iiccipao',
         ]
+        widgets = {
+            'iicciobs': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class CargContInfoComplemForm(ModelForm):
     '''
     Cargas Contaminantes
@@ -397,6 +550,9 @@ class CargContInfoComplemForm(ModelForm):
             'iicccmue', 'iicccper', 'iicccprm',
             'iicccpor', 'iicccpse', 'iicccpur', 'iicccpma',
         ]
+        widgets = {
+            'iicccpse': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Cobertura de la tierra ###
 class CoberturaForm(ModelForm):
@@ -444,6 +600,9 @@ class CobertuAnaliMultitForm(ModelForm):
         fields = [
             'mulanali', 'mulperio', 'mulmetod', 'mulescal',
         ]
+        widgets = {
+            'mulmetod': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Flora y Fauna ###
 class FloraYFaunaForm(ModelForm):
@@ -471,6 +630,14 @@ class FloFauMetodologiaForm(ModelForm):
             'iffnupa', 'iffmeif', 'iffclaj', 'iffgeoi',
             'iffinfc', 'iffamen', 'iffamec', 'iffgeor',
         ]
+        widgets = {
+            'iffmesm': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iffmein': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'ifftico': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iffmeif': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iffclaj': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iffamec': forms.TextInput(attrs={'size': 40}),
+        }
 class FloFauDocumYCartoForm(ModelForm):
     '''
     Flora y Fauna
@@ -489,6 +656,9 @@ class PMEcosistemasForm(ModelForm):
     Planes de manejo de ecosistemas
     Identificación de los planes de manejo existentes
     '''
+    inidcare = forms.FloatField(label = u'Área de cobertura del estudio sobre la cuenca',
+        required = False, help_text = u'En hectáreas (ha) o usuarios')
+
     class Meta:
         model = inidpmestud
         fields = ['inidnomb', 'iniddocf', 'iniddoce', 'iniddoco',
@@ -507,6 +677,10 @@ class PMEecosFormulacionForm(ModelForm):
             'ipmfplan', 'ipmfplao', 'ipmfobje', 'ipmfadop',
             'ipmfvige', 'ipmfplae',
         ]
+        widgets = {
+            'ipmfplao': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'ipmfobje': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 class PMEecosInforPlanesForm(ModelForm):
     '''
     Planes de manejo de ecosistemas
@@ -581,6 +755,15 @@ class seActoresSocForm(ModelForm):
     Actores Sociales 
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidseasinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -599,6 +782,13 @@ class seActoDetalleForm(ModelForm):
             'isemetho', 'isemethd', 'isedocum', 'isedocud', 'isedocas',
             'iseactma', 'iseprior', 'isepride', 'isedbact', 'isedbvar',
         ]
+        widgets = {
+            'isemethd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedocud': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedocas': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepride': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedbvar': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Estrategia de Participación ###
 class seEstrParticipForm(ModelForm):
@@ -607,6 +797,15 @@ class seEstrParticipForm(ModelForm):
     Estrategia de Participación 
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidseepinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -626,6 +825,14 @@ class sePartipDetalleForm(ModelForm):
             'iseppart', 'isepparm', 'isepinst', 'isepcomu', 'isepcomd',
             'isepiamb', 'isepiamd', 'isepesta',
         ]
+        widgets = {
+            'isepestg': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepestd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepparm': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepcomd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepiamd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepesta': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Participación de comunidades étnicas  ###
 class seParticComuEtnicasForm(ModelForm):
@@ -634,6 +841,15 @@ class seParticComuEtnicasForm(ModelForm):
     Participación de comunidades étnicas 
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidseceinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -651,6 +867,10 @@ class seComuEtnicDetalleForm(ModelForm):
         fields = [
             'isepccar', 'isepccaw', 'isepccer', 'isepcdev', 'isepcded',
         ]
+        widgets = {
+            'isepccaw': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isepcded': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Diagnósticos Socioeconómicos ###
 class seDiagSocioEconomForm(ModelForm):
@@ -659,6 +879,15 @@ class seDiagSocioEconomForm(ModelForm):
     Diagnósticos Socioeconómicos 
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidsedsinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -681,6 +910,18 @@ class seDiagSociDetalleForm(ModelForm):
             'isedprod', 'isedconf', 'isedcond', 'isedpoli', 'isedpold',
             'isedpred', 'isedprec', 'isedsegu', 'isedsegd',
         ]
+        widgets = {
+            'iseddino': forms.TextInput(attrs={'size': 40}),
+            'isedsero': forms.TextInput(attrs={'size': 40}),
+            'isedseai': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedsede': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedsitd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedprod': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedcond': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedpold': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedprec': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isedsegd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Caracterización Cultural ###
 class seCaractCulturalForm(ModelForm):
@@ -689,6 +930,15 @@ class seCaractCulturalForm(ModelForm):
     Caracterización Cultural
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidseccinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -707,6 +957,12 @@ class seCaraCultDetalleForm(ModelForm):
             'isecccul', 'isecccuc', 'isecccuv', 'iseccpat','iseccpad',
             'iseccdoc', 'iseccdcc',
         ]
+        widgets = {
+            'isecccuc': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isecccuv': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iseccpad': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iseccdcc': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Valoración de Servicios Ecosistémicos ###
 class seValorServicEcosForm(ModelForm):
@@ -715,6 +971,15 @@ class seValorServicEcosForm(ModelForm):
     Valoración de Servicios Ecosistémicos
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidsevsinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -732,6 +997,10 @@ class seServEcosDetalleForm(ModelForm):
         fields = [
             'isesemet', 'iseseser', 'iseseseo', 'isesepil', 'isesepia',
         ]
+        widgets = {
+            'isesemet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'isesepia': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ### Socioeconómico - Relaciones funcionales urbano- regionales ###
 class seRelaFuncUrbaRegioForm(ModelForm):
@@ -740,6 +1009,15 @@ class seRelaFuncUrbaRegioForm(ModelForm):
     Relaciones funcionales urbano- regionales
     Información general
     '''
+    lists = SelectList()
+
+    inidnomb = forms.CharField(label = u'Nombre del documento', 
+        max_length = 500)
+    inidlocf = forms.CharField(label = u'Ubicación del documento',
+        max_length = 250, required = False)
+    inidanor  = forms.ChoiceField(label = u'Año de elaboración',
+        required = False, choices = lists.YearList())
+
     class Meta:
         model = inidserfinf
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
@@ -759,6 +1037,12 @@ class seRFUrbRegDetalleForm(ModelForm):
             'infucomp', 'infucone', 'infoconc', 'infocona', 'infocapa',
             'infocapo', 'infocapl',
         ]
+        widgets = {
+            'infoconc': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'infocona': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'infocapo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'infocapl': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 ##class GetUserAttr(request, shared_id):
 ##    def __init__(self):

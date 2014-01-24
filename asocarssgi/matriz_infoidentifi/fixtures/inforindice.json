@@ -92,7 +92,7 @@
             "infotema": "Cargas Contaminantes",
             "infonota": "Se evaluará la información de los estudios existentes con énfasis en el más reciente y aquellos que la Corporación considere pertinentes para el análisis multitemporal",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación referida a estudios de cobertura de la tierra, usos del suelo a escala 1:25.000 y análisis multitemporales de coberturas de la tierra a escala semidetallada o general; con el fin de establecer la pertinencia y suficiencia de la información con respecto a la cuenca objeto de ordenación, de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes a la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012",
-            "infoprio": 3
+            "infoprio": 4
         }
 },
 {
@@ -176,7 +176,7 @@
             "infotema": "Estratégias de participación",
             "infonota": "En la variable de participación es necesario tomar las experiencias y estudios máximo de 5 años de las cuencas hidrográficas que son objeto de ajuste  e información complementarias en todas las cuencas.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 2
         }
 }, 
 {
@@ -188,7 +188,7 @@
             "infotema": "Participación de comunidades étnicas",
             "infonota": "En la  variable de participación con comunidades étnicas se considera necesario reportar experiencias y estudios máximo de 5 años. Solo se identifica información para las cuencas donde existen grupos étnicos asentados.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 3
         }
 }, 
 {
@@ -200,7 +200,7 @@
             "infotema": "Diagnósticos socioeconómicos",
             "infonota": "Los diagnósticos socioeconómicos  no deben ser mayores a dos años.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 4
         }
 }, 
 {
@@ -212,7 +212,7 @@
             "infotema": "Caracterización cultural",
             "infonota": "En la caracterización cultural es importante y necesario tener presente todos los estudios en orden cronológico de todas las cuencas objeto de ordenación.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 5
         }
 }, 
 {
@@ -224,7 +224,7 @@
             "infotema": "Valoración de servicios ecosistémicos",
             "infonota": "En valoración de servicios ecosistémicos es necesario referenciar todos los estudios existentes.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 6
         }
 }, 
 {
@@ -236,7 +236,7 @@
             "infotema": "Relaciones urbano regionales",
             "infonota": "Para la variable relaciones funcionales  urbano-regionales se considera necesario tomar información máximo de cinco años, para todas las cuencas objeto de ordenación.",
             "infoalca": "El presente formato pretende identificar y caracterizar la información existente en la Corporación respecto a los aspectos: sociales, económicos, culturales, políticos y de participación, con el fin de establecer la pertinencia, suficiencia y actualidad de esta información con respecto a la cuenca objeto de ordenación; de tal manera que aporte elementos para definir y cuantificar las actividades y productos tendientes para la formulación o ajuste del POMCA en el marco del decreto 1640 de 2012.",
-            "infoprio": 1
+            "infoprio": 7
         }
 } 
 ]

@@ -225,31 +225,32 @@ def edit(request, shared_id, subcompo, pk):
         for that uses the subcompo variable
     '''
     usrattr = GetUserAttr(request, shared_id)
+    instance = get_object_or_404(inididestud, id = pk)
     ####
     if request.method == 'POST':
         formlist = {
-            u'Cartografia' : forms.CartografiaForm(request.POST),
-            u'Imagenes' : forms.ImagenesForm(request.POST),
-            u'Fotografias' : forms.FotografiasForm(request.POST),
-            u'Suelos' : forms.SuelosForm(request.POST),
-            u'Hidrologia' : forms.HidrologiaForm(request.POST),
-            u'Variabilida': forms.HidroloVariabilidaForm(request.POST),
-            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(request.POST),
-            u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST),
-            u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST),
-            u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST),
-            u'Cobertura' : forms.CoberturaForm(request.POST),
-            u'FloraYFauna' : forms.FloraYFaunaForm(request.POST),
-            u'PMEcosistemas' : forms.PMEcosistemasForm(request.POST),
-            u'Amenazas' : forms.AmenazasForm(request.POST),
-            u'Riesgos' : forms.RiesgosForm(request.POST),
-            u'seActoresSoc' : forms.seActoresSocForm(request.POST),
-            u'seEstrParticip' : forms.seEstrParticipForm(request.POST),
-            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(request.POST),
-            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(request.POST),
-            u'seCaractCultural' : forms.seCaractCulturalForm(request.POST),
-            u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST),
-            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST),
+            u'Cartografia' : forms.CartografiaForm(request.POST, instance = instance),
+            u'Imagenes' : forms.ImagenesForm(request.POST, instance = instance),
+            u'Fotografias' : forms.FotografiasForm(request.POST, instance = instance),
+            u'Suelos' : forms.SuelosForm(request.POST, instance = instance),
+            u'Hidrologia' : forms.HidrologiaForm(request.POST, instance = instance),
+            u'Variabilida': forms.HidroloVariabilidaForm(request.POST, instance = instance),
+            u'CalcuCaudal': forms.HidroloCalcuCaudalForm(request.POST, instance = instance),
+            u'Hidrogeologia' : forms.HidrogeologiaForm(request.POST, instance = instance),
+            u'CalidadDeAgua' : forms.CalidadDeAguaForm(request.POST, instance = instance),
+            u'CargasContaminantes' : forms.CargasContaminantesForm(request.POST, instance = instance),
+            u'Cobertura' : forms.CoberturaForm(request.POST, instance = instance),
+            u'FloraYFauna' : forms.FloraYFaunaForm(request.POST, instance = instance),
+            u'PMEcosistemas' : forms.PMEcosistemasForm(request.POST, instance = instance),
+            u'Amenazas' : forms.AmenazasForm(request.POST, instance = instance),
+            u'Riesgos' : forms.RiesgosForm(request.POST, instance = instance),
+            u'seActoresSoc' : forms.seActoresSocForm(request.POST, instance = instance),
+            u'seEstrParticip' : forms.seEstrParticipForm(request.POST, instance = instance),
+            u'seParticComuEtnicas' : forms.seParticComuEtnicasForm(request.POST, instance = instance),
+            u'seDiagSocioEconom' : forms.seDiagSocioEconomForm(request.POST, instance = instance),
+            u'seCaractCultural' : forms.seCaractCulturalForm(request.POST, instance = instance),
+            u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST, instance = instance),
+            u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST, instance = instance),
         }
         form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
         if form.is_valid():
@@ -262,10 +263,9 @@ def edit(request, shared_id, subcompo, pk):
             informacion.inieswhu = usrattr.user #Updates the user who updates
             #I should validate that the form belongs to the user and watersheed
             # that is connected.
-            informacion.save()
-            return 
+            informacion.save(force_update = True)
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
     else:
-        instance = get_object_or_404(inididestud, id = pk)
         formlist = {
             u'Cartografia' : forms.CartografiaForm(request.POST or None, instance = instance),
             u'Imagenes' : forms.ImagenesForm(request.POST or None, instance = instance),
@@ -296,6 +296,7 @@ def edit(request, shared_id, subcompo, pk):
             'title' : GetName(), 
             'shared_id' : shared_id,
             'subcompo' : subcompo,
+            'pk' : pk,
             #'compo' : GetCompo(),
         })
 
@@ -333,6 +334,8 @@ def subte(request, shared_id, subcompo, pk, subtema):
                     forms.SuelosDocumYCartoForm(content)),
                 },
             u'Hidrologia' : {
+                u'Estaciones': (u'Estacones utilizadas durante el estudio',
+                    forms.HidroloEstacionesForm(content)),
                 u'Metodologia': (u'Metodología del estudio', 
                     forms.HidroloMetodologiaForm(content)),
                 u'DocumYCarto': (u'Documento técnico y Cartografía', 

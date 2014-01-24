@@ -221,7 +221,7 @@ class AforMethAdmin(admin.TabularInline):
 
 class HidrolAdmin(admin.ModelAdmin):
     list_display = ['iniescor', 'iniescue', 'inidnomb']
-    inlines = [MethoHidroAdmin, CartHidroAdmin] 
+    inlines = [MethoHEstaAdmin, MethoHidroAdmin, CartHidroAdmin] 
         #InfoCHidroAdmin]
     fieldsets = (
         (u'Cuenca y corporación', {

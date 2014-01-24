@@ -789,17 +789,6 @@ class inicartscat(inicartsubt):
     Subtema cartográfico
     Catastro
     '''
-    ##presen_help = u'Presencia de elementos que hacen parte del tema\
-    ##    Catastro del catálogo de objetos?'
-    ##cuapre_help = u'Especifique cuales. Ej. <br />ÁREAS CATASTRALES: <br />\
-    ##    Manzanas, predios. <br />EDIFICACIONES y OBRAS CIVILES: <br />\
-    ##    construcciones, áreas deportivas, cercas, sitios de interés, \
-    ##    canteras, etc'
-    ##qualit_help = u'En la tabla de atributos. <br />\
-    ##    Coherencia de la información con respecto a rasgos \
-    ##    característicos de la zona demarcada. Es decir, se verifica que \
-    ##    existan elementos del tema Catastro conocidos en el área de \
-    ##    cubrimiento de la plancha.'
 
     class Meta:
         verbose_name = u'01.2.1 Subtema. Catastro'
@@ -812,20 +801,6 @@ class inicartstra(inicartsubt):
     Subtema cartográfico
     Transporte
     '''
-    ## Help_text
-    ##presen_help = u'Presencia de elementos que hacen parte del tema \
-    ##    Transporte del catálogo de objectos?'
-    ##cuapre_help = u'Especifique cuales. Ej. <br />TRANSPORTE TERRESTRE: <br />\
-    ##    vía principal, vía secundaria, vía terciaria, camino, carreteable, \
-    ##    ferrocaril, etc.\
-    ##    <br />INSTALACIONES y CONSTRUCCIONES:<br />\
-    ##    puentes, líneas de alta tensión, poliducto, torres de alta tensión, \
-    ##    etc.'
-    ##qualit_help = u'En la tabla de atributos. <br />\
-    ##    Coherencia de la información con respecto a rasgos \
-    ##    característicos de la zona demarcada. Es decir, se verifica que \
-    ##    existan elementos del tema Transporte conocidos en el área de \
-    ##    cubrimiento de la plancha.'
 
     class Meta:
         verbose_name = u'01.2.2 Subtema. Transporte'
@@ -1199,7 +1174,7 @@ class ihlmethaest(models.Model):
     
     lists = SelectList()
 
-    ihlmetod = models.ForeignKey(inidhlmetod, verbose_name = u'Metodología')
+    ihlmetod = models.ForeignKey('inidhlestud', verbose_name = u'Metodología')
     ihlmeesn = models.CharField(nombre, max_length = 25, 
         help_text = nombre_help)
     ihlmeesc = models.CharField(codigo, max_length = 10,
@@ -1755,20 +1730,16 @@ class inidccmetho(models.Model):
     iiccmeth = models.OneToOneField('inidccestud')
     iiccmobj = models.CharField(objeto, max_length = 500)
     iiccmmet = models.CharField(metodo, max_length = 500, help_text = metodo_help)
-    iiccmest = models.ForeignKey('incameestim', verbose_name = estima, #CharField(estima, max_length = 5, 
-        null = True, blank = True) #, choices = lists.CacaEstiChoose())
-    iiccmlin = models.ForeignKey('incamelineb', verbose_name = lineab) #CharField(lineab, max_length = 5,
-        #choices = lists.CacaParaChoose(), default = False)
+    iiccmest = models.ForeignKey('incameestim', verbose_name = estima,
+        null = True, blank = True) 
+    iiccmlin = models.ForeignKey('incamelineb', verbose_name = lineab) 
     iiccmdcc = models.BooleanField(concen, choices = lists.BoolChoose(), 
         default = False)  
-    iiccmsum = models.ForeignKey('incamesourc', verbose_name = sumini, #CharField(sumini, max_length = 5,
+    iiccmsum = models.ForeignKey('incamesourc', verbose_name = sumini,
         null = True, blank = True)  
-        #choices = lists.CacaFuenChoose(), default = False,
-    iiccminv = models.ForeignKey('incamequinq', verbose_name = invent, #CharField(invent, max_length = 4, 
+    iiccminv = models.ForeignKey('incamequinq', verbose_name = invent,
         null = True, blank = True)  
-        #choices = lists.CacaQuinChoose(), null = True, blank = True)
-    iiccmsec = models.ForeignKey('incamediscr', verbose_name = carsec) #CharField(carsec, max_length = 4, 
-        #choices = lists.CacaDiscChoose(), default = False)
+    iiccmsec = models.ForeignKey('incamediscr', verbose_name = carsec)  
 
     class Meta:
         verbose_name = '08.1 Metodología del estudio'
@@ -2318,17 +2289,6 @@ class inidpmecopm(inidcartog):
 #Riesgos
 
 ## Identificación de Amenazas
-# Caracterización de estudios
-#class inidriesame(inididestud):
-#    '''
-#    Riesgos
-#    Identificación de amenazas
-#    Información general
-#    '''
-#
-#    class Meta:
-#        verbose_name = u'12.1 Identificación de amanaza'
-#        verbose_name_plural = u'12.1 Identificación de amanazas'
 
 class inriesamepr(inididinden):
     '''

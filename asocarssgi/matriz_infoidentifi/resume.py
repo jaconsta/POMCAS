@@ -117,6 +117,7 @@ def GetSubtopicResume(subcompo, subtemas):
                 u'DocumYCarto', 'inidcartog', True),
         ),
         u'Hidrologia' : (
+            (u'Estaciones utilizadas dentro del estudio', u'Estaciones', 'ihlmethaest', True),
             (u'Metodología del estudio', u'Metodologia', 'inidhlmetod', False), 
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 
