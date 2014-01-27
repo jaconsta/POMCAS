@@ -3,17 +3,16 @@
 <h1>{{ title }}</h1>
 <ol>
 {% for componen, i in compo %}
-    <h1><li>{{ componen.infocomp }}</li></h1>
+    <h2><li>{{ componen.infocomp }}</li></h2>
     <ul>
     {% for subcompo in i %}
         <li>
-            <a href="{% url 'matriz_infoidentifi.views.resume' shared_id=shared_id subcompo=subcompo.infosubc %}">{{ subcompo.infotema }}</a>
-            <br />
+            <h3><a href="{% url 'matriz_infoidentifi.views.resume' shared_id=shared_id subcompo=subcompo.infosubc %}">{{ subcompo.infotema }}</a></h3>
             {% if subcompo.infourlc %} <div class='capacit'>
                 <a href="{{ subcompo.infourlc }}">Ver enlace de capacitacion</a>
             </div> {% endif %}
             {% if subcompo.infonota %} <div class='condition'>
-                <h3>Pregunta aclaratoria</h3>
+                <h4>Pregunta aclaratoria</h4>
                 {{ subcompo.infonota }}
             </div> {% endif %}
         </li>

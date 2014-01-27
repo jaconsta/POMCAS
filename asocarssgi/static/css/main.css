@@ -54,6 +54,13 @@ section{
     margin-left:auto;
     max-width:1000px;
 }
+h1{
+    text-align:center;
+}
+.normal-button{
+    background-color: rgb(120,74,10);
+    color: #fff;
+}
 footer{
     background-color:#EDFFED;
     border-top: thick solid #1B3280;
@@ -64,6 +71,22 @@ footer #bottom_images{
 }
 #bottom_images img{
     float:left;
+}
+strong{
+    font-size:1.3em;
+}
+h3 a:link, h3 a:visited, h3 a:hover, h3 a:active{
+    text-decoration:none;
+    color:#4682b4;
+}
+.list-select{ 
+    text-decoration:none;
+    color:#006699;
+    line-height:150%;
+}
+a.list-select:hover {
+    /*text-decoration:underline;*/
+    font-size:1.2em;
 }
 footer #bottom_text{
     max-width:300px;

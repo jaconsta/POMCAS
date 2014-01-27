@@ -58,6 +58,8 @@ class CartografiaForm(ModelForm):
             'incarsco', 'incarsre', 'incaroco', 'incardat',
             'icartesc', 'incarlic', 'incaraut', 'incarlug', 'incarano',
         ]
+    def names(self):
+        return u''
 
 class CartogSubCatastroForm(ModelForm):
     '''
@@ -229,6 +231,8 @@ class ImagenesForm(ModelForm):
             'iimanubp', 'incarlic',
             'incaraut', 'incarlug', 'incarano',
         ]
+    def names(self):
+        return u'Imágenes de satélite'
 
 ### Fotogragías ###                           
 
@@ -262,6 +266,11 @@ class SuelosForm(ModelForm):
             'inidresp', 'inidumun', 'inidcare', 'inidcper',
             'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Suelos'
+    def subtopic(self):
+        return u'Identificación del estudio de suelos y/o capacidad \
+            de uso de la tierra'
 
 class SuelosMetodGeomorForm(ModelForm):
     '''
@@ -279,6 +288,10 @@ class SuelosMetodGeomorForm(ModelForm):
             'geoclaso': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
             'geoproco': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
         }
+    def names(self):
+        return u'Suelos'
+    def subtopic(self):
+        return u'Metodología utilizada para el estudio de Geomorfología'
 class SuelosMetodSuelosForm(ModelForm):
     '''
     Suelos
@@ -294,6 +307,11 @@ class SuelosMetodSuelosForm(ModelForm):
         widgets = {
             'inisutlo': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
         }
+    def names(self):
+        return u'Suelos'
+    def subtopic(self):
+        return u'Metodoogía utilizada para el estudio de \
+            suelos y/o coberturas de la tierra'
 class SuelosDocumYCartoForm(ModelForm):
     '''
     Suelos
@@ -306,6 +324,10 @@ class SuelosDocumYCartoForm(ModelForm):
             'carmetad', 'carmeaut', 'carmedat', 'carinaso', 
             'carleyen', 'carfuent', 'carqualy',
         ]
+    def names(self):
+        return u'Suelos'
+    def subtopic(self):
+        return u'Información general cartográfica y documentos técnicos'
 
 ### Hidrología ###
 class HidrologiaForm(ModelForm):
@@ -320,6 +342,10 @@ class HidrologiaForm(ModelForm):
             'inidcare', 'inidcper', 'inidauth', 'inidanit', 
             'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Identificación del estudio de hidrología y climatología'
 
 class HidroloEstacionesForm(ModelForm):
     '''
@@ -332,6 +358,10 @@ class HidroloEstacionesForm(ModelForm):
             'ihlmeesn', 'ihlmeesc', 'ihlmeesi', 'ihlmeesf',
             'ihlmeese',
         ]
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Estaciones utilizadas dentro del estudio'
 class HidroloMetodologiaForm(ModelForm):
     '''
     Hidrología
@@ -349,6 +379,10 @@ class HidroloMetodologiaForm(ModelForm):
             'inihlpid': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'inihlcad': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Metología utilizada para el estudio de hidrología o climatología'
 class HidroloDocumYCartoForm(ModelForm):
     '''
     Hidrología
@@ -360,6 +394,10 @@ class HidroloDocumYCartoForm(ModelForm):
             'carescs', 'caruesle', 'carmafor', 'carmamex', 'carmamot',
             'carmetad', 'carinaso',
         ]
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Información general cartográfica y documento técnico'
 class HidroloVariabilidaForm(ModelForm):
     '''
     Hidrología
@@ -372,6 +410,10 @@ class HidroloVariabilidaForm(ModelForm):
             'inidcare', 'inidcper', 'inidauth', 'inidanit', 'inidsini', 
             'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Estudios de variabilidad climática (niño o niña) para la cuenca en estudio'
 class HidroloCalcuCaudalForm(ModelForm):
     '''
     Hidrología
@@ -384,6 +426,10 @@ class HidroloCalcuCaudalForm(ModelForm):
             'inidcare', 'inidcper', 'inidauth', 'inidanit', 'inidsini', 
             'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Hidrología'
+    def subtopic(self):
+        return u'Calculos de caudal ambiental'
 
 ### Hidrogeología ###
 class HidrogeologiaForm(ModelForm):
@@ -397,6 +443,10 @@ class HidrogeologiaForm(ModelForm):
             'inidresp', 'inidumun', 'inidcare', 'inidcper', 
             'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Hidrogeología'
+    def subtopic(self):
+        return u'Identificación del estudio de hidrogeología'
 
 class HidrogeoMetodologiaForm(ModelForm):
     '''
@@ -425,6 +475,10 @@ class HidrogeoMetodologiaForm(ModelForm):
             'inghcupr': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'inghmhci': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Hidrogeología'
+    def subtopic(self):
+        return u'Metodología utilizada para el estudio de hidrogeología'
 class HidrogeoDocumYCartoForm(ModelForm):
     '''
     Hidrogeología
@@ -436,6 +490,10 @@ class HidrogeoDocumYCartoForm(ModelForm):
             'carescs', 'caruesle', 'carmafor', 'carmamex', 'carmamot',
             'carmetad', 'carinaso',
         ]
+    def names(self):
+        return u'Hidrogeología'
+    def subtopic(self):
+        return u'Información general cartográfica y documento técnico'
 
 ### Calidad de Agua ###
 class CalidadDeAguaForm(ModelForm):
@@ -449,6 +507,10 @@ class CalidadDeAguaForm(ModelForm):
             'inidlocf', 'inidresp', 'inidudep', 'inidumun', 'inidcare',
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Calidad de Agua'
+    def subtopic(self):
+        return u'Identificación del estudio de calidad y recurso hídrico'
 
 class CaliAguaMetodologiaForm(ModelForm):
     '''
@@ -468,6 +530,10 @@ class CaliAguaMetodologiaForm(ModelForm):
             'inicamet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'inicaitr': forms.TextInput(attrs={'size': 40}),
         }
+    def names(self):
+        return u'Calidad de Agua'
+    def subtopic(self):
+        return u'Metología del estudio, levantamiento de datos y resultados'
 class CaliAguaInfoEstudioForm(ModelForm):
     '''
     Calidad de Agua
@@ -483,6 +549,10 @@ class CaliAguaInfoEstudioForm(ModelForm):
             'iicaiinf': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'iicaiobs': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Calidad de Agua'
+    def subtopic(self):
+        return u'Información que debe contener el estudio'
 class CaliAguaInfoComplemForm(ModelForm):
     '''
     Calidad de Agua
@@ -493,6 +563,10 @@ class CaliAguaInfoComplemForm(ModelForm):
         fields = [
             'iicaifoc', 'iicaifca',
         ]
+    def names(self):
+        return u'Calidad de Agua'
+    def subtopic(self):
+        return u'Información Complementaria'
 
 ### Cargas Contaminantes ###
 class CargasContaminantesForm(ModelForm):
@@ -509,6 +583,12 @@ class CargasContaminantesForm(ModelForm):
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
             'inidacue',
         ]
+    def names(self):
+        return u'Cargas Contaminantes'
+    def subtopic(self):
+        return u'Estudio de cargas contaminantes de DBO y SST vertidas \
+            en la subcuenca, tramos y/o corrientes principales \
+            en la cuenca objeto de ordenación' 
 
 class CargContMetodologiaForm(ModelForm):
     '''
@@ -525,6 +605,10 @@ class CargContMetodologiaForm(ModelForm):
             'iiccmobj': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'iiccmmet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Cargas Contaminantes'
+    def subtopic(self):
+        return u'Metodología del estudio, levantamiento de datos y resultados'
 class CargContInfoEstudioForm(ModelForm):
     '''
     Cargas Contaminantes
@@ -539,6 +623,10 @@ class CargContInfoEstudioForm(ModelForm):
         widgets = {
             'iicciobs': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Cargas Contaminantes'
+    def subtopic(self):
+        return u'Información que debe contener el estudio'
 class CargContInfoComplemForm(ModelForm):
     '''
     Cargas Contaminantes
@@ -553,6 +641,10 @@ class CargContInfoComplemForm(ModelForm):
         widgets = {
             'iicccpse': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Cargas Contaminantes'
+    def subtopic(self):
+        return u'Información complementaria'
 
 ### Cobertura de la tierra ###
 class CoberturaForm(ModelForm):
@@ -566,6 +658,10 @@ class CoberturaForm(ModelForm):
             'inidlocf', 'inidresp', 'inidudep', 'inidumun', 'inidcare',
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Cobertura de la tierra'
+    def subtopic(self):
+        return u'Identificación del estudio / información'
 
 class CobertuMetodologiaForm(ModelForm):
     '''
@@ -579,6 +675,10 @@ class CobertuMetodologiaForm(ModelForm):
             'iicomimg', 'iicomimo', 'iicomdat', 'iicomniv', 'iicomint',
             'iicomver', 'iicomcfu', 'iicomces', 'iicomcan',
         ]
+    def names(self):
+        return u'Cobertura de la tierra'
+    def subtopic(self):
+        return u'Metodología utilizada para levantamiento de coberturas'
 class CobertuDocumYCartoForm(ModelForm):
     '''
     Cobertura de la tierra
@@ -590,6 +690,10 @@ class CobertuDocumYCartoForm(ModelForm):
             'carescs', 'caruesle', 'carmafor', 'carmamex', 'carmamot',
             'carmetad', 'carinaso',
         ]
+    def names(self):
+        return u'Cobertura de la tierra'
+    def subtopic(self):
+        return u'Información general cartográfica y documento técnico'
 class CobertuAnaliMultitForm(ModelForm):
     '''
     Cobertura de la tierra
@@ -603,6 +707,10 @@ class CobertuAnaliMultitForm(ModelForm):
         widgets = {
             'mulmetod': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Cobertura de la tierra'
+    def subtopic(self):
+        return u'Análisis multitemporales'
 
 ### Flora y Fauna ###
 class FloraYFaunaForm(ModelForm):
@@ -616,6 +724,10 @@ class FloraYFaunaForm(ModelForm):
             'inidlocf', 'inidresp', 'inidudep', 'inidumun', 'inidcare',
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Flora y Fauna'
+    def subtopic(self):
+        return u'Identificación del estudio / información'
 
 class FloFauMetodologiaForm(ModelForm):
     '''
@@ -638,6 +750,11 @@ class FloFauMetodologiaForm(ModelForm):
             'iffclaj': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'iffamec': forms.TextInput(attrs={'size': 40}),
         }
+    def names(self):
+        return u'Flora y Fauna'
+    def subtopic(self):
+        return u'Metología utilizada para levantamiento de información \
+            de flora, vegetación y fauna'
 class FloFauDocumYCartoForm(ModelForm):
     '''
     Flora y Fauna
@@ -649,6 +766,10 @@ class FloFauDocumYCartoForm(ModelForm):
             'carmafor', 'carmamex', 'carmamot', 'carmetad', 'carmeaut',
             'carinflo', 'carfuent',
         ]
+    def names(self):
+        return u'Flora y Fauna'
+    def subtopic(self):
+        return u'Información general del documento técnico y cartografía'
 
 ### PM Ecosistemas ###
 class PMEcosistemasForm(ModelForm):
@@ -665,6 +786,10 @@ class PMEcosistemasForm(ModelForm):
             'inidlocf', 'inidresp', 'inidudep', 'inidumun', 'inidcare',
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Planes de manejo de ecosistemas'
+    def subtopic(self):
+        return u'Identificación de los planes de manejo existentes'
 
 class PMEecosFormulacionForm(ModelForm):
     '''
@@ -681,6 +806,10 @@ class PMEecosFormulacionForm(ModelForm):
             'ipmfplao': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'ipmfobje': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Planes de manejo de ecosistemas'
+    def subtopic(self):
+        return u'Formulación del plan y resultados'
 class PMEecosInforPlanesForm(ModelForm):
     '''
     Planes de manejo de ecosistemas
@@ -692,6 +821,10 @@ class PMEecosInforPlanesForm(ModelForm):
             'caruesle', 'caruespu', 'carescs', 'carmafor',
             'carmamex', 'carmamot',
         ]
+    def names(self):
+        return u'Planes de manejo de ecosistemas'
+    def subtopic(self):
+        return u'Información sobre los planes de manejo'
 
 ### Riesgos - Amenazas ###
 class AmenazasForm(ModelForm):
@@ -708,6 +841,11 @@ class AmenazasForm(ModelForm):
             'elemento', 'elemotro', 'actosoci', 'activida',
             'amenmapa', 'amengeor',
         ]
+    def names(self):
+        return u'Identificación de amenazas en la cuenca'
+    def subtopic(self):
+        return u'Identificación preeliminar de los sitios con condiciones \
+            de amenazas y eventos'
 
 class AmenazActoresForm(ModelForm):
     '''
@@ -719,6 +857,10 @@ class AmenazActoresForm(ModelForm):
         fields = [
             'iactor', 'idyear',
         ]
+    def names(self):
+        return u'Identificación de amenazas en la cuenca'
+    def subtopic(self):
+        return u'Actores que tienen registros e información'
 
 ### Riesgos - Estudios ###
 class RiesgosForm(ModelForm):
@@ -733,6 +875,11 @@ class RiesgosForm(ModelForm):
             'iniduver', 'inidcare', 'inidcper', 'inidauth', 'inidanit', 
             'inidanor', 'inidanop',
         ]
+    def names(self):
+        return u'Estudios de riesgos'
+    def subtopic(self):
+        return u'Identificación del estudio o informes técnicos por cada \
+        tipo de amenaza o evento identificados'
 
 class RiesgoDocumYCartoForm(ModelForm):
     '''
@@ -747,6 +894,11 @@ class RiesgoDocumYCartoForm(ModelForm):
             'carmetad', 'carmeaut', 'carmenit', 'carmeinf', 'carmedat', 
             'carinaso', 'cardocfo', 'cardocex', 'cardocot',
         ]
+    def names(self):
+        return u'Estudios de riesgos'
+    def subtopic(self):
+        return u' Información general cartográfica y documentos técnicos \
+        relacionados por cada tipo de amenaza en la cuenca'
 
 ### Socioeconómico - Actores Sociales ###
 class seActoresSocForm(ModelForm):
@@ -769,6 +921,10 @@ class seActoresSocForm(ModelForm):
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
             'inidanor', 'inidanop', 'inidudep', 'inidumun', 'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Actores Sociales'
+    def subtopic(self):
+        return u'Información general'
 
 class seActoDetalleForm(ModelForm):
     '''
@@ -789,6 +945,10 @@ class seActoDetalleForm(ModelForm):
             'isepride': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'isedbvar': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Actores Sociales'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Estrategia de Participación ###
 class seEstrParticipForm(ModelForm):
@@ -811,6 +971,10 @@ class seEstrParticipForm(ModelForm):
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
             'inidanor', 'inidanop', 'inidudep', 'inidumun', 'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Estrategia de Participación'
+    def subtopic(self):
+        return u'Información general'
 
 class sePartipDetalleForm(ModelForm):
     '''
@@ -833,6 +997,10 @@ class sePartipDetalleForm(ModelForm):
             'isepiamd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'isepesta': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Estrategia de Participación'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Participación de comunidades étnicas  ###
 class seParticComuEtnicasForm(ModelForm):
@@ -855,6 +1023,10 @@ class seParticComuEtnicasForm(ModelForm):
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
             'inidanor', 'inidanop', 'inidudep', 'inidumun', 'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Participación de comunidades étnicas'
+    def subtopic(self):
+        return u'Información general'
 
 class seComuEtnicDetalleForm(ModelForm):
     '''
@@ -871,6 +1043,10 @@ class seComuEtnicDetalleForm(ModelForm):
             'isepccaw': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'isepcded': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Participación de comunidades étnicas'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Diagnósticos Socioeconómicos ###
 class seDiagSocioEconomForm(ModelForm):
@@ -894,6 +1070,10 @@ class seDiagSocioEconomForm(ModelForm):
             'inidambi', 'inidanor', 'inidanop', 'inidudep', 'inidumun', 
             'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Diagnósticos Socioeconómicos'
+    def subtopic(self):
+        return u'Información general'
 
 class seDiagSociDetalleForm(ModelForm):
     '''
@@ -922,6 +1102,10 @@ class seDiagSociDetalleForm(ModelForm):
             'isedprec': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'isedsegd': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Diagnósticos Socioeconómicos'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Caracterización Cultural ###
 class seCaractCulturalForm(ModelForm):
@@ -944,6 +1128,10 @@ class seCaractCulturalForm(ModelForm):
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
             'inidanor', 'inidanop', 'inidudep', 'inidumun', 'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Caracterización Cultural'
+    def subtopic(self):
+        return u'Información general'
 
 class seCaraCultDetalleForm(ModelForm):
     '''
@@ -963,6 +1151,10 @@ class seCaraCultDetalleForm(ModelForm):
             'iseccpad': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'iseccdcc': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Caracterización Cultural'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Valoración de Servicios Ecosistémicos ###
 class seValorServicEcosForm(ModelForm):
@@ -985,6 +1177,10 @@ class seValorServicEcosForm(ModelForm):
         fields = ['inidnomb', 'inidlocf', 'inidauth', 'inidanit',
             'inidanor', 'inidanop', 'inidudep', 'inidumun', 'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Valoración de Servicios Ecosistémicos'
+    def subtopic(self):
+        return u'Información general'
 
 class seServEcosDetalleForm(ModelForm):
     '''
@@ -1001,6 +1197,10 @@ class seServEcosDetalleForm(ModelForm):
             'isesemet': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'isesepia': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Valoración de Servicios Ecosistémicos'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ### Socioeconómico - Relaciones funcionales urbano- regionales ###
 class seRelaFuncUrbaRegioForm(ModelForm):
@@ -1024,6 +1224,10 @@ class seRelaFuncUrbaRegioForm(ModelForm):
             'inidambi', 'inidanor', 'inidanop', 'inidudep', 'inidumun', 
             'iniduver',
         ]
+    def names(self):
+        return u'Socioeconómico. Relaciones funcionales urbano- regionales'
+    def subtopic(self):
+        return u'Información general'
 
 class seRFUrbRegDetalleForm(ModelForm):
     '''
@@ -1043,6 +1247,10 @@ class seRFUrbRegDetalleForm(ModelForm):
             'infocapo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
             'infocapl': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
+    def names(self):
+        return u'Socioeconómico. Relaciones funcionales urbano- regionales'
+    def subtopic(self):
+        return u'Detalle de la información'
 
 ##class GetUserAttr(request, shared_id):
 ##    def __init__(self):

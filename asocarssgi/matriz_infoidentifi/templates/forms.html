@@ -1,13 +1,15 @@
 {% extends 'main.html' %}
 {% block naviside %}
+<h1>{{ title }}</h1>
 {% if pk %}
-<form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post">
+<form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post" class="pure-form pure-form-stacked">
 {% else %}
-<form action="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" method="post">
+<form action="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" method="post" class="pure-form pure-form-stacked">
 {% endif %}
 {% csrf_token %}
+<legend>Formato de {{ form.names }} <br /> {{ form.subtopic }}</legend>
 {{form.as_p}}
-<a href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>
-<input type="submit" value="Guardar" />
+<a class="pure-button normal-button" href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>
+<input class="pure-button normal-button" type="submit" value="Guardar" />
 </form>
 {% endblock %}
