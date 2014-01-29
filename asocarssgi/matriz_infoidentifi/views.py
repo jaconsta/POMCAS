@@ -15,6 +15,7 @@ from cuencas.views import GetCorpoCuencas, GetUserWatersheed
 from corporacion.views import GetUserCorpo, GetUserCorpo
 
 from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
+from matriz_infoidentifi.models import inidcardatg, inidimagsat, inidfotogra
 from matriz_infoidentifi import forms
 from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
     GetCartoSubtopicFK, GetEstudFK
@@ -225,7 +226,14 @@ def edit(request, shared_id, subcompo, pk):
         for that uses the subcompo variable
     '''
     usrattr = GetUserAttr(request, shared_id)
-    instance = get_object_or_404(inididestud, id = pk)
+    if subcompo == 'Cartografia':
+        instance = get_object_or_404(inidcardatg, id = pk)
+    elif subcompo == 'Imagenes':
+        instance = get_object_or_404(inidimagsat, id = pk)
+    elif subcompo == 'Fotografias':
+        instance = get_object_or_404(inidfotogra, id = pk)
+    else:
+        instance = get_object_or_404(inididestud, id = pk)
     ####
     if request.method == 'POST':
         formlist = {

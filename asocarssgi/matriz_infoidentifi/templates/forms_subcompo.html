@@ -3,7 +3,7 @@
 <h1>{{ title }}</h1>
 <form action="{% url 'matrix_infoident_subte' shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema %}" method="post" class="pure-form pure-form-stacked">
 {% csrf_token %}
-<legend>Formato de {{ form.name }} <br /> {{ form.subtopic }}</legend>
+<legend>Formato de {{ form.names }} <br /> {{ form.subtopic }}</legend>
 {{form.as_p}}
 <a class="pure-button normal-button" href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>
 <input class="pure-button normal-button" type="submit" value="Guardar" />

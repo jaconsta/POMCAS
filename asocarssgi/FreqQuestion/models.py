@@ -13,8 +13,10 @@ class Topic (models.Model):
 class Questions(models.Model):
     qutopic = models.ForeignKey('Topic', verbose_name = u'Tema', null = True, blank = True)
     questio = models.CharField(u'Pregunta', max_length = 250)
-    pubdate = models.DateField(u'Fecha de publicación', auto_now_add = True)
-    whopost = models.CharField(u'Quién pregunta', max_length = 150)
+    pubdate = models.DateField(u'Fecha de publicación')
+    whopost = models.CharField(u'Nombre de quien pregunta', max_length = 150)
+    whoposi = models.CharField(u'Cargo', max_length = 150, null = True, blank = True)
+    whocorp = models.CharField(u'Entidad', max_length = 150)
 
     def __unicode__(self):
         return self.questio
@@ -25,8 +27,15 @@ class Answer(models.Model):
     questio = models.ForeignKey('Questions', verbose_name = u'Pregunta')
     answers = models.CharField(u'Respuesta', max_length = 500)
     whoansr = models.ForeignKey(User, verbose_name = u'Usuario que responde')
-    sources = models.CharField(u'Fuente', max_length = 250)
-    avaliab = models.BooleanField(u'Mostrar', default = True)
+    sources = models.CharField(u'Nombre de quien responde', max_length = 250)
+    whoposi = models.CharField(u'Cargo', max_length = 150, null = True, 
+        blank = True)
+    whocorp = models.CharField(u'Entidad', max_length = 150)
+    aproved = models.BooleanField(u'Aprovado?', default = False)
+    whoapro = models.CharField(u'Nombre de quién aprueba', max_length = 150, 
+        null = True, blank = True)
+    datapro = models.DateField(u'Fecha de aprobación', null = True, 
+        blank = True)
 
     def __unicode__(self):
         return self.answers

@@ -59,7 +59,9 @@ class CartografiaForm(ModelForm):
             'icartesc', 'incarlic', 'incaraut', 'incarlug', 'incarano',
         ]
     def names(self):
-        return u''
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Datos generales'
 
 class CartogSubCatastroForm(ModelForm):
     '''
@@ -91,6 +93,10 @@ class CartogSubCatastroForm(ModelForm):
         model = inicartscat
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
         ]
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Subtema cartográfico: Catastro'
 class CartogSubTransporForm(ModelForm):
     '''
     Cartografía base
@@ -122,6 +128,10 @@ class CartogSubTransporForm(ModelForm):
         model = inicartstra
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
         ]
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Subtema cartográfico: Transporte'
 class CartogSubHidrologForm(ModelForm):
     '''
     Cartografía base
@@ -150,6 +160,10 @@ class CartogSubHidrologForm(ModelForm):
         model = inicartshdr
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
         ]
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Subtema cartográfico: Hidrografía'
 class CartogSubeReliveForm(ModelForm):
     '''
     Cartografía base
@@ -176,6 +190,10 @@ class CartogSubeReliveForm(ModelForm):
         model = inicartsrlv
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
         ]
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Subtema cartográfico: Relieve'
 class SubEntidadeForm(ModelForm):
     '''
     Cartografía base
@@ -210,6 +228,10 @@ class SubEntidadeForm(ModelForm):
         model = inicartsete
         fields = ['icarspre', 'icarsexi', 'icarsqua', 'icarsrel',
         ]
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Subtema cartográfico: Entidad territorial y unidad administrativa'
 
 ### Imágenes ###
 
@@ -233,6 +255,8 @@ class ImagenesForm(ModelForm):
         ]
     def names(self):
         return u'Imágenes de satélite'
+    def subtopic(self):
+        return u'Caracterización de las Imágenes de satélite.'
 
 ### Fotogragías ###                           
 
@@ -251,6 +275,10 @@ class FotografiasForm(ModelForm):
             'incarlic',
             'incaraut', 'incarlug', 'incarano'
         ]
+    def names(self):
+        return u'Fotografías aéreas'
+    def subtopic(self):
+        return u'Caracterización de las fotografías aéreas.'
 
 ### Suelos ###
 class SuelosForm(ModelForm):

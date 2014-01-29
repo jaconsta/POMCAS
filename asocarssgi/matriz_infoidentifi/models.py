@@ -729,7 +729,7 @@ class inidcardatg(inicartogra):
     esccap = u'Escala de captura'
     #help_text
     escala_help = u'Escala de presentación de la cartografía'
-    numero_help = u'Número de las planchas IGAC. '
+    numero_help = u'Número de las planchas IGAC. En mayúscula y separadas con coma (,)'
     respon_help = u'Entidad que desarrolló la cartografía: \
         IGAC, Invías, Corporación, Alcaldía, etc.'
     cubrim_help = u'Área de la catografía con la descripción de las \
@@ -743,7 +743,7 @@ class inidcardatg(inicartogra):
         help_text = escala_help)
         #choices = lists.ScaleChoose(),
         #default = lists.DefaultScale(), help_text = escala_help)
-    icartnum = models.CharField(numero, max_length = 8,
+    icartnum = models.CharField(numero, max_length = 500,
         help_text = numero_help)
     icartres = models.CharField(respon, max_length = 125,
         help_text = respon_help)

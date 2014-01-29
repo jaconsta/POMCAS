@@ -88,6 +88,13 @@ a.list-select:hover {
     /*text-decoration:underline;*/
     font-size:1.2em;
 }
+form{
+    max-width:550px;
+    text-align:justify;
+}
+footer{
+    margin-top:25px;
+}
 footer #bottom_text{
     max-width:300px;
 }
