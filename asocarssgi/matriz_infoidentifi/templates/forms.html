@@ -9,7 +9,7 @@
 {% csrf_token %}
 <legend>Formato de {{ form.names }} <br /> {{ form.subtopic }}</legend>
 {{form.as_p}}
-<a class="pure-button normal-button" href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>
+<a class="pure-button normal-button" href="{% url 'matrix_infoident_resume' shared_id=shared_id subcompo=subcompo %}">Cancelar</a>
 <input class="pure-button normal-button" type="submit" value="Guardar" />
 </form>
 {% endblock %}

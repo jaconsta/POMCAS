@@ -638,9 +638,12 @@ class inicartsubt(models.Model):
     icarsubt = models.ForeignKey('inidcardatg')
     icarsnam = models.CharField(subtem, max_length = 20, editable = False)
     icarspre = models.BooleanField(presen, choices = lists.BoolChoose())
-    icarsexi = models.CharField(cuapre, max_length = 500) 
+    icarsexi = models.CharField(cuapre, max_length = 500, null = True, blank = True) 
     icarsqua = models.BooleanField(qualit, choices = lists.BoolChoose())
     icarsrel = models.BooleanField(reltop, choices = lists.BoolChoose())
+
+    def __unicode__(self):
+        return u'Elementos parte del tema en el catálogo: %s' % (self.icarspre)
 
     class Meta:
         verbose_name = u'1.2 Subtema cartográfico'
@@ -747,6 +750,7 @@ class inidcardatg(inicartogra):
     cubrim = u'Cubrimiento geográfico de la cartografía'
     archex = u'Extensión del archivo'
     esccap = u'Escala de captura'
+    annofu = u'Año fuente'
     #help_text
     escala_help = u'Escala de presentación de la cartografía'
     numero_help = u'Número de las planchas IGAC. En mayúscula y separadas con coma (,)'
@@ -771,6 +775,8 @@ class inidcardatg(inicartogra):
         null = True, blank = True)
     icartesc = models.ForeignKey('cartgridsca', verbose_name =esccap, 
         related_name = '%(app_label)s_%(class)s_icartesc',
+        null = True, blank = True)
+    icartfue = models.CharField(annofu, max_length = 750,
         null = True, blank = True)
 
     def __unicode__(self):
@@ -947,6 +953,8 @@ class inidimagsat(inicartogra):
     incartam = models.FloatField(tamano, null = True, blank = True, 
         help_text = tamano_help)
 
+    def __unicode__(self):
+        return u'Nombre: %s. Sensor: %s. %s' % (iimanomb , iimasens.value, iimaseno)
     class Meta:
         verbose_name = u'02 Imagen'
         verbose_name = u'02 Imágenes'
@@ -997,6 +1005,8 @@ class inidfotogra(inicartogra):
     incartam = models.FloatField(tamano, null = True, blank = True, 
         help_text = tamano_help)
 
+    def __unicode__(self):
+        return u'Nombre: %s. Formato: %s.' %(ifonombr, incafore)
     class Meta:
         verbose_name = u'03 Fotografía'
         verbose_name_plural = u'03 Fotografías'

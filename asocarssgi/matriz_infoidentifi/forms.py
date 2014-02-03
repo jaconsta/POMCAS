@@ -14,8 +14,7 @@ from matriz_infoidentifi.models import SelectList
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete, \
-    inicartgrid #Cartografía base
+    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete #Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumegea, \
@@ -57,28 +56,14 @@ class CartografiaForm(ModelForm):
         fields = ['icartess', 'icartnum', 'icartres', 'icartcug', 
             'incacuba', 'incacubp', 'incaforf', 'incafore', 'incaforo',
             'incarsco', 'incarsre', 'incaroco', 'incardat',
-            'icartesc', 'incarlic', #'incaraut', 'incarlug', 'incarano',
+            'icartesc', 'incarlic', 'icartfue',
         ]
         widgets = {
             'icartnum': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
             'icartcug': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'incarlic': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'icartfue': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
         }
-    def names(self):
-        return u'Cartografía base'
-    def subtopic(self):
-        return u'Datos generales'
-
-class CartogGridsForm(ModelForm):
-    '''
-    Cartografía base
-    Datos generales
-    '''
-    class Meta:
-        model = inicartgrid
-        fields = [
-            'icargrid', 'icaryear',
-        ]
-
     def names(self):
         return u'Cartografía base'
     def subtopic(self):
@@ -101,7 +86,8 @@ class CartogSubCatastroForm(ModelForm):
         Manzanas, predios. EDIFICACIONES y OBRAS CIVILES: \
         Construcciones, áreas deportivas, cercas, sitios de interés, \
         canteras, etc', 
-        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}),
+        required = False)
     icarsqua = forms.ChoiceField(label = u'En la tabla de atributos. \
         Coherencia de la información con respecto a rasgos \
         característicos de la zona demarcada. Es decir, se verifica que \
@@ -136,7 +122,8 @@ class CartogSubTransporForm(ModelForm):
             ferrocarril. \
             INSTALACIONES Y CONSTRUCCIONES: \
             Puente, líneas de alta tensión, poliducto, torres de alta tensión', 
-        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}),
+        required = False)
     icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
         respecto a rasgos característicos de la zona demarcada.', 
         help_text = u'Se verifica que existan elementos del tema Transporte \
@@ -168,7 +155,8 @@ class CartogSubHidrologForm(ModelForm):
     icarsexi = forms.CharField(label = u'Especifique cuales.',
         help_text = u'SUPERFICIES DE AGUA: Drenaje doble, canal, lago, \
             pantano, humedal, drenaje sencillo o quebrada', 
-        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}),
+        required = False)
     icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
             respecto a rasgos característicos de la zona demarcada.', 
         help_text = u'Se verifica que existan elementos del tema Hidrografía \
@@ -199,7 +187,8 @@ class CartogSubeReliveForm(ModelForm):
         )
     icarsexi = forms.CharField(label = u'Especifique cuales.',
         help_text = u'CURVAS DE NIVEL: Índice e intermedia', 
-        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}),
+        required = False)
     icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
             respecto a rasgos característicos de la zona demarcada.', 
         help_text = u'Identificación de las zonas planas, altas, declives, \
@@ -235,7 +224,8 @@ class SubEntidadeForm(ModelForm):
             comuna o localidad, corregimiento, vereda, barrio, área \
             metropolitana, resguardo indígena, comunidad negra, cabildo \
             indígena, área protegida, área de reserva o área de manejo especial', 
-        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}))
+        max_length = 500, widget = forms.Textarea(attrs ={'rows':3, 'cols':40}),
+        required = False)
     icarsqua = forms.ChoiceField(label = u'Coherencia de la información con \
         respecto a rasgos característicos de la zona demarcada.', 
         help_text = u'Se verifica que existan elementos del tema \

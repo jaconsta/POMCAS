@@ -13,8 +13,7 @@ from corporacion.views import GetUserCorpo
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete, \
-    inicartgrid #Cartografía base
+    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete #Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumegea, \
@@ -100,7 +99,6 @@ def GetSubtopicResume(subcompo, subtemas):
     subtopic = []
     subtree = {
         u'Cartografia' : (
-            (u'Planchas', u'Grids', 'inicartgrid',True),
             (u'Subtema catastro', u'SubCatastro', 'inicartscat', True), 
             (u'Subtema transporte', u'SubTranspor', 'inicartstra', True), 
             (u'Subtema hidrología', u'SubHidrolog', 'inicartshdr', True), 

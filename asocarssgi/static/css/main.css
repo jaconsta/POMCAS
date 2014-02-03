@@ -92,6 +92,14 @@ form{
     max-width:550px;
     text-align:justify;
 }
+label{
+    color: #003366;
+    font-size:1.4em;
+}
+span.helptext{
+    font-size:0.8em;
+    color:  #4FD5D6;
+}
 footer{
     margin-top:25px;
 }

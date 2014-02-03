@@ -88,7 +88,7 @@ def resume(request, shared_id, subcompo):
     corpora = GetUserCorpo(request.user)
     forms = GetResume(request.user, shared_id, subcompo)
     subtree = {
-            u'Cartografia' : (u'Grids', u'SubCatastro', u'SubTranspor', 
+            u'Cartografia' : (u'SubCatastro', u'SubTranspor', 
                 u'SubHidrolog', u'SubeRelive', u'SubEntidade'),
             u'Imagenes' : (None),
             u'Fotografias' : (None),
@@ -311,8 +311,6 @@ def edit(request, shared_id, subcompo, pk):
 def subte_forms(request, subcompo, subtema, instance = None):
     subtree = {
             u'Cartografia' : {
-                u'Grids':
-                    forms.CartogGridsForm(request.POST or None, instance = instance),
                 u'SubCatastro': 
                     forms.CartogSubCatastroForm(request.POST or None, instance = instance),
                 u'SubTranspor': 
@@ -450,10 +448,7 @@ def subte(request, shared_id, subcompo, pk, subtema, subte_pk = None):
             subtopic = form.save(commit = False)
             if subcompo == 'Cartografia':
                 subtopic.icarsnam = subtema
-                if subtema == 'Grids':
-                    subtopic.icarfuen = GetCartoSubtopicFK(pk)
-                else:
-                    subtopic.icarsubt = GetCartoSubtopicFK(pk)
+                subtopic.icarsubt = GetCartoSubtopicFK(pk)
             else:
                 #foreignfield = GetEstudFModel(pk, subtopic)
                 #subtopic._meta.get_field(foreignfield) = GetEstudFK(pk)
