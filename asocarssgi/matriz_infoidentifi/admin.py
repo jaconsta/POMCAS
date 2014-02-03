@@ -6,7 +6,8 @@ from django.contrib import admin
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
+    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete, \
+    inicartgrid #Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumegea, \
@@ -90,9 +91,9 @@ class CartoAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('icartesc', 'incarlic')
         }),
-        (u'Fuentes y fecha',{
-            'fields': ('incaraut', 'incarlug', 'incarano')
-        }),
+        #(u'Fuentes y fecha',{
+        #    'fields': ('incaraut', 'incarlug', 'incarano')
+        #}),
     )
 
 #Imágenes                              

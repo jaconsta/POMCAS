@@ -420,10 +420,9 @@ class inididestud(inididinden):
     inidsubc = models.CharField(subcom, max_length = 20)
     inidnomb = models.CharField(nombre, max_length = 500)
     iniddocf = models.ForeignKey('documformat', verbose_name = docfor,
-        null = True, blank = True)#CharField(docfor, max_length = 4, null = True,
-        #blank = True, choices = lists.FormatChoose())
-    iniddoce = models.ForeignKey('extdocuform', verbose_name = docext,#models.CharField(docext, max_length = 4, null = True,
-        null = True, blank = True, #blank = True, choices = lists.FileExtChoose(),
+        null = True, blank = True)
+    iniddoce = models.ForeignKey('extdocuform', verbose_name = docext,
+        null = True, blank = True, 
         help_text = docext_help)
     iniddoco = models.CharField(doceot, max_length = 10, null = True,
         blank = True)
@@ -528,13 +527,12 @@ class inidcartog(models.Model):
         blank = True)
     caruespu = models.CharField(escpub, max_length = 9, null = True, 
         blank = True)
-    carmafor = models.ForeignKey('documformat', verbose_name = mapfor,#CharField(mapfor, max_length = 4, 
+    carmafor = models.ForeignKey('documformat', verbose_name = mapfor,
         null = True, blank = True,
         related_name = '%(app_label)s_%(class)s_mapfor')
-        #choices = lists.FormatChoose(), null = True, blank = True)
-    carmamex = models.ForeignKey('mapfileexte', verbose_name = mapext, #CharField(mapext, max_length = 9, 
+    carmamex = models.ForeignKey('mapfileexte', verbose_name = mapext, 
         related_name = '%(app_label)s_%(class)s_mapext',
-        null = True, blank = True, #choices = lists.MapExtChoose(), null = True, blank = True,
+        null = True, blank = True, 
         help_text = mapext_help)
     carmamot = models.CharField(mapotr, max_length = 9, 
         null = True, blank = True)
@@ -559,15 +557,17 @@ class inidcartog(models.Model):
         blank = True)
     carqualy = models.CharField(qualit, max_length = 125, null = True, 
         blank = True, help_text = qualit_help)
-    cardocfo = models.ForeignKey('documformat', verbose_name = docfor,#CharField(docfor, max_length = 4,
+    cardocfo = models.ForeignKey('documformat', verbose_name = docfor,
         related_name = '%(app_label)s_%(class)s_docfor', 
         null = True, blank = True)
-        #choices = lists.FormatChoose()) 
-    cardocex = models.ForeignKey('extdocuform', verbose_name = docext, #CharField(docext, max_length = 4,
+    cardocex = models.ForeignKey('extdocuform', verbose_name = docext, 
         related_name = '%(app_label)s_%(class)s_docext',
-        null = True, blank = True) #choices = lists.FileExtChoose(), null = True, blank = True)
+        null = True, blank = True) 
     cardocot = models.CharField(docotr, max_length = 10, null = True, 
         blank = True)
+
+    def __unicode__(self):
+        return u'Escala de salida %s,  '%(self.carescs, )
 
 # Subtema Cartografía.
 class inicartogra(inididinden):
@@ -579,7 +579,7 @@ class inicartogra(inididinden):
     cubria = u'Área de cubrimiento con relación a la cuenca'
     cubrip = u'Porcentaje de cobertura con relación a la cuenca'
     formaf = u'Formato del archivo'
-    archex = u'Extensión del archivo'
+    #archex = u'Extensión del archivo'
     archeo = u'Otro'
     reessc = u'Referencia espacial. Sistema de coordenadas'
     reessr = u'Referencia espacial. Sistema de referencia'
@@ -601,25 +601,22 @@ class inicartogra(inididinden):
     inidsubc = models.CharField(subcom, max_length = 20)
     incacuba = models.FloatField(cubria, help_text = cubria_help)
     incacubp = models.FloatField(cubrip, help_text = cubrip_help)
-    incaforf = models.ForeignKey('documformat', verbose_name = formaf)#CharField(formaf, max_length = 4, 
-        #choices = lists.FormatChoose())
-    incafore = models.ForeignKey('extdocuform', verbose_name = archex,#CharField(archex, max_length = 5, null = True,
-        null = True, blank = True)
+    incaforf = models.ForeignKey('documformat', verbose_name = formaf)
+    #incafore = models.ForeignKey('extdocuform', verbose_name = archex,
+    #    null = True, blank = True)
     incaforo = models.CharField(archeo, max_length = 25, null = True,
         blank = True)
-    incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc)#CharField(reessc, max_length = 4,
-        #choices = lists.SisCoordChoose())
+    incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc)
     incarsre = models.CharField(reessr, max_length = 25)
-    incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc)#CharField(reesoc, max_length = 3, 
-        #choices = lists.OriCoordChoose())
+    incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc)
     incardat = models.CharField(reesda, max_length = 25)
-    incarlic = models.CharField(licenc, max_length = 250)
-    incaraut = models.CharField(author, max_length = 150)  
-    incarlug = models.CharField(lugpub, max_length = 150)  
-    incarano = models.PositiveSmallIntegerField(annopu, 
-        choices = lists.YearList())
-    incartam = models.FloatField(tamano, null = True, blank = True, 
-        help_text = tamano_help)
+    incarlic = models.CharField(licenc, max_length = 500)
+    #incaraut = models.CharField(author, max_length = 150)  
+    #incarlug = models.CharField(lugpub, max_length = 150)  
+    #incarano = models.PositiveSmallIntegerField(annopu, 
+    #    choices = lists.YearList())
+    #incartam = models.FloatField(tamano, null = True, blank = True, 
+    #    help_text = tamano_help)
 
     class Meta:
         abstract = True
@@ -663,7 +660,29 @@ class documformat(models.Model):
 class matpfileexte(models.Model):
     '''
     Componente cartográfico
-    Extensión del documento
+    Extensión de la plancha
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class iimgfileexte(models.Model):
+    '''
+    Componente cartográfico
+    Extensiones de imágenes
+    '''
+    value = models.CharField(u'Variable', max_length = 150)
+    enable = models.BooleanField(u'Enabled', default = True)
+    
+    def __unicode__(self):
+        return self.value
+
+class pictfileexte(models.Model):
+    '''
+    Componente cartográfico
+    Extensión de las fotografías
     '''
     value = models.CharField(u'Variable', max_length = 150)
     enable = models.BooleanField(u'Enabled', default = True)
@@ -726,6 +745,7 @@ class inidcardatg(inicartogra):
     numero = u'Identificación'
     respon = u'Responsable de la cartografía'
     cubrim = u'Cubrimiento geográfico de la cartografía'
+    archex = u'Extensión del archivo'
     esccap = u'Escala de captura'
     #help_text
     escala_help = u'Escala de presentación de la cartografía'
@@ -738,30 +758,37 @@ class inidcardatg(inicartogra):
     
     lists = SelectList()
 
-    icartess = models.ForeignKey('cartgridsca', verbose_name = escala, #PositiveIntegerField(escala, 
+    icartess = models.ForeignKey('cartgridsca', verbose_name = escala, 
         related_name = '%(app_label)s_%(class)s_icartess',
         help_text = escala_help)
-        #choices = lists.ScaleChoose(),
-        #default = lists.DefaultScale(), help_text = escala_help)
-    icartnum = models.CharField(numero, max_length = 500,
+    icartnum = models.CharField(numero, max_length = 750,
         help_text = numero_help)
     icartres = models.CharField(respon, max_length = 125,
         help_text = respon_help)
-    icartcug = models.CharField(cubrim, max_length = 500,
+    icartcug = models.CharField(cubrim, max_length = 3500,
         help_text = cubrim_help)
-    icartesc = models.ForeignKey('cartgridsca', verbose_name =esccap, #PositiveIntegerField(esccap, 
+    incafore = models.ForeignKey('matpfileexte', verbose_name = archex,
+        null = True, blank = True)
+    icartesc = models.ForeignKey('cartgridsca', verbose_name =esccap, 
         related_name = '%(app_label)s_%(class)s_icartesc',
         null = True, blank = True)
-        #choices = lists.ScaleChoose(),
-        #default = lists.DefaultScale(), null = True, blank = True)
 
     def __unicode__(self):
-        return '%s, %s, %s' % (self.incaraut, self.incacuba, self.icartess) 
+        return 'Escala: %s' % (self.icartess) 
 
     class Meta:
         verbose_name = u'01 Cartografía base'
         verbose_name_plural = verbose_name
-   
+
+class inicartgrid(models.Model):
+    '''
+    Cartografía base
+    Datos generales - Plancha y fecha'
+    '''
+    icarfuen = models.ForeignKey('inidcardatg')
+    icargrid = models.CharField(u'Plancha', max_length = 8)
+    icaryear = models.PositiveSmallIntegerField(null = True, blank = True)
+    
 class inicartdatf(models.Model):
     '''
     Cartografía base
@@ -852,6 +879,7 @@ class inidimagsat(inicartogra):
     seotro = u'Cuál?'
     fechai = u'Fecha y hora de la imágen'
     cubrim = u'Cubrimiento geográfico de la imagen'
+    archex = u'Extensión del archivo'
     banpae = u'¿Tiene banda pancromática?'
     banpac = u'Especique cuales'
     banmul = u'Bandas multiespectrales'
@@ -861,6 +889,10 @@ class inidimagsat(inicartogra):
     coindx = u'Coordenadas esquina inferior derecha. X'
     coindy = u'Coordenadas esquina inferior derecha. Y'
     pornub = u'Porcentaje de nubosidad'
+    author = u'Autor'
+    lugpub = u'Lugar de publicación'
+    annopu = u'Año'
+    tamano = u'Tamaño del archivo'
     # Help_text
     cubrim_help = u'Área de la imágen con la descripción de las entidades \
         territoriales y administrativas presentes como: departamentos, \
@@ -872,17 +904,20 @@ class inidimagsat(inicartogra):
     coindx_help = u'Límite inferior en las coordenadas disponibles'
     pornub_help = u'Expresado en términos de hectáreas con respecto al \
         total de las imágenes'
+    archex_help = u'En caso que sea digital'
+    tamano_help = u'Expresado en MB'
 
     lists = SelectList()
 
     iimanomb = models.CharField(nombre, max_length = 125)
-    iimasens = models.ForeignKey('inimagsenso', verbose_name = sensor) #CharField(sensor, max_length = 10, 
-        #choices = lists.SensChoose())
+    iimasens = models.ForeignKey('inimagsenso', verbose_name = sensor) 
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
     iimadate = models.DateTimeField(fechai)
     iimacubr = models.FloatField(cubrim, null = True, blank = True, 
         help_text = cubrim_help)
+    incafore = models.ForeignKey('iimgfileexte', verbose_name = archex,
+        null = True, blank = True)
     iimabanp = models.BooleanField(banpae, choices = lists.BoolChoose(), 
         default = False)
     iimabanc = models.CharField(banpac, max_length = 500, null = True, 
@@ -899,6 +934,18 @@ class inidimagsat(inicartogra):
     iimacidy = models.FloatField(coindy, null = True, blank = True)
     iimanubp = models.FloatField(pornub, null = True, blank = True,
         help_text = pornub_help)
+    incaraut = models.CharField(author, max_length = 150)  
+    incarlug = models.CharField(lugpub, max_length = 150)  
+    incarano = models.PositiveSmallIntegerField(annopu, 
+        choices = lists.YearList())
+    incartam = models.FloatField(tamano, null = True, blank = True, 
+        help_text = tamano_help)
+    incaraut = models.CharField(author, max_length = 150)  
+    incarlug = models.CharField(lugpub, max_length = 150)  
+    incarano = models.PositiveSmallIntegerField(annopu, 
+        choices = lists.YearList())
+    incartam = models.FloatField(tamano, null = True, blank = True, 
+        help_text = tamano_help)
 
     class Meta:
         verbose_name = u'02 Imagen'
@@ -911,6 +958,7 @@ class inidfotogra(inicartogra):
     Fotografías. Áreas
     '''
     nombre = u'Nombre de la fotografía'
+    archex = u'Formato de la fotografía'
     numsob = u'Número de sobre'
     escala = u'Escala de las fotografías aéreas'
     tipoca = u'Tipo de cámara'
@@ -918,22 +966,36 @@ class inidfotogra(inicartogra):
     punfot = u'Puntos de fotocontrol'
     pornub = u'Porcentaje de nubosidad'
     # Help_text
+    archex_help = u'Extensión'
     pornub_help = u'Expresado en términos de hectáreas con respecto al \
         total de las imágenes'
+    author = u'Autor'
+    lugpub = u'Lugar de publicación'
+    annopu = u'Año'
+    tamano = u'Tamaño del archivo'
+    # Help_text
+    archex_help = u'En caso que sea digital'
+    tamano_help = u'Expresado en MB'
 
     lists = SelectList()
 
     ifonombr = models.CharField(nombre, max_length = 125)
+    incafore = models.ForeignKey('pictfileexte', verbose_name = archex,
+        null = True, blank = True)
     ifonumes = models.CharField(numsob, max_length = 50)
-    ifoescaf = models.ForeignKey('cartgridsca', verbose_name = escala) #PositiveIntegerField(escala, 
-        #choices = lists.ScaleChoose(),
-        #default = lists.DefaultScale())
+    ifoescaf = models.ForeignKey('cartgridsca', verbose_name = escala) 
     ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
         blank = True)
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
     ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
     ifoanubp = models.FloatField(pornub, help_text = pornub_help)
+    incaraut = models.CharField(author, max_length = 150)  
+    incarlug = models.CharField(lugpub, max_length = 150)  
+    incarano = models.PositiveSmallIntegerField(annopu, 
+        choices = lists.YearList())
+    incartam = models.FloatField(tamano, null = True, blank = True, 
+        help_text = tamano_help)
 
     class Meta:
         verbose_name = u'03 Fotografía'
@@ -1206,8 +1268,7 @@ class ihlmethafor(models.Model):
     lists = SelectList()
  
     inihlmma = models.ForeignKey('inidhlmetod')
-    inihlmpe = models.ForeignKey('hdlaforperi', verbose_name = period) #CharField(period, max_length = 4, 
-        #choices = lists.PeriAforChoose())
+    inihlmpe = models.ForeignKey('hdlaforperi', verbose_name = period) 
     inihlmmp = models.FloatField(caperi, null = True, blank = True)
     inihlmca = models.FloatField(caudal, null = True, blank = True)
     inihlmni = models.FloatField(nivel, null = True, blank = True)
@@ -1298,8 +1359,7 @@ class inighgmetfa(models.Model):
     esthidrg = models.ForeignKey('inidhgestud', 
         verbose_name = u'Estudio de hidrogeología')
     fasesest = models.ForeignKey('inhdrefases', 
-        verbose_name = u'Fase que contempló el estudio') #CharField(u'Fase que contempló el estudio', 
-        #max_length = 5, choices = lists.HdrFaseChoose())  
+        verbose_name = u'Fase que contempló el estudio') 
     metodolo = models.CharField(u'Metodología usada en la fase', 
         max_length = 500, null = True, blank = True)
     class Meta:
@@ -1427,9 +1487,8 @@ class inidhgmetho(models.Model):
         default = False)
     inghmhci = models.CharField(modhdin, max_length = 500,   
         null = True, blank = True)
-    inghtacu = models.ForeignKey('inhdrmeacui', verbose_name = acuiana, #CharField(acuiana, max_length = 5, 
+    inghtacu = models.ForeignKey('inhdrmeacui', verbose_name = acuiana, 
         null = True, blank = True)
-        #choices = lists.HdrAcuifChoose(), null = True, blank = True)
     inghagsu = models.BooleanField(aguasub, choices = lists.BoolChoose(), 
         default = False)
     inghasnp = models.PositiveSmallIntegerField(agsubnp, 
@@ -1535,12 +1594,10 @@ class inidcameth(models.Model):
         default = False, null = True, blank = True)
     inicaime = models.PositiveIntegerField(icames, null = True,
         blank = True)
-    inicaimf = models.ForeignKey('documformat', verbose_name = icamfo, #CharField(icamfo, max_length = 4,
+    inicaimf = models.ForeignKey('documformat', verbose_name = icamfo, 
         null = True, blank = True)
-        #choices = lists.FormatChoose(), blank = True, null = True)
-    inicaimx = models.ForeignKey('mapfileexte', verbose_name = icamex, #CharField(icamex, max_length = 9,
+    inicaimx = models.ForeignKey('mapfileexte', verbose_name = icamex, 
         null = True, blank = True)
-        #choices = lists.MapExtChoose(), null = True, blank = True)
     inicaixo = models.CharField(icameo, max_length = 25,
         null = True, blank = True)
 
@@ -1663,8 +1720,6 @@ class inicainfoco(models.Model):
         choices = lists.BoolChoose(), default = False)
     iicaifca = models.BooleanField(capasim,
         choices = lists.BoolChoose(), default = False)
-    #iicaincy = models.CharField(capayea, max_length = 150, 
-    #    help_text = capayea_help, null = True, blank = True)
     
     class Meta:
         verbose_name = '07.3 Información complementaria'
@@ -1855,7 +1910,6 @@ class iniccinflab(models.Model):
         verbose_name_plural = u'Laboratorios acreditados' 
 
     #Local field clashes with field of similar name from base class
-    #estudi = models.ForeignKey('inidccminfe', verbose_name = u'Estudio')
 
 class inidccmigeo(inidgeorefe):
     '''

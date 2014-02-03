@@ -88,7 +88,7 @@ def resume(request, shared_id, subcompo):
     corpora = GetUserCorpo(request.user)
     forms = GetResume(request.user, shared_id, subcompo)
     subtree = {
-            u'Cartografia' : (u'SubCatastro', u'SubTranspor', 
+            u'Cartografia' : (u'Grids', u'SubCatastro', u'SubTranspor', 
                 u'SubHidrolog', u'SubeRelive', u'SubEntidade'),
             u'Imagenes' : (None),
             u'Fotografias' : (None),
@@ -308,134 +308,141 @@ def edit(request, shared_id, subcompo, pk):
             #'compo' : GetCompo(),
         })
 
-@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
-def subte(request, shared_id, subcompo, pk, subtema):
-    '''
-    Subtemas de formatos
-    '''
-    usrattr = GetUserAttr(request, shared_id)
-    content = None
-    if request.method == 'POST':
-        content = request.POST
+def subte_forms(request, subcompo, subtema, instance = None):
     subtree = {
             u'Cartografia' : {
-                u'SubCatastro': (u'Subtema catastro', 
-                    forms.CartogSubCatastroForm(content)),
-                u'SubTranspor': (u'Subtema transporte', 
-                    forms.CartogSubTransporForm(content)),
-                u'SubHidrolog': (u'Subtema Hidrología', 
-                    forms.CartogSubHidrologForm(content)),
-                u'SubeRelive': (u'Subtema Relieve', 
-                    forms.CartogSubeReliveForm(content)),
-                u'SubEntidade': (u'Subtema Entidades territoriales', 
-                    forms.SubEntidadeForm(content)),
+                u'Grids':
+                    forms.CartogGridsForm(request.POST or None, instance = instance),
+                u'SubCatastro': 
+                    forms.CartogSubCatastroForm(request.POST or None, instance = instance),
+                u'SubTranspor': 
+                    forms.CartogSubTransporForm(request.POST or None, instance = instance),
+                u'SubHidrolog': 
+                    forms.CartogSubHidrologForm(request.POST or None, instance = instance),
+                u'SubeRelive': 
+                    forms.CartogSubeReliveForm(request.POST or None, instance = instance),
+                u'SubEntidade': 
+                    forms.SubEntidadeForm(request.POST or None, instance = instance),
                 },
             u'Imagenes' : (None,None),
             u'Fotografias' : (None,None),
             u'Suelos' : {
-                u'MetodGeomor': (u'Metodología del estudio de geomorfología', 
-                    forms.SuelosMetodGeomorForm(content)),
-                u'MetodSuelos': (u'Metodología del estudio de suelos y \
-                    capacidad de la tierra', 
-                    forms.SuelosMetodSuelosForm(content)),
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.SuelosDocumYCartoForm(content)),
+                u'MetodGeomor': 
+                    forms.SuelosMetodGeomorForm(request.POST or None, instance = instance),
+                u'MetodSuelos': 
+                    forms.SuelosMetodSuelosForm(request.POST or None, instance = instance),
+                u'DocumYCarto': 
+                    forms.SuelosDocumYCartoForm(request.POST or None, instance = instance),
                 },
             u'Hidrologia' : {
-                u'Estaciones': (u'Estacones utilizadas durante el estudio',
-                    forms.HidroloEstacionesForm(content)),
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.HidroloMetodologiaForm(content)),
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.HidroloDocumYCartoForm(content)),
-                #u'Variabilida': (u'Estudios de variabilidad climática', 
+                u'Estaciones': 
+                    forms.HidroloEstacionesForm(request.POST or None, instance = instance),
+                u'Metodologia': 
+                    forms.HidroloMetodologiaForm(request.POST or None, instance = instance),
+                u'DocumYCarto': 
+                    forms.HidroloDocumYCartoForm(request.POST or None, instance = instance),
+                #u'Variabilida': (
                 #    forms.HidroloVariabilidaForm(content)),
-                #u'CalcuCaudal': (u'Cálculos de caudal ambiental', 
+                #u'CalcuCaudal': (
                 #    forms.HidroloCalcuCaudalForm(content)),
                 },
             u'Variabilida' : (None,None),
             u'CalcuCaudal' : (None,None),
             u'Hidrogeologia' : {
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.HidrogeoMetodologiaForm(content)),
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.HidrogeoDocumYCartoForm(content)),
+                u'Metodologia': 
+                    forms.HidrogeoMetodologiaForm(request.POST or None, instance = instance),
+                u'DocumYCarto': 
+                    forms.HidrogeoDocumYCartoForm(request.POST or None, instance = instance),
                 },
             u'CalidadDeAgua' : {
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.CaliAguaMetodologiaForm(content)),
-                u'InfoEstudio': (u'Información del estudio', 
-                    forms.CaliAguaInfoEstudioForm(content)),
-                u'InfoComplem': (u'Información complementaria', 
-                    forms.CaliAguaInfoComplemForm(content)),
+                u'Metodologia': 
+                    forms.CaliAguaMetodologiaForm(request.POST or None, instance = instance),
+                u'InfoEstudio': 
+                    forms.CaliAguaInfoEstudioForm(request.POST or None, instance = instance),
+                u'InfoComplem': 
+                    forms.CaliAguaInfoComplemForm(request.POST or None, instance = instance),
                 },
             u'CargasContaminantes' :{ 
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.CargContMetodologiaForm(content)),
-                u'InfoEstudio': (u'Información del estudio', 
-                    forms.CargContInfoEstudioForm(content)),
-                u'InfoComplem': (u'Información complementaria', 
-                    forms.CargContInfoComplemForm(content)),
+                u'Metodologia': 
+                    forms.CargContMetodologiaForm(request.POST or None, instance = instance),
+                u'InfoEstudio': 
+                    forms.CargContInfoEstudioForm(request.POST or None, instance = instance),
+                u'InfoComplem': 
+                    forms.CargContInfoComplemForm(request.POST or None, instance = instance),
                 },
             u'Cobertura' : {
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.CobertuMetodologiaForm(content)),
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.CobertuDocumYCartoForm(content)),
-                u'AnaliMultit': (u'Análisis multitemporal', 
-                    forms.CobertuAnaliMultitForm(content)),
+                u'Metodologia': 
+                    forms.CobertuMetodologiaForm(request.POST or None, instance = instance),
+                u'DocumYCarto': 
+                    forms.CobertuDocumYCartoForm(request.POST or None, instance = instance),
+                u'AnaliMultit': 
+                    forms.CobertuAnaliMultitForm(request.POST or None, instance = instance),
                 },
             u'FloraYFauna' : {
-                u'Metodologia': (u'Metodología del estudio', 
-                    forms.FloFauMetodologiaForm(content)),
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.FloFauDocumYCartoForm(content)),
+                u'Metodologia': 
+                    forms.FloFauMetodologiaForm(request.POST or None, instance = instance),
+                u'DocumYCarto': 
+                    forms.FloFauDocumYCartoForm(request.POST or None, instance = instance),
                 },
             u'PMEcosistemas' : {
-                u'Formulacion': (u'Formulación de planes y resultados', 
-                    forms.PMEecosFormulacionForm(content)),
-                u'InforPlanes': (u'Información de planes', 
-                    forms.PMEecosInforPlanesForm(content)),
+                u'Formulacion': 
+                    forms.PMEecosFormulacionForm(request.POST or None, instance = instance),
+                u'InforPlanes': 
+                    forms.PMEecosInforPlanesForm(request.POST or None, instance = instance),
                 },
             u'Amenazas' : {
-                u'Actores': (u'Actores con influencia', 
-                    forms.AmenazActoresForm(content)),
+                u'Actores': 
+                    forms.AmenazActoresForm(request.POST or None, instance = instance),
                 },
             u'Riesgos' : {
-                u'DocumYCarto': (u'Documento técnico y Cartografía', 
-                    forms.RiesgoDocumYCartoForm(content)),
+                u'DocumYCarto': 
+                    forms.RiesgoDocumYCartoForm(request.POST or None, instance = instance),
                 },
             u'seActoresSoc' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seActoDetalleForm(content)),
+                u'Detalle': 
+                    forms.seActoDetalleForm(request.POST or None, instance = instance),
                 },
             u'seEstrParticip' : {
-                u'Detalle': (u'Detalle de la información',
-                    forms.sePartipDetalleForm(content)),
+                u'Detalle': 
+                    forms.sePartipDetalleForm(request.POST or None, instance = instance),
                 },
             u'seParticComuEtnicas' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seComuEtnicDetalleForm(content)),
+                u'Detalle': 
+                    forms.seComuEtnicDetalleForm(request.POST or None, instance = instance),
                 },
             u'seDiagSocioEconom' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seDiagSociDetalleForm(content)),
+                u'Detalle': 
+                    forms.seDiagSociDetalleForm(request.POST or None, instance = instance),
                 },
             u'seCaractCultural' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seCaraCultDetalleForm(content)),
+                u'Detalle': 
+                    forms.seCaraCultDetalleForm(request.POST or None, instance = instance),
                 },
             u'seValorServicEcos' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seServEcosDetalleForm(content)),
+                u'Detalle': 
+                    forms.seServEcosDetalleForm(request.POST or None, instance = instance),
                 },
             u'seRelaFuncUrbaRegio' : {
-                u'Detalle': (u'Detalle de la información', 
-                    forms.seRFUrbRegDetalleForm(content)),
+                u'Detalle':  
+                    forms.seRFUrbRegDetalleForm(request.POST or None, instance = instance),
                 },
     }
+
+    return subtree[subcompo][subtema]
+
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+def subte(request, shared_id, subcompo, pk, subtema, subte_pk = None):
+    '''
+    Subtemas de formatos
+    '''
+    usrattr = GetUserAttr(request, shared_id)
+    instance = None
+    if subte_pk:
+        instance = get_object_or_404(subte_forms(request, subcompo, subtema, instance).Meta.model, id = subte_pk)
+
+    #CobertuMetodologiaForm.Meta.model.objects.all()
     if request.method == 'POST':
-        form = subtree[subcompo][subtema][1]
+        form = subte_forms(request, subcompo, subtema, instance)
         if form.is_valid():
             #im having a id null constraint because I should assign'
             # 'the correct main topic in all the forms'
@@ -443,42 +450,38 @@ def subte(request, shared_id, subcompo, pk, subtema):
             subtopic = form.save(commit = False)
             if subcompo == 'Cartografia':
                 subtopic.icarsnam = subtema
-                subtopic.icarsubt = GetCartoSubtopicFK(pk)
+                if subtema == 'Grids':
+                    subtopic.icarfuen = GetCartoSubtopicFK(pk)
+                else:
+                    subtopic.icarsubt = GetCartoSubtopicFK(pk)
             else:
                 #foreignfield = GetEstudFModel(pk, subtopic)
                 #subtopic._meta.get_field(foreignfield) = GetEstudFK(pk)
                 subtopic = GetEstudFK(subcompo, pk, subtopic)
-            subtopic.save()
+            if subte_pk:
+                subtopic.save(force_update = True)
+            else:
+                subtopic.save()
             form.save_m2m()
             return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
         return render(request, 'forms_subcompo.html', {
             'form': form,
             'title' : GetName(), 
-            'subtitle' : subtree[subcompo][subtema][0],
             'shared_id' : shared_id,
             'subcompo' : subcompo,
             'subtema' : subtema,
             'pk': pk,
+            'subte_pk': subte_pk,
             #'compo' : GetCompo(),
         })
     else:
         return render(request, 'forms_subcompo.html', {
-            'form': subtree[subcompo][subtema][1],
+            'form': subte_forms(request, subcompo, subtema, instance), #subtree[subcompo][subtema][1],
             'title' : GetName(), 
-            'subtitle' : subtree[subcompo][subtema][0],
             'shared_id' : shared_id,
             'subcompo' : subcompo,
             'subtema' : subtema,
             'pk': pk,
+            'subte_pk': subte_pk,
             #'compo' : GetCompo(),
         })
-@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
-def subte_edit(request, shared_id, subcompo, pk, subtema, subte_pk):
-    '''
-    Subtemas de formatos.
-        Edición de subtemas diligenciados
-    '''
-    return HttpResponse(u'{% extends \'main.html\' %} \
-        {% block naviside %}\
-        <h2>Hello, on build</h2>\
-        {% endblock %}')

@@ -14,7 +14,8 @@ from matriz_infoidentifi.models import SelectList
 from matriz_infoidentifi.models import inforcompon, inforconcep, inforindice #General info
 from matriz_infoidentifi.models import inididestud, inidcartog #Source of all proxies
 from matriz_infoidentifi.models import inidcardatg, inicartdatf, \
-    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete#Cartografía base
+    inicartscat, inicartstra, inicartshdr, inicartsrlv, inicartsete, \
+    inicartgrid #Cartografía base
 from matriz_infoidentifi.models import inidimagsat #Imágenes
 from matriz_infoidentifi.models import inidfotogra #Fotogragías
 from matriz_infoidentifi.models import inidsuestud, inidsumegeo, inidsumegea, \
@@ -56,8 +57,28 @@ class CartografiaForm(ModelForm):
         fields = ['icartess', 'icartnum', 'icartres', 'icartcug', 
             'incacuba', 'incacubp', 'incaforf', 'incafore', 'incaforo',
             'incarsco', 'incarsre', 'incaroco', 'incardat',
-            'icartesc', 'incarlic', 'incaraut', 'incarlug', 'incarano',
+            'icartesc', 'incarlic', #'incaraut', 'incarlug', 'incarano',
         ]
+        widgets = {
+            'icartnum': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'icartcug': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+        }
+    def names(self):
+        return u'Cartografía base'
+    def subtopic(self):
+        return u'Datos generales'
+
+class CartogGridsForm(ModelForm):
+    '''
+    Cartografía base
+    Datos generales
+    '''
+    class Meta:
+        model = inicartgrid
+        fields = [
+            'icargrid', 'icaryear',
+        ]
+
     def names(self):
         return u'Cartografía base'
     def subtopic(self):

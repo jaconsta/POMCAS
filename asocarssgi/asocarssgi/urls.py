@@ -49,7 +49,7 @@ urlpatterns = patterns('',
         'matriz_infoidentifi.views.subte', 
         name='matrix_infoident_subte'),
     url(r'^matrix/caracterizacion/(?P<shared_id>\d+)/(?P<subcompo>\w+)/(?P<pk>\d+)/(?P<subtema>\w+)/(?P<subte_pk>\d+)/$',
-        'matriz_infoidentifi.views.subte_edit', 
+        'matriz_infoidentifi.views.subte', 
         name='matrix_infoident_subte_edit'),
     #Administración Usuarios
     url(r'^login/', 'usuarios.views.loginuser', name='start_session'),
