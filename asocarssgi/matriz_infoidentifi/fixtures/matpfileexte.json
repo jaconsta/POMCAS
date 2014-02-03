@@ -1,0 +1,86 @@
+[
+{
+        "pk": 1,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "ECW"
+         }
+},
+{
+        "pk": 2,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "Generate"
+         }
+},
+{
+        "pk": 3,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "SHP"
+         }
+},
+{
+        "pk": 4,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "e00"
+        }
+},
+{
+        "pk": 5,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "ArcInfo"
+        }
+},
+{
+        "pk": 6,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "DWG"
+         }
+},
+{
+        "pk": 7,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "DGN"
+         }
+},
+{
+        "pk": 8,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "DXF"
+         }
+},
+{
+        "pk": 9,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "PDF"
+         }
+},
+{
+        "pk": 10,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "TIF"
+         }
+},
+{
+        "pk": 11,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "JPG"
+         }
+},
+{
+        "pk": 12,
+        "model": "matriz_infoidentifi.matpfileexte",
+        "fields": {
+            "value": "Otro"
+        }
+}
+]
