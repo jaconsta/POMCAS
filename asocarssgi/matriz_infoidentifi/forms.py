@@ -59,10 +59,10 @@ class CartografiaForm(ModelForm):
             'icartesc', 'incarlic', 'icartfue',
         ]
         widgets = {
-            'icartnum': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
-            'icartcug': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
-            'incarlic': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
-            'icartfue': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'icartnum': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'icartcug': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'incarlic': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'icartfue': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
     def names(self):
         return u'Cartografía base'
@@ -323,9 +323,9 @@ class SuelosMetodGeomorForm(ModelForm):
             'geoproce', 'geoproco', 'geoamena', 'geoament', 'geoameno',
         ]
         widgets = {
-            'geometod': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
-            'geoclaso': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
-            'geoproco': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'geometod': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'geoclaso': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'geoproco': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
     def names(self):
         return u'Suelos'
@@ -344,7 +344,7 @@ class SuelosMetodSuelosForm(ModelForm):
             'inisutge',
         ]
         widgets = {
-            'inisutlo': forms.Textarea(attrs={'cols': 50, 'rows': 3}),
+            'inisutlo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
     def names(self):
         return u'Suelos'

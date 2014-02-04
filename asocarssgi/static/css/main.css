@@ -93,12 +93,20 @@ form{
     text-align:justify;
 }
 label{
+    display:block;
     color: #003366;
     font-size:1.4em;
+    /*max-width:40%;*/
+}
+form.capture-form input, form.capture-form select{
+    width:65%;
 }
 span.helptext{
     font-size:0.8em;
     color:  #4FD5D6;
+}
+form input.pure-button{
+    width:200px;
 }
 footer{
     margin-top:25px;

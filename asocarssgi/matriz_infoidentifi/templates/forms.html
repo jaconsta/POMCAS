@@ -2,9 +2,9 @@
 {% block naviside %}
 <h1>{{ title }}</h1>
 {% if pk %}
-<form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post" class="pure-form pure-form-stacked">
+<form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post" class="pure-form pure-form-stacked capture-form">
 {% else %}
-<form action="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" method="post" class="pure-form pure-form-stacked">
+<form action="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" method="post" class="pure-form pure-form-stacked capture-form">
 {% endif %}
 {% csrf_token %}
 <legend>Formato de {{ form.names }} <br /> {{ form.subtopic }}</legend>

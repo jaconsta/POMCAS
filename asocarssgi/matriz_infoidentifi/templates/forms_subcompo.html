@@ -2,14 +2,14 @@
 {% block naviside %}
 <h1>{{ title }}</h1>
 {% if subte_pk %}
-<form action="{% url 'matrix_infoident_subte_edit' shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema subte_pk=subte_pk %}" method="post" class="pure-form pure-form-stacked">
+<form action="{% url 'matrix_infoident_subte_edit' shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema subte_pk=subte_pk %}" method="post" class="pure-form pure-form-stacked capture-form">
 {% else %}
-<form action="{% url 'matrix_infoident_subte' shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema %}" method="post" class="pure-form pure-form-stacked">
+<form action="{% url 'matrix_infoident_subte' shared_id=shared_id subcompo=subcompo pk=pk subtema=subtema %}" method="post" class="pure-form pure-form-stacked capture-form">
 {% endif %}
 {% csrf_token %}
 <legend>Formato de {{ form.names }} <br /> {{ form.subtopic }}</legend>
 {{form.as_p}}
-<a class="pure-button normal-button" href="{% url 'matrix_infoident_index' shared_id=shared_id %}">Cancelar</a>
+<a class="pure-button normal-button" href="{% url 'matrix_infoident_resume' shared_id=shared_id subcompo=subcompo %}">Cancelar</a>
 <input class="pure-button normal-button" type="submit" value="Guardar" />
 </form>
 {% endblock %}

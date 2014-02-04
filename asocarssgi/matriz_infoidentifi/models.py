@@ -607,9 +607,9 @@ class inicartogra(inididinden):
     incaforo = models.CharField(archeo, max_length = 25, null = True,
         blank = True)
     incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc)
-    incarsre = models.CharField(reessr, max_length = 25)
+    incarsre = models.CharField(reessr, max_length = 200)
     incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc)
-    incardat = models.CharField(reesda, max_length = 25)
+    incardat = models.CharField(reesda, max_length = 200)
     incarlic = models.CharField(licenc, max_length = 500)
     #incaraut = models.CharField(author, max_length = 150)  
     #incarlug = models.CharField(lugpub, max_length = 150)  
@@ -920,8 +920,8 @@ class inidimagsat(inicartogra):
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
     iimadate = models.DateTimeField(fechai)
-    iimacubr = models.FloatField(cubrim, null = True, blank = True, 
-        help_text = cubrim_help)
+    iimacubr = models.CharField(cubrim, max_length = 2500,
+        help_text = cubrim_help, null = True, blank = True)
     incafore = models.ForeignKey('iimgfileexte', verbose_name = archex,
         null = True, blank = True)
     iimabanp = models.BooleanField(banpae, choices = lists.BoolChoose(), 
@@ -954,7 +954,7 @@ class inidimagsat(inicartogra):
         help_text = tamano_help)
 
     def __unicode__(self):
-        return u'Nombre: %s. Sensor: %s. %s' % (iimanomb , iimasens.value, iimaseno)
+        return u'Sensor: %s. %s' % (self.iimasens.value, self.iimaseno)
     class Meta:
         verbose_name = u'02 Imagen'
         verbose_name = u'02 Imágenes'
@@ -1006,7 +1006,7 @@ class inidfotogra(inicartogra):
         help_text = tamano_help)
 
     def __unicode__(self):
-        return u'Nombre: %s. Formato: %s.' %(ifonombr, incafore)
+        return u'Nombre: %s. Formato: %s.' %(self.ifonombr, self.incafore)
     class Meta:
         verbose_name = u'03 Fotografía'
         verbose_name_plural = u'03 Fotografías'

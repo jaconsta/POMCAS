@@ -4,7 +4,7 @@
 <h2>Seleccione la cuenca con la cual desea trabajar</h2>
 <ul>
 {% for cuenca in watersheed%}
-    <li><a class="list-select" href="{% url 'matriz_infoidentifi.views.index' cuenca.id %}">{{ cuenca.cuencano.cuencano }}</a>
+    <li><a class="list-select" href="{% url 'matriz_infoidentifi.views.index' cuenca.id %}">{{ cuenca.cuencano.cuencodi }} - {{ cuenca.cuencano.cuensubc }} {{ cuenca.cuencano.cuencano }}</a>
 {%endfor%}
 </ul>
 {% endblock %}
