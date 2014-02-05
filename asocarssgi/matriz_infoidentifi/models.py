@@ -900,7 +900,7 @@ class inidimagsat(inicartogra):
     annopu = u'Año'
     tamano = u'Tamaño del archivo'
     # Help_text
-    fechai_help = u'En el siguiente formato: yyyy-mm-dd 24h-mm-ss'
+    fechai_help = u'En el siguiente formato: yyyy-mm-dd 24h:mm:ss'
     cubrim_help = u'Área de la imágen con la descripción de las entidades \
         territoriales y administrativas presentes como: departamentos, \
         municipio, veredas, entre otros'
@@ -986,15 +986,16 @@ class inidfotogra(inicartogra):
     tamano = u'Tamaño del archivo'
     # Help_text
     archex_help = u'En caso que sea digital'
+    escala_help = u'Ej. Si la escala es 1:25.000 digitar solo 25000'
     tamano_help = u'Expresado en MB'
 
     lists = SelectList()
 
     ifonombr = models.CharField(nombre, max_length = 125)
-    incafore = models.ForeignKey('inimagsenso', verbose_name = archex,
+    incafore = models.ForeignKey('extpictform', verbose_name = archex,
         null = True, blank = True)
     ifonumes = models.CharField(numsob, max_length = 50)
-    ifoescaf = models.ForeignKey('cartgridsca', verbose_name = escala) 
+    ifoescaf = models.IntegerField(escala, help_text = escala_help) 
     ifotipoc = models.CharField(tipoca, max_length = 25, null = True,
         blank = True)
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)

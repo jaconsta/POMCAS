@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% block naviside %}
 <h1>{{ title }}</h1>
+<p class="watersheed_name"><b>Cuenca:</b> {{ watersheed }}</p>
 {% if pk %}
 <form action="{% url 'matrix_infoident_edit' shared_id=shared_id subcompo=subcompo pk=pk %}" method="post" class="pure-form pure-form-stacked capture-form">
 {% else %}

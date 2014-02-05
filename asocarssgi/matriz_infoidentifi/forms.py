@@ -287,7 +287,7 @@ class FotografiasForm(ModelForm):
         fields = [
             'ifonombr', 'incaforf', 'incafore', 'incaforo',
             'ifonumes', 'ifoescaf', 'ifotipoc', 'ifoaltvu',
-            'ifopunfo', 'incacuba', 'incacubp', 'ifoanubp',
+            'ifopunfo', 'ifoanubp', 'incacuba', 'incacubp',
             'incarsco', 'incarsre', 'incaroco', 'incardat',
             'incarlic',
             'incaraut', 'incarlug', 'incarano', 'incartam',

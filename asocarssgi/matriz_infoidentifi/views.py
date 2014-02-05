@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 
 from asocarssgi import default_names
 from cuencas.views import GetCorpoCuencas, GetUserWatersheed
-from corporacion.views import GetUserCorpo, GetUserCorpo
+from corporacion.views import GetUserCorpo
 
 from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
 from matriz_infoidentifi.models import inidcardatg, inidimagsat, inidfotogra
@@ -72,9 +72,10 @@ def index(request, shared_id):
             compolist.append([i, subcom])
         return compolist
     return render(request, 'formlist.html', {
-        'usr' : request.user, #'corpo': corpora, 'watersheed': watershed, 
+        'usr' : request.user, 
         'title' : GetName(), 'compo' : GetCompo(),
         'shared_id' : shared_id,
+        'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
     }) 
 
 def resume(request, shared_id, subcompo):
@@ -126,6 +127,7 @@ def resume(request, shared_id, subcompo):
         'subtree' : subtree[subcompo],
         'shared_id' : shared_id,
         'subcompo' : subcompo,
+        'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
     })   
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
@@ -161,7 +163,7 @@ def add(request, shared_id, subcompo):
             u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST),
             u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST),
         }
-        form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
+        form = formlist[subcompo] 
         if form.is_valid():
             informacion = form.save(commit = False)
             informacion.iniescor = usrattr.corpora[0]
@@ -174,7 +176,7 @@ def add(request, shared_id, subcompo):
             if subcompo == 'Amenazas':
                 #Amenazas is he only one which uses it many2many
                 form.save_m2m()
-            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))
         return render(request, 'forms.html', {
             'form': form,
             'title' : GetName(), 
@@ -208,16 +210,16 @@ def add(request, shared_id, subcompo):
             u'seValorServicEcos' : forms.seValorServicEcosForm(),
             u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(),
         }
-        form = formlist[subcompo] # getattr(forms, '%sForm()' % subcompo.title())
+        form = formlist[subcompo] 
         return render(request, 'forms.html', {
             'form': form,
             'title' : GetName(), 
             'shared_id' : shared_id,
             'subcompo' : subcompo,
+            'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
             #'compo' : GetCompo(),
         })
     ####
-    #return getattr(forms, 'add_%s(request, usrattr)' % subcompo)
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
 def edit(request, shared_id, subcompo, pk):
@@ -260,7 +262,7 @@ def edit(request, shared_id, subcompo, pk):
             u'seValorServicEcos' : forms.seValorServicEcosForm(request.POST, instance = instance),
             u'seRelaFuncUrbaRegio' : forms.seRelaFuncUrbaRegioForm(request.POST, instance = instance),
         }
-        form = formlist[subcompo] # getattr(forms, '%sForm(request.POST)' % subcompo.title())
+        form = formlist[subcompo] 
         if form.is_valid():
             #f = AuthorForm(request.POST)
             #new_Author = f.save(commit=False)
@@ -272,7 +274,7 @@ def edit(request, shared_id, subcompo, pk):
             #I should validate that the form belongs to the user and watersheed
             # that is connected.
             informacion.save(force_update = True)
-            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))
     else:
         formlist = {
             u'Cartografia' : forms.CartografiaForm(request.POST or None, instance = instance),
@@ -305,6 +307,7 @@ def edit(request, shared_id, subcompo, pk):
             'shared_id' : shared_id,
             'subcompo' : subcompo,
             'pk' : pk,
+            'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
             #'compo' : GetCompo(),
         })
 
@@ -458,7 +461,7 @@ def subte(request, shared_id, subcompo, pk, subtema, subte_pk = None):
             else:
                 subtopic.save()
             form.save_m2m()
-            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))#resume(request, shared_id, subcompo)
+            return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))
         return render(request, 'forms_subcompo.html', {
             'form': form,
             'title' : GetName(), 
@@ -467,16 +470,18 @@ def subte(request, shared_id, subcompo, pk, subtema, subte_pk = None):
             'subtema' : subtema,
             'pk': pk,
             'subte_pk': subte_pk,
+            'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
             #'compo' : GetCompo(),
         })
     else:
         return render(request, 'forms_subcompo.html', {
-            'form': subte_forms(request, subcompo, subtema, instance), #subtree[subcompo][subtema][1],
+            'form': subte_forms(request, subcompo, subtema, instance), 
             'title' : GetName(), 
             'shared_id' : shared_id,
             'subcompo' : subcompo,
             'subtema' : subtema,
             'pk': pk,
             'subte_pk': subte_pk,
+            'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
             #'compo' : GetCompo(),
         })
