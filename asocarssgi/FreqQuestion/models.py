@@ -31,7 +31,7 @@ class Answer(models.Model):
     whoposi = models.CharField(u'Cargo', max_length = 150, null = True, 
         blank = True)
     whocorp = models.CharField(u'Entidad', max_length = 150)
-    aproved = models.BooleanField(u'Aprovado?', default = False)
+    aproved = models.BooleanField(u'Aprobado?', default = False)
     whoapro = models.CharField(u'Nombre de quién aprueba', max_length = 150, 
         null = True, blank = True)
     datapro = models.DateField(u'Fecha de aprobación', null = True, 

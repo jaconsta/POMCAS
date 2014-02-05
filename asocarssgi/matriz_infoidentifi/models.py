@@ -900,6 +900,7 @@ class inidimagsat(inicartogra):
     annopu = u'Año'
     tamano = u'Tamaño del archivo'
     # Help_text
+    fechai_help = u'En el siguiente formato: yyyy-mm-dd 24h-mm-ss'
     cubrim_help = u'Área de la imágen con la descripción de las entidades \
         territoriales y administrativas presentes como: departamentos, \
         municipio, veredas, entre otros'
@@ -919,10 +920,11 @@ class inidimagsat(inicartogra):
     iimasens = models.ForeignKey('inimagsenso', verbose_name = sensor) 
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
-    iimadate = models.DateTimeField(fechai)
+    iimadate = models.DateTimeField(fechai, null = True, blank = True, 
+        help_text = fechai_help)
     iimacubr = models.CharField(cubrim, max_length = 2500,
         help_text = cubrim_help, null = True, blank = True)
-    incafore = models.ForeignKey('iimgfileexte', verbose_name = archex,
+    incafore = models.ForeignKey('extpictform', verbose_name = archex,
         null = True, blank = True)
     iimabanp = models.BooleanField(banpae, choices = lists.BoolChoose(), 
         default = False)
@@ -947,7 +949,8 @@ class inidimagsat(inicartogra):
     incartam = models.FloatField(tamano, null = True, blank = True, 
         help_text = tamano_help)
     incaraut = models.CharField(author, max_length = 150)  
-    incarlug = models.CharField(lugpub, max_length = 150)  
+    incarlug = models.CharField(lugpub, max_length = 150,
+        null = True, blank = True)  
     incarano = models.PositiveSmallIntegerField(annopu, 
         choices = lists.YearList())
     incartam = models.FloatField(tamano, null = True, blank = True, 
@@ -988,7 +991,7 @@ class inidfotogra(inicartogra):
     lists = SelectList()
 
     ifonombr = models.CharField(nombre, max_length = 125)
-    incafore = models.ForeignKey('pictfileexte', verbose_name = archex,
+    incafore = models.ForeignKey('inimagsenso', verbose_name = archex,
         null = True, blank = True)
     ifonumes = models.CharField(numsob, max_length = 50)
     ifoescaf = models.ForeignKey('cartgridsca', verbose_name = escala) 
@@ -998,8 +1001,9 @@ class inidfotogra(inicartogra):
     ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
     ifoanubp = models.FloatField(pornub, help_text = pornub_help)
-    incaraut = models.CharField(author, max_length = 150)  
-    incarlug = models.CharField(lugpub, max_length = 150)  
+    incaraut = models.CharField(author, max_length = 250)  
+    incarlug = models.CharField(lugpub, max_length = 250,
+        null = True, blank = True)  
     incarano = models.PositiveSmallIntegerField(annopu, 
         choices = lists.YearList())
     incartam = models.FloatField(tamano, null = True, blank = True, 

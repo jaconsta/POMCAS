@@ -24,13 +24,6 @@
         "pk": 4,
         "model": "matriz_infoidentifi.extpictform",
         "fields": {
-            "value": "Análogo (Papel)"
-         }
-},
-{
-        "pk": 5,
-        "model": "matriz_infoidentifi.extpictform",
-        "fields": {
             "value": "Otro"
          }
 }

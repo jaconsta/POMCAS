@@ -262,8 +262,14 @@ class ImagenesForm(ModelForm):
             'iimacsix', 'iimacsiy',
             'iimacidx', 'iimacidy',
             'iimanubp', 'incarlic',
-            'incaraut', 'incarlug', 'incarano',
+            'incaraut', 'incarlug', 'incarano', 'incartam',
         ]
+        widgets = {
+            'iimacubr': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'iimabanc': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
+            'iimabanm': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
+            'incarlic': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
     def names(self):
         return u'Imágenes de satélite'
     def subtopic(self):
@@ -284,8 +290,11 @@ class FotografiasForm(ModelForm):
             'ifopunfo', 'incacuba', 'incacubp', 'ifoanubp',
             'incarsco', 'incarsre', 'incaroco', 'incardat',
             'incarlic',
-            'incaraut', 'incarlug', 'incarano'
+            'incaraut', 'incarlug', 'incarano', 'incartam',
         ]
+        widgets = {
+            'incarlic': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
     def names(self):
         return u'Fotografías aéreas'
     def subtopic(self):
