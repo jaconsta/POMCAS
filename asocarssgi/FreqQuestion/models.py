@@ -8,7 +8,7 @@ class Topic (models.Model):
     def __unicode__(self):
         return self.tema
     class Meta:
-        verbose_name = u'1. Contexto'
+        verbose_name = u'1. Tema'
 
 class Questions(models.Model):
     qutopic = models.ForeignKey('Topic', verbose_name = u'Tema', null = True, blank = True)

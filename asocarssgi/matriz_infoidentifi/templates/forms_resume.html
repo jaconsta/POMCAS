@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% block naviside %}
 <h1>{{ title }}</h1>
+<p class="watersheed_name"><b>Formato:</b> {{ subtitle }}</p>
 <p class="watersheed_name"><b>Cuenca:</b> {{ watersheed }}</p>
     <a class="pure-button normal-button" href="{% url 'matrix_infoident_add' shared_id=shared_id subcompo=subcompo %}" class="style_button">Agregar Nuevo</a>
     <a class="pure-button normal-button" href="{% url 'matrix_infoident_index' shared_id=shared_id %}" class="style_button">Volver</a>

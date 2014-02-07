@@ -18,7 +18,7 @@ from matriz_infoidentifi.models import inforcompon, inforindice, inididestud
 from matriz_infoidentifi.models import inidcardatg, inidimagsat, inidfotogra
 from matriz_infoidentifi import forms
 from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
-    GetCartoSubtopicFK, GetEstudFK
+    GetCartoSubtopicFK, GetEstudFK, GetSubcompoName
 
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
@@ -122,6 +122,7 @@ def resume(request, shared_id, subcompo):
     return render(request, 'forms_resume.html', {
         'usr': request.user,
         'title': GetName(),
+        'subtitle': GetSubcompoName(subcompo),
         'forms': forms,
         'subfields': subfields,
         'subtree' : subtree[subcompo],
@@ -275,6 +276,15 @@ def edit(request, shared_id, subcompo, pk):
             # that is connected.
             informacion.save(force_update = True)
             return HttpResponseRedirect(reverse('matriz_infoidentifi.views.resume', args=(shared_id, subcompo,)))
+        return render(request, 'forms.html', {
+            'form': form,
+            'title' : GetName(), 
+            'shared_id' : shared_id,
+            'subcompo' : subcompo,
+            'pk' : pk,
+            'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
+            #'compo' : GetCompo(),
+        })
     else:
         formlist = {
             u'Cartografia' : forms.CartografiaForm(request.POST or None, instance = instance),

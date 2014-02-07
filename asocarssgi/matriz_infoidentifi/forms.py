@@ -314,6 +314,9 @@ class SuelosForm(ModelForm):
             'inidresp', 'inidumun', 'inidcare', 'inidcper',
             'inidauth', 'inidanit', 'inidanor', 'inidanop',
         ]
+        widgets = {
+            'inidumun': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
     def names(self):
         return u'Suelos'
     def subtopic(self):
@@ -349,11 +352,12 @@ class SuelosMetodSuelosForm(ModelForm):
     class Meta:
         model = inidsumesue
         fields = [
-            'inisutle', 'inisutlo', 'inisutla', 'inisutln', 'inisutli',
-            'inisutge',
+            'inisutle', 'inisutlo', 'inisutme', 'inisutla', 'inisutln', 
+            'inisutli', 'inisutge',
         ]
         widgets = {
             'inisutlo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+            'inisutme': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
     def names(self):
         return u'Suelos'

@@ -88,6 +88,13 @@ def GetResume(user, shared_id, subcompo):
         inidsubc = subcompo,
     )
 
+def GetSubcompoName(subcompo):
+    '''
+    With a given subcompo atribute, it returns the complete name as given
+    in the inforcomp table
+    '''
+    return inforindice.objects.get(infosubc = subcompo).infotema
+
 def GetSubtopicResume(subcompo, subtemas):
     '''
     Get All subtopics corresponding to a form
@@ -121,7 +128,7 @@ def GetSubtopicResume(subcompo, subtemas):
             (u'Metodología del estudio', u'Metodologia', 'inidhlmetod', False), 
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 
-                u'DocumYCarto', 'inidcartog', True),#inidhlcarto), 
+                u'DocumYCarto', 'inidcartog', True),
             #(u'Estudios de variabilidad climática', u'Variabilida', inidhlvarib, False), 
             #(u'Cálculos de caudal ambiental', u'CalcuCaudal', inidhlcauda, False),
         ),
@@ -131,7 +138,7 @@ def GetSubtopicResume(subcompo, subtemas):
             (u'Metodología del estudio', u'Metodologia', 'inidhgmetho', False), 
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 
-                u'DocumYCarto', 'inidcartog', True),#inidhgcarto),
+                u'DocumYCarto', 'inidcartog', True),
         ),
         u'CalidadDeAgua' : (
             (u'Metodología del estudio', u'Metodologia', 'inidcameth', False), 

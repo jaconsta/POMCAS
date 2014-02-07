@@ -2,8 +2,13 @@
 from django.contrib import admin
 from FreqQuestion.models import Topic, Questions, Answer 
 
+class QandAAdmin(admin.StackedInline):
+    model = Answer
+    extra = 1
+
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ['qutopic', 'questio', 'pubdate']
+    inlines = [QandAAdmin]
     fieldsets = (
         (u'Pregunta', {
             'fields': ('qutopic', 'questio', 'pubdate',)

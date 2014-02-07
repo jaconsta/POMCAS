@@ -444,7 +444,7 @@ class inididestud(inididinden):
         blank = True)
     iniduchg = models.CharField(uchidg, max_length = 150, null = True,
         blank = True)
-    iniduare = models.CharField(ubarea, max_length = 150, null = True,
+    iniduare = models.CharField(ubarea, max_length = 3500, null = True,
         blank = True)
     inidcare = models.FloatField(coarea, null = True, blank = True, 
         help_text = coarea_help)
@@ -555,7 +555,7 @@ class inidcartog(models.Model):
         default = False, null = True, blank = True)
     carfuent = models.CharField(fuente, max_length = 75, null = True, 
         blank = True)
-    carqualy = models.CharField(qualit, max_length = 125, null = True, 
+    carqualy = models.CharField(qualit, max_length = 1250, null = True, 
         blank = True, help_text = qualit_help)
     cardocfo = models.ForeignKey('documformat', verbose_name = docfor,
         related_name = '%(app_label)s_%(class)s_docfor', 
@@ -1090,15 +1090,15 @@ class inidsumegeo(models.Model):
 
     geoindic = models.OneToOneField('inidsuestud', 
         verbose_name=u'Caracterización general')
-    geometod = models.CharField(metodo, max_length = 500,
+    geometod = models.CharField(metodo, max_length = 2500,
         help_text = metodo_help)
     geoclasi = models.BooleanField(clasif, choices = lists.BoolChoose(), 
         default = False)
-    geoclaso = models.CharField(observ, max_length = 500, 
+    geoclaso = models.CharField(observ, max_length = 2500, 
         null = True, blank = True)
     geoproce = models.BooleanField(proces, choices = lists.BoolChoose(), 
         default = False, help_text = proces_help)
-    geoproco = models.CharField(observ, max_length = 500, 
+    geoproco = models.CharField(observ, max_length = 2500, 
         null = True, blank = True)
     geoamena = models.BooleanField(amenaz, choices = lists.BoolChoose(), 
         default = False, help_text = amenaz_help)
@@ -1156,9 +1156,9 @@ class inidsumesue(models.Model):
         verbose_name=u'Caracterización general')
     inisutle = models.BooleanField(leyend, choices = lists.BoolChoose(), 
         default = False, help_text = leyend_help) 
-    inisutlo = models.CharField(observ, max_length = 500, 
+    inisutlo = models.CharField(observ, max_length = 2500, 
         null = True, blank = True)
-    inisutme = models.CharField(metodo, max_length = 500, 
+    inisutme = models.CharField(metodo, max_length = 2500, 
         help_text = metodo_help) 
     inisutla = models.BooleanField(labres, choices = lists.BoolChoose(), 
         default = False) 
