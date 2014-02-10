@@ -74,9 +74,7 @@ class minstdatgene(models.Model):
         verbose_name_plural = u'1 Datos generales de las corporaciones'
 
     def __unicode__(self):
-        return u'%s, %s, %s, %s, %s, %s, %s, %s, %s' %(self.midgrazs, self.midginit, 
-            self.midgaddr, self.midgcity, self.midgapdf, self.midgapdt, 
-            self.midgwebp, self.midgmail ,self.midgarju)
+        return u'%s. NIT: %s-%s' %(self.midginit, self.midgenit, self.midgnitd)
 
 class minstestdire(models.Model):    
     '''
@@ -373,18 +371,18 @@ class minspresupues(models.Model):
             Ejecución presupuestal 2012
     '''
     miplanpr = models.ForeignKey('minstdatgene', verbose_name = u'empresa')     #Corporation
-    #miplpres = models.FileField(u'Presupuesto', 
-    #                           upload_to = 'doc/business/', null = True, blank = True)
-    miplprgp = models.PositiveIntegerField(u'Gastos de funcionamiento. Proyectado')
-    miplgrge = models.PositiveIntegerField(u'Gastos de funcionamiento. Ejecutado')
-    miplgrip = models.PositiveIntegerField(u'Inversión. Proyectado')
-    miplgrie = models.PositiveIntegerField(u'Inversión. Ejecutado')
-    miplgrsp = models.PositiveIntegerField(u'Servicio a la Deuda. Proyectado')
-    miplgrse = models.PositiveIntegerField(u'Servicio a la Deuda. Ejecutado')
-    miplgfrp = models.PositiveIntegerField(u'Fondo de compensación. Recibido. Proyectado')
-    miplgfre = models.PositiveIntegerField(u'Fondo de compensación. Recibido. Ejecutado')
-    miplgfap = models.PositiveIntegerField(u'Fondo de compensación. Aportado. Proyectado')
-    miplgfae = models.PositiveIntegerField(u'Fondo de compensación. Aportado. Ejecutado')
+    miplpres = models.FileField(u'Presupuesto', 
+                               upload_to = 'doc/business/', null = True, blank = True)
+    miplprgp = models.BigIntegerField(u'Gastos de funcionamiento. Proyectado')
+    miplgrge = models.BigIntegerField(u'Gastos de funcionamiento. Ejecutado')
+    miplgrip = models.BigIntegerField(u'Inversión. Proyectado')
+    miplgrie = models.BigIntegerField(u'Inversión. Ejecutado')
+    miplgrsp = models.BigIntegerField(u'Servicio a la Deuda. Proyectado')
+    miplgrse = models.BigIntegerField(u'Servicio a la Deuda. Ejecutado')
+    miplgfrp = models.BigIntegerField(u'Fondo de compensación. Recibido. Proyectado')
+    miplgfre = models.BigIntegerField(u'Fondo de compensación. Recibido. Ejecutado')
+    miplgfap = models.BigIntegerField(u'Fondo de compensación. Aportado. Proyectado')
+    miplgfae = models.BigIntegerField(u'Fondo de compensación. Aportado. Ejecutado')
 
     class Meta:
         verbose_name = u'6 Presupuesto'
