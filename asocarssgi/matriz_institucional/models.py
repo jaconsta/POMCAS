@@ -46,7 +46,9 @@ class minstdatgene(models.Model):
         (SUNDAY , 'Domingo'),
     )   
     midglogo = models.ImageField(u'Logo', upload_to = 'img/business/', 
-                            height_field = None, width_field = None, null = True, blank = True) #Corporation logo
+        height_field = None, width_field = None, null = True, blank = True) #Corporation logo
+    midgmanl = models.FileField(u'Manual de logo', upload_to = 'doc/business/',
+        null = True, blank = True)
     midgrazs = models.CharField(u'Nombre de la corporación', max_length = 100)    #Corporation Name
     midgenit = models.IntegerField(u'NIT')                #NIT
     midgnitd = models.IntegerField(u'NIT DV')                #Headquarters Address
@@ -232,8 +234,8 @@ class minstdescentr(models.Model):
     '''
     midesnco = models.ForeignKey('minstdatgene', verbose_name = 'empresa')     #Corporation
     midesofi = models.BooleanField(u'¿La corporación tiene oficinas regionales o territoriales?')
-    midesmap = models.ImageField(upload_to = 'img/business/', 
-                            height_field = None, width_field = None, null = True, blank = True)
+    midesmap = models.FileField(upload_to = 'doc/business/', 
+        null = True, blank = True)
     midescri = models.CharField(u'Criterio de regionalizacion de la oficina territorial',
             max_length = 1000, null = True, blank = True)
     midesfun = models.CharField(u'Funciones Asignadas a la oficina',
@@ -294,8 +296,8 @@ class minstplanific(models.Model):
     miplpgno = models.CharField(u'Adopcion PGAR. Numero', max_length = 50)
     miplpgda = models.DateField(u'Adopcion PGAR. Fecha', null = True, blank = True)
     miplpamj = models.CharField(u'Prospectiva ambiental de la jurisdicción',
-                               max_length = 1000)
-    mipldiag = models.CharField(u'Diagnostico ambiental', max_length = 1000)
+                               max_length = 2000)
+    mipldiag = models.CharField(u'Diagnostico ambiental', max_length = 2000)
     #Created in a new table to adjunst  to the dinamyc content
     #miplaaiv = models.FileField(u'Plan de acción institucional', 
     #                           upload_to = 'doc/business/')

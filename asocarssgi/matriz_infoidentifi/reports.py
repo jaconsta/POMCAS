@@ -135,9 +135,23 @@ def WatersheedCartoCoveredArea():
     '''
     pass
 
+def dictfetchall(cursor):
+    '''
+    Returns all rows from a cursor as a dict
+    '''
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
+
 def LoadCartoProgress():
     '''
     Returns the load progress classified by date
     Query: select to_char(iniesdac, 'mm-dd'), inieswho_id, count(id) from matriz_infoidentifi_inidcardatg group by to_char(iniesdac, 'mm-dd'), inieswho_id;
     '''
-    pass
+    from django.db import connection, transaction
+    cursor = connection.cursor()
+    cursor.execute("select to_char(iniesdac, 'mm-dd') as iniesdac, inieswho_id as inieswho, count(id) from matriz_infoidentifi_inidcardatg group by to_char(iniesdac, 'mm-dd'), inieswho_id order by to_char(iniesdac, 'mm-dd'), inieswho_id")
+    return dictfetchall(cursor) #cursor.fetchall()
+

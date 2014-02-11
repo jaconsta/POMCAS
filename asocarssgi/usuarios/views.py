@@ -65,20 +65,25 @@ def matrixlist(request):
     This way it's easily iterable in the template
     '''
     class defmatrix:
-        def __init__(self, matrix, url, prio):
+        def __init__(self, matrix, url, prio, url_args=None):
             self.matrix = matrix
             self.url = url
             self.prio = prio
+            if url_args:
+                self.url_args = url_args
 
     matrix_list = [   
-        [u'matriz de diagnostico institucional', 'matrix_institucional_upload', 1],
-        [u'matriz de cartografia base', 'matrix_cartografica_upload', 2],
+        [u'matriz de diagnostico institucional', 'matrix_upload', 1, 'institucional'],
+        [u'matriz de cartografia base', 'matrix_upload', 2, 'cartografica'],
         [u'matriz de caracterizacion de informacion disponible', 
             'matrix_infoident_cuencas', 3],
     ]
     matrices = []
     for i in matrix_list:
-        a  = defmatrix(i[0], i[1], i[2])
+        try:
+            a = defmatrix(i[0], i[1], i[2], i[3])
+        except IndexError:
+            a = defmatrix(i[0], i[1], i[2])
         matrices.append(a)
 
     corporas = GetUserCorpo(request.user)

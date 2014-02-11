@@ -20,6 +20,13 @@ from matriz_infoidentifi import forms
 from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
     GetCartoSubtopicFK, GetEstudFK, GetSubcompoName
 
+from matriz_infoidentifi.reports import FormsFilled, LoadCartoProgress #General Load process
+from matriz_infoidentifi.reports import CorporationsWhoCartografia,\
+    CorporationsCartografiaFilled, CorporationsScaleCartografia,\
+    WatersheedWhoCartografia, WatersheedCartografiaFilled, \
+    WatersheedCartoGridsClassif, WatersheedCartoGridsOfficialClassif,\
+    WatersheedCartoCoveredArea # Cartografía
+
 def GetName():
     title = u'Formatos de evaluación de información disponible para la \
         Formulación y/o Ajuste de los POMCAS'
@@ -495,3 +502,87 @@ def subte(request, shared_id, subcompo, pk, subtema, subte_pk = None):
             'watersheed': GetUserWatersheed(GetUserCorpo(request.user), shared_id),
             #'compo' : GetCompo(),
         })
+
+###----------------------------------------------###
+### Reports
+
+### Reports - Load Progress
+def LoadTrack():
+    '''
+    Question: The total ammount of forms uploaded
+    '''
+    question = FormsFilled()
+
+## Reports - Load Progress - Cartography
+def LoadCartoTrack():
+    '''
+    Question 1: Corporations who have filled Cartografía
+    Question 2: The daily load progress by corporations of Cartography 
+    '''
+    questions = []
+    questions.append((u'Corporaciones que han cargado los formatos de \
+        Cartografía',
+        CorporationsWhoCartografia())
+    questions.append((u'Avance diario del cargue de formatos por corporación',
+        LoadCartoProgress())
+
+##def ():
+##    '''
+##    Question: The daily load progress by corporations of Cartography 
+##    '''
+##    question = LoadCartoProgress()
+#
+### Reports - Cartografía
+def ReportCartog():
+    '''
+    Question 1: ¿Cuántas cuencas tienen cartografía base?
+    Question 2: ¿Cuáles son las Cuencas con cartografía base?
+    Question 3: ¿Cuáles son oficiales? (Autor: IGAC)
+    Question 4: Las oficiales ¿En qué escala están?
+    Question 5: ¿Cuáles son las planchas por escala?
+    Question 6: La escala en la cuenca ¿Qué área cubre con respecto a la cuenca?
+    Question 7: El año de las planchas
+    '''
+    # Process 
+    # 1st. Get all the waterwheeds (Q: 1,2)
+    # 2nd. On each ask if it has official gridsgrids  (Q: 3)
+    # 3rd. On them get the avaliable scales and values (Q: 4,5)
+    # 4rd. Calculate the covered percentage of all distinct grids 
+    #   against the watersheed total area(Q: 6)
+    # 5th. Q:7 Sure!... Why not? wait maybe... later 
+    
+    
+
+    #questions = []
+    #questions.append(u'Cantidad de cuencas con cartografía base',
+    #    WatersheedCartografiaFilled())
+    #questions.append(u'Cuencas con cartografía base reportada',
+    #    WatersheedWhoCartografia())
+    #questions.append(u'Cuencas con cartografía oficial',
+    #    WatersheedCartoGridsOfficialClassif())
+
+##def ():
+##    '''
+##    Question: ¿Cuáles son las Cuencas con cartografía base?
+##    '''
+##
+##def ():
+##    '''
+##    Question: ¿Cuáles son oficiales? (Autor: IGAC)
+##    '''
+##
+##def ():
+##    '''
+##    Question: Las oficiales ¿En qué escala están?
+##    '''
+##
+##def ():
+##    '''
+##    Question: ¿Cuáles son las planchas por escala?
+##    '''
+##
+##def ():
+##    '''
+##    Question: La escala en la cuenca ¿Qué área cubre con respecto a la cuenca?
+##    '''
+##

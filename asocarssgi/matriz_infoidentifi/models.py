@@ -430,19 +430,19 @@ class inididestud(inididinden):
         blank =True, help_text = locali_help)
     inidresp = models.CharField(respon, max_length = 250, null = True,
         blank = True)
-    inidudep = models.CharField(udepar, max_length = 150, null = True,
+    inidudep = models.CharField(udepar, max_length = 1500, null = True,
         blank = True)
-    inidumun = models.CharField(udemun, max_length = 150, null = True,
+    inidumun = models.CharField(udemun, max_length = 1500, null = True,
         blank = True)
-    inidusub = models.CharField(usubcu, max_length = 150, null = True,
+    inidusub = models.CharField(usubcu, max_length = 1500, null = True,
         blank = True)
-    inidusec = models.CharField(usecto, max_length = 150, null = True,
+    inidusec = models.CharField(usecto, max_length = 1500, null = True,
         blank = True)
-    inidutra = models.CharField(utramo, max_length = 150, null = True,
+    inidutra = models.CharField(utramo, max_length = 1500, null = True,
         blank = True)
-    iniduver = models.CharField(uvered, max_length = 150, null = True,
+    iniduver = models.CharField(uvered, max_length = 1500, null = True,
         blank = True)
-    iniduchg = models.CharField(uchidg, max_length = 150, null = True,
+    iniduchg = models.CharField(uchidg, max_length = 1500, null = True,
         blank = True)
     iniduare = models.CharField(ubarea, max_length = 3500, null = True,
         blank = True)

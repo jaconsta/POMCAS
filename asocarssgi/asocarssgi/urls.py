@@ -9,13 +9,17 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'usuarios.views.infouser', name='cargando'),
     url(r'^matrix/$', 'usuarios.views.matrixlist', name = 'Matrix_list'),
-    #Matriz Institucional
-    url(r'^matrix/institucional/capture', 
-        'regist_carga.views.RecolInstitucional', 
-        name='matrix_institucional_upload'),
-    #Matriz Cartográfica
-    url(r'^matrix/cartografica/capture', 'regist_carga.views.RecolCartografic', 
-        name='matrix_cartografica_upload'),
+    #Matriz Upload
+    url(r'^matrix/(?P<matrix>\w+)/capture', 
+        'regist_carga.views.Recolection', 
+        name='matrix_upload'),
+#    #Matriz Institucional
+#    url(r'^matrix/institucional/capture', 
+#        'regist_carga.views.RecolInstitucional', 
+#        name='matrix_institucional_upload'),
+#    #Matriz Cartográfica
+#    url(r'^matrix/cartografica/capture', 'regist_carga.views.RecolCartografic', 
+#        name='matrix_cartografica_upload'),
     url(r'^matrix/cartografica/reports/coporacion/$', 
         'matriz_cartografica.views.Consolidado', 
         name='matrix_cartografica_consolidado'),

@@ -9,7 +9,11 @@
 <h1>Matrices disponibles</h1>
 <ol>
 {% for matrix in matrices %}
+    {% if matrix.url_args %} 
+    <li><a class="list-select" href="{% url matrix.url matrix.url_args %}">{{ matrix.matrix }}</a></li>
+    {% else %}
     <li><a class="list-select" href="{% url matrix.url %}">{{ matrix.matrix }}</a></li>
+    {% endif %}
 {% endfor %}
 </ol>
 {% endblock %}

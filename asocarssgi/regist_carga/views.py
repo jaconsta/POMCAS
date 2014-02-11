@@ -14,16 +14,16 @@ from .models import *
 def ValidFileName(filename, matrix, exten):
     #REGEX1: CTO85_\d{4}\d{1,2}\d{1,2}_MATRIZ_%s_(?P<corpora>\w+).(?P<fileext>\w{3,4})
     #REGEX2: CTO85_(?<year>20[1-9]\d)(?<month>0?[1-9]|1[012])(?<day>0?[1-9]|[12]\d|3[01])_MATRIZ_%s_(?<corpora>\w+).(?<fileext>\w{3,4})
-    pattern = re.compile('CTO85_(?<year>20[1-9]\d)(?<month>0?[1-9]|1[012])(?<day>0?[1-9]|[12]\d|3[01])_MATRIZ_%s_(?<corpora>\w+).(?<fileext>\w{3,4})'%(matrix))
-    match = pattern.match(pattern, filename)
+    pattern = re.compile('CTO85_(?P<year>20[1-9]\d)(?P<month>0?[1-9]|1[012])(?P<day>0?[1-9]|[12]\d|3[01])_MATRIZ_%s_(?P<corpora>\w+).(?P<fileext>\w{3,4})'%(matrix))
+    match = pattern.match(filename)
     if not match:
         output = (u'El nombre de archivo (%s) no es correcto \n'%(filename))
         return (False, output)
-    elif match(fileext) not in exten:
-        output = (u'La extensión de archivo (%s) no es correcta \n'%(fileext))
+    elif match.group('fileext') not in exten:
+        output = (u'La extensión de archivo (%s) no es correcta \n'%(match.group('fileext')))
         output += (u'Se esperaba %s'%(exten))
         return (False, output)
-    output = fileext
+    output = match.group('fileext')
     return (True, output)
 
 def FileInTail(request, matrix):
@@ -39,14 +39,14 @@ def FileInTail(request, matrix):
         return True 
     return False
 
-def SetFile(matrix, upfile):
+def SetFile(request, matrix, upfile, file_ext):
     try:
         max_id = archivosb.objects.all().order_by("-id")[0].id
     except IndexError:
         max_id = 0
 
     name = upfile.name
-    upfile.name = '%d.%s'%((max_id+1), sop_ext)
+    upfile.name = '%d.%s'%((max_id+1), file_ext)
     loaded = archivosb(
         archnomb = matrix,
         archubic = upfile,
@@ -69,7 +69,7 @@ def RecolCartografic(request):
     if not FileInTail(request, 'MATRIZ_CARTOGRAFICA'):
         message = u'Ya ha realizado el cargue de esta matriz'
         return render(request, 'matriz_recibida.html', {
-            'errors': message})
+            'errors': message, 'matrix': 'cartografica'})
     if request.method == 'POST':
         error = ''
         form = UploadMCartogForm(request.POST, request.FILES)
@@ -80,16 +80,18 @@ def RecolCartografic(request):
                 GetExcelExt())
             if not parsed:
                 return render(request, 'matriz_recibida.html', {
-                    'errors': message})
+                    'errors': message, 'matrix': 'cartografica'})
+            arch_ext = message
 
             #Upload The Matrix
-            SetFile('MATRIZ_CARTOGRAFICA', request.FILES['archivo'])
-            return render(request, 'matriz_recibida.html', {'errors': error}) 
+            SetFile(request, 'MATRIZ_CARTOGRAFICA', request.FILES['archivo'], arch_ext)
+            return render(request, 'matriz_recibida.html', {
+                'errors': error, 'matrix': 'cartografica'}) 
     else: 
         form = UploadMCartogForm()
         title = u'Matriz de Cartografía básica'
     return render_to_response('cargue_archivos.html', {
-        'form':form, 'title': title}, 
+        'form':form, 'title': title, 'matrix': 'cartografica'}, 
         context_instance = RequestContext(request))
 
 @login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
@@ -98,7 +100,7 @@ def RecolInstitucional(request):
     if not FileInTail(request, 'MATRIZ_INSTITUCIONAL'):
         message = u'Ya ha realizado el cargue de esta matriz'
         return render(request, 'matriz_recibida.html', {
-            'title': title, 'errors': message})
+            'title': title, 'errors': message, 'matrix': 'institucional'})
     if request.method == 'POST':
         error = ''
         form = UploadFileForm(request.POST, request.FILES)
@@ -110,7 +112,7 @@ def RecolInstitucional(request):
             error += message
             if not parsed:
                 return render(request, 'matriz_recibida.html', {
-                    'errors': message}) #HttpResponseRedirect('/proyecto85/b')
+                    'errors': message, 'matrix': 'institucional'}) #HttpResponseRedirect('/proyecto85/b')
             arch_ext = message
             #Parse attached files
             sop_name = request.FILES['soportes'].name
@@ -119,14 +121,22 @@ def RecolInstitucional(request):
             error += message
             if not parsed:
                 return render(request, 'matriz_recibida.html', {
-                    'errors': message})
+                    'errors': message, 'matrix': 'institucional'})
             sop_ext = message
             #Upload The Matrices
-            SetFile('MATRIZ_INSTITUCIONAL', request.FILES['archivo'])
-            SetFile('MATRIZ_INSTITUCIONAL_SOP', request.FILES['soportes'])
-            return render_to_response('matriz_recibida.html', {'errors': error})
+            SetFile(request, 'MATRIZ_INSTITUCIONAL', request.FILES['archivo'], arch_ext)
+            SetFile(request, 'MATRIZ_INSTITUCIONAL_SOP', request.FILES['soportes'], sop_ext)
+            return render_to_response('matriz_recibida.html', {
+                'errors': error, 'matrix': 'institucional'})
     else: 
         form = UploadFileForm()
     return render_to_response('cargue_archivos.html', {
-        'form':form, 'title':title}, 
+        'form':form, 'title':title, 'matrix': 'institucional'}, 
         context_instance =RequestContext(request))
+
+@login_required(login_url = ('%slogin/' %(default_names.SUB_SITE)))
+def Recolection(request, matrix):
+    if matrix == 'institucional':
+        return RecolInstitucional(request)
+    elif matrix == 'cartografica':
+        return RecolCartografic(request)
