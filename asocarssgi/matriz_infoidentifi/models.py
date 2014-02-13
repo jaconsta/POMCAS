@@ -606,10 +606,14 @@ class inicartogra(inididinden):
     #    null = True, blank = True)
     incaforo = models.CharField(archeo, max_length = 25, null = True,
         blank = True)
-    incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc)
-    incarsre = models.CharField(reessr, max_length = 200)
-    incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc)
-    incardat = models.CharField(reesda, max_length = 200)
+    incarsco = models.ForeignKey('cartcoorsys', verbose_name = reessc,
+        null = True, blank = True)
+    incarsre = models.CharField(reessr, max_length = 200,
+        null = True, blank = True)
+    incaroco = models.ForeignKey('cartcoorori', verbose_name = reesoc,
+        null = True, blank = True)
+    incardat = models.CharField(reesda, max_length = 200,
+        null = True, blank = True)
     incarlic = models.CharField(licenc, max_length = 500)
     #incaraut = models.CharField(author, max_length = 150)  
     #incarlug = models.CharField(lugpub, max_length = 150)  
@@ -916,7 +920,7 @@ class inidimagsat(inicartogra):
 
     lists = SelectList()
 
-    iimanomb = models.CharField(nombre, max_length = 125)
+    iimanomb = models.CharField(nombre, max_length = 1250)
     iimasens = models.ForeignKey('inimagsenso', verbose_name = sensor) 
     iimaseno = models.CharField(seotro, max_length = 25, null = True,
         blank = True)
@@ -993,7 +997,7 @@ class inidfotogra(inicartogra):
 
     lists = SelectList()
 
-    ifonombr = models.CharField(nombre, max_length = 125)
+    ifonombr = models.CharField(nombre, max_length = 1250)
     incafore = models.ForeignKey('extpictform', verbose_name = archex,
         null = True, blank = True)
     ifonumes = models.CharField(numsob, max_length = 50)
@@ -1003,7 +1007,8 @@ class inidfotogra(inicartogra):
     ifoaltvu = models.FloatField(altvue, null = True, blank = True)
     ifopunfo = models.BooleanField(punfot, choices = lists.BoolChoose(), 
         default = False)
-    ifoanubp = models.FloatField(pornub, help_text = pornub_help)
+    ifoanubp = models.FloatField(pornub, help_text = pornub_help,
+        null = True, blank = True)
     incaraut = models.CharField(author, max_length = 250)  
     incarlug = models.CharField(lugpub, max_length = 250,
         null = True, blank = True)  
