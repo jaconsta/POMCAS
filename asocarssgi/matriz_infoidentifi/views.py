@@ -359,10 +359,10 @@ def subte_forms(request, subcompo, subtema, instance = None):
                     forms.HidroloMetodologiaForm(request.POST or None, instance = instance),
                 u'DocumYCarto': 
                     forms.HidroloDocumYCartoForm(request.POST or None, instance = instance),
-                #u'Variabilida': (
-                #    forms.HidroloVariabilidaForm(content)),
-                #u'CalcuCaudal': (
-                #    forms.HidroloCalcuCaudalForm(content)),
+                u'Variabilida': 
+                    forms.HidroloVariabilidaForm(request.POST or None, instance = instance),
+                u'CalcuCaudal': 
+                    forms.HidroloCalcuCaudalForm(request.POST or None, instance = instance),
                 },
             u'Variabilida' : (None,None),
             u'CalcuCaudal' : (None,None),
@@ -519,13 +519,14 @@ def LoadCartoTrack():
     Question 1: Corporations who have filled Cartografía
     Question 2: The daily load progress by corporations of Cartography 
     '''
-    questions = []
-    questions.append((u'Corporaciones que han cargado los formatos de \
-        Cartografía',
-        CorporationsWhoCartografia())
-    questions.append((u'Avance diario del cargue de formatos por corporación',
-        LoadCartoProgress())
-
+#    questions = []
+#    questions.append((u'Corporaciones que han cargado los formatos de \
+#        Cartografía',
+#        CorporationsWhoCartografia())
+#    questions.append((u'Avance diario del cargue de formatos por corporación',
+#        LoadCartoProgress())
+#
+    pass
 ##def ():
 ##    '''
 ##    Question: The daily load progress by corporations of Cartography 
@@ -533,7 +534,7 @@ def LoadCartoTrack():
 ##    question = LoadCartoProgress()
 #
 ### Reports - Cartografía
-def ReportCartog():
+def ReportCartog(request):
     '''
     Question 1: ¿Cuántas cuencas tienen cartografía base?
     Question 2: ¿Cuáles son las Cuencas con cartografía base?
@@ -551,7 +552,15 @@ def ReportCartog():
     #   against the watersheed total area(Q: 6)
     # 5th. Q:7 Sure!... Why not? wait maybe... later 
     
+    # 1st
+    watersheeds = WatersheedWhoCartografia()
+    # 2nd
+    for i in waterwheeds:
+        a = ''
     
+    return render(request, 'reports_carto.html', {
+        'watersheeds' : watersheeds,
+        })
 
     #questions = []
     #questions.append(u'Cantidad de cuencas con cartografía base',

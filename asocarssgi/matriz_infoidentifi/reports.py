@@ -100,6 +100,41 @@ def WatersheedWhoCartografia():
 #    Return the names of those watersheeds with grid forms filled
 #    '''
 
+def WatersheedCartografiaResume():
+    '''
+    Returns matrix with the following column order
+    [inidcardatf.watersheed object, Is official?, 25000 grids,
+        25000 coverage, 10000 grids, 10000 coverage]
+    Responds all questions in a single matriz
+    # 1st. Get all the waterwheeds (Q: 1,2)
+    # 2nd. On each ask if it has official gridsgrids  (Q: 3)
+    # 3rd. On them get the avaliable scales and values (Q: 4,5)
+    # 4rd. Calculate the covered percentage of all distinct grids 
+    #   against the watersheed total area(Q: 6)
+    # 5th. Q:7 Sure!... Why not? wait maybe... later 
+    1:25.000  15.000 ha
+    1:10.000  3.750 ha
+    '''
+    def GetClassifyGrids(grids):
+        # Group on 10:000
+        ten = []
+        for grid in grids.filter(icartess = 2): 
+            ten.append(grid)  
+        # Group on 25.000
+        for grid in grids.filter(icartess = 1): 
+            twenty.append(grid)
+    def GetOfficial(watersheed):
+        for j in  inidcardatg.objects.filter(iniescue__cuencano = i.iniescue.cuencano, icartres = 'IGAC'):
+            if j:
+                return GetClassifyGrids(j)
+            else:
+                return None
+    
+    answer = []
+    watersheeds = WatersheedWhoCartografia()
+    for i in watersheeds:
+        GetOfficial(i)
+    return answer
 def WatersheedCartografiaFilled():
     '''
     Returns the name of the waterwheeds which have Grid Forms filled.
@@ -121,6 +156,7 @@ def WatersheedCartoGridsOfficialClassif():
     '''
     Classify Grid Scales by watersheed
      and they have to be official (IGAC)
+    inidcardatg.objects.filter(iniescue__cuencano = i.iniescue.cuencano)
     '''
     watersheed = []
     for water in WatersheedWhoCartografia():

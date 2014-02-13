@@ -55,19 +55,19 @@ urlpatterns = patterns('',
     url(r'^matrix/caracterizacion/(?P<shared_id>\d+)/(?P<subcompo>\w+)/(?P<pk>\d+)/(?P<subtema>\w+)/(?P<subte_pk>\d+)/$',
         'matriz_infoidentifi.views.subte', 
         name='matrix_infoident_subte_edit'),
-    #Administración Usuarios
+    # Reports
+    url(r'^reports/caracterizacion/Carto/$',
+        'matriz_infoidentifi.views.ReportCartog',
+        name = 'reports_infoident_cartog'),
+    # Users management
     url(r'^login/', 'usuarios.views.loginuser', name='start_session'),
     url(r'^logout/', 'usuarios.views.logoutuser', name='close_session'),
     url(r'^adduser/', 'usuarios.views.newuser', name = 'create_user'),
-    #url(r'^$', 'matriz_institucional.views.upload_matrix', name='matrix_institucional_home'),
-    #url(r'^b/', 'regist_carga.views.modelo', name='cargando'),
-    #url(r'^proyecto85/b/', 'regist_carga.views.modelo', name='cargandos'),
-    #url(r'^info/', 'matriz_recolinfo.views.recolinfo_form', name='recolinfo'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # Admin:
     url(r'^admin/', include(admin.site.urls)),
     #(r'^%s/' % settings.SUB_SITE, include('asocarssgi.urls_subsite')),
 )

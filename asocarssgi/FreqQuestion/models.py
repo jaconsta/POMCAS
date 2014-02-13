@@ -12,7 +12,7 @@ class Topic (models.Model):
 
 class Questions(models.Model):
     qutopic = models.ForeignKey('Topic', verbose_name = u'Tema', null = True, blank = True)
-    questio = models.CharField(u'Pregunta', max_length = 250)
+    questio = models.CharField(u'Pregunta', max_length = 500)
     pubdate = models.DateField(u'Fecha de Formulación')
     whopost = models.CharField(u'Nombre de quien pregunta', max_length = 150)
     whoposi = models.CharField(u'Cargo', max_length = 150, null = True, blank = True)

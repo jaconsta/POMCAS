@@ -934,12 +934,14 @@ class inidimagsat(inicartogra):
         blank = True, help_text = banmul_help)
     iimarese = models.CharField(resolu, max_length = 50,
         help_text = resolu_help)
-    iimacsix = models.FloatField(cosuix, null = True, blank = True,
-        help_text = cosuix_help)
-    iimacsiy = models.FloatField(cosuiy, null = True, blank = True)
-    iimacidx = models.FloatField(coindx, null = True, blank = True,
-        help_text = coindx_help)
-    iimacidy = models.FloatField(coindy, null = True, blank = True)
+    iimacsix = models.CharField(cosuix, max_length = 50,
+        null = True, blank = True, help_text = cosuix_help)
+    iimacsiy = models.CharField(cosuiy, max_length = 50,
+        null = True, blank = True)
+    iimacidx = models.CharField(coindx, max_length = 50,
+        null = True, blank = True, help_text = coindx_help)
+    iimacidy = models.CharField(coindy, max_length = 50,
+        null = True, blank = True)
     iimanubp = models.FloatField(pornub, null = True, blank = True,
         help_text = pornub_help)
     incaraut = models.CharField(author, max_length = 150)  
@@ -1218,15 +1220,15 @@ class inidhlmetod(models.Model):
     lists = SelectList()
  
     inihidme = models.OneToOneField('inidhlestud')
-    inihlppa = models.CharField(promet, max_length = 500)
-    inihlphd = models.CharField(prohdr, max_length = 500)
+    inihlppa = models.CharField(promet, max_length = 2500)
+    inihlphd = models.CharField(prohdr, max_length = 2500)
     inihlmin = models.BooleanField(infcal, choices = lists.BoolChoose(), 
         default = False)
-    inihlpid = models.CharField(infcad, max_length = 500, null = True, 
+    inihlpid = models.CharField(infcad, max_length = 2500, null = True, 
         blank = True)
     inihlcal = models.BooleanField(calibr, choices = lists.BoolChoose(), 
         default = False)
-    inihlcad = models.CharField(procal, max_length = 500, null = True, 
+    inihlcad = models.CharField(procal, max_length = 2500, null = True, 
         blank = True)
     
     class Meta:
