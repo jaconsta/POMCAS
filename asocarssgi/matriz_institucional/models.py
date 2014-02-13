@@ -476,9 +476,9 @@ class minssopotecni(models.Model):
     misladat = models.DateField(u'Fecha de Acreditación del LA', 
 		null = True, blank = True)
     mislapar = models.CharField(u'Parámetros acreditados del LA', 
-		max_length = 200, null = True, blank = True)
+		max_length = 2000, null = True, blank = True)
     mislapro = models.CharField(u'Procesos acreditados del LA', 
-		max_length = 200, null = True, blank = True)
+		max_length = 2000, null = True, blank = True)
     misrmaex = models.BooleanField(u'La Corporación dispone de RMA?', 
 		default = False)
     misrmaco = models.NullBooleanField(u'Si no tiene RMA. Tiene convenios con entindades para RMA?', 
