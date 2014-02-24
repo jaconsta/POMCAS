@@ -130,8 +130,8 @@ def GetSubtopicResume(subcompo, subtemas):
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 
                 u'DocumYCarto', 'inidcartog', True),
-            (u'Estudios de variabilidad climática', u'Variabilida', inidhlvarib, False), 
-            (u'Cálculos de caudal ambiental', u'CalcuCaudal', inidhlcauda, False),
+            #(u'Estudios de variabilidad climática', u'Variabilida', inidhlvarib, False), 
+            #(u'Cálculos de caudal ambiental', u'CalcuCaudal', inidhlcauda, False),
         ),
         u'Variabilida' : (None),
         u'CalcuCaudal' : (None),

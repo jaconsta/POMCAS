@@ -361,10 +361,10 @@ def subte_forms(request, subcompo, subtema, instance = None):
                     forms.HidroloAforosCaudForm(request.POST or None, instance = instance),
                 u'DocumYCarto': 
                     forms.HidroloDocumYCartoForm(request.POST or None, instance = instance),
-                u'Variabilida': 
-                    forms.HidroloVariabilidaForm(request.POST or None, instance = instance),
-                u'CalcuCaudal': 
-                    forms.HidroloCalcuCaudalForm(request.POST or None, instance = instance),
+                #u'Variabilida': 
+                #    forms.HidroloVariabilidaForm(request.POST or None, instance = instance),
+                #u'CalcuCaudal': 
+                #    forms.HidroloCalcuCaudalForm(request.POST or None, instance = instance),
                 },
             u'Variabilida' : (None,None),
             u'CalcuCaudal' : (None,None),

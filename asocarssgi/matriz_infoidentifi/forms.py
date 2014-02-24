@@ -436,7 +436,7 @@ class HidroloMetodologiaForm(ModelForm):
     def subtopic(self):
         return u'Metología utilizada para el estudio de hidrología o climatología'
 
-class HidroloAforosCaudForms(ModelForm):
+class HidroloAforosCaudForm(ModelForm):
     '''
     Hidrología
     Aforos: Medición del caudal
