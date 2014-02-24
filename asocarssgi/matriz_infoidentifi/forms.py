@@ -435,11 +435,25 @@ class HidroloMetodologiaForm(ModelForm):
         return u'Hidrología'
     def subtopic(self):
         return u'Metología utilizada para el estudio de hidrología o climatología'
+
+class HidroloAforosCaudForms(ModelForm):
+    '''
+    Hidrología
+    Aforos: Medición del caudal
+    '''
+    class Meta:
+        model = ihlmethafor
+        fields = [
+            'inihlmmp', 'inihlmca', 'inihlmni', 'inihlmsc', 
+            'inihlmse', 
+        ]
 class HidroloDocumYCartoForm(ModelForm):
     '''
     Hidrología
     Información general cartográfica y documento técnico
     '''
+    caruesle = forms.CharField(label = u'Escala de realización del estudio', 
+        max_length = 9, required = False)
     class Meta:
         model = inidhlcarto
         fields = [
@@ -613,7 +627,7 @@ class CaliAguaInfoComplemForm(ModelForm):
     class Meta:
         model = inicainfoco
         fields = [
-            'iicaifoc', 'iicaifca',
+            'iicaifoc', 'iicaifca', 'iicaifcy',
         ]
     def names(self):
         return u'Calidad de Agua'
@@ -816,7 +830,7 @@ class FloFauDocumYCartoForm(ModelForm):
         model = inidffcart 
         fields = [
             'carmafor', 'carmamex', 'carmamot', 'carmetad', 'carmeaut',
-            'carinflo', 'carfuent',
+            'carinflo', 'carfuent', 'caruesle', 'carfueny', 
         ]
     def names(self):
         return u'Flora y Fauna'

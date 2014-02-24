@@ -21,7 +21,7 @@ from matriz_infoidentifi.resume import GetResume, GetSubtopicResume, \
     GetCartoSubtopicFK, GetEstudFK, GetSubcompoName
 
 from matriz_infoidentifi.reports import FormsFilled, LoadCartoProgress #General Load process
-from matriz_infoidentifi.reports import CorporationsWhoCartografia,\
+from matriz_infoidentifi.reports import WatersheedCartografiaResume, CorporationsWhoCartografia,\
     CorporationsCartografiaFilled, CorporationsScaleCartografia,\
     WatersheedWhoCartografia, WatersheedCartografiaFilled, \
     WatersheedCartoGridsClassif, WatersheedCartoGridsOfficialClassif,\
@@ -357,6 +357,8 @@ def subte_forms(request, subcompo, subtema, instance = None):
                     forms.HidroloEstacionesForm(request.POST or None, instance = instance),
                 u'Metodologia': 
                     forms.HidroloMetodologiaForm(request.POST or None, instance = instance),
+                u'AforosCaud':
+                    forms.HidroloAforosCaudForm(request.POST or None, instance = instance),
                 u'DocumYCarto': 
                     forms.HidroloDocumYCartoForm(request.POST or None, instance = instance),
                 u'Variabilida': 
@@ -553,13 +555,12 @@ def ReportCartog(request):
     # 5th. Q:7 Sure!... Why not? wait maybe... later 
     
     # 1st
-    watersheeds = WatersheedWhoCartografia()
+    watersheeds = WatersheedCartografiaResume() # WatersheedWhoCartografia()
     # 2nd
-    for i in waterwheeds:
-        a = ''
-    
+    watersheeds_total = len(watersheeds)
     return render(request, 'reports_carto.html', {
         'watersheeds' : watersheeds,
+        'watersheeds_total' : watersheeds_total,  
         })
 
     #questions = []

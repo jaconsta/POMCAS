@@ -115,26 +115,40 @@ def WatersheedCartografiaResume():
     1:25.000  15.000 ha
     1:10.000  3.750 ha
     '''
-    def GetClassifyGrids(grids):
-        # Group on 10:000
-        ten = []
-        for grid in grids.filter(icartess = 2): 
-            ten.append(grid)  
-        # Group on 25.000
-        for grid in grids.filter(icartess = 1): 
-            twenty.append(grid)
+    def GetAreaCovered(grids, scale):
+        scale_twentythou =  15000 
+        scale_tenthou = 3750
+        grid = len(grids.split(','))
+        if grid == 1:
+            grid = 0
+        if scale == 10000:
+            return grid*scale_tenthou
+        else:
+            return grid*scale_twentythou
+
     def GetOfficial(watersheed):
-        for j in  inidcardatg.objects.filter(iniescue__cuencano = i.iniescue.cuencano, icartres = 'IGAC'):
-            if j:
-                return GetClassifyGrids(j)
-            else:
-                return None
-    
+        # Gets all registers of a given watersheed
+        ten = ''  # Group on 10:000
+        twenty = '' # Group on 25.000
+        #print inidcardatg.objects.filter(iniescue__cuencano = watersheed.iniescue.cuencano, icartres = 'IGAC')
+
+        query = inidcardatg.objects.filter(iniescue__cuencano = watersheed.iniescue.cuencano, icartres = 'IGAC')
+        for j in query:
+            if j.icartess.pk == 2:
+                ten = ten + j.icartnum  
+            elif j.icartess.pk == 1:
+                twenty = twenty + j.icartnum
+        if query:
+            return (watersheed.iniescue.cuencano, 'SI', twenty, GetAreaCovered(twenty, 25000), ten, GetAreaCovered(ten, 10000))
+        else:
+            return (watersheed.iniescue.cuencano, 'NO', '', 0, '', 0)
+        
     answer = []
     watersheeds = WatersheedWhoCartografia()
     for i in watersheeds:
-        GetOfficial(i)
+        answer.append(GetOfficial(i))
     return answer
+
 def WatersheedCartografiaFilled():
     '''
     Returns the name of the waterwheeds which have Grid Forms filled.

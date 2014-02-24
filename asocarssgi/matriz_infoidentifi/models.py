@@ -506,6 +506,7 @@ class inidcartog(models.Model):
         morfogénetico o morfogénico, pendiente, forma de la pendiente, \
         procesos mordofinámicos actuales, etc.?'
     fuente = u'Fuente Cartografía Base del Estudio'
+    fuenan = u'Año de la fuente'
     qualit = u'Calidad de la Cartografía temática'
     docfor = u'Formato del documento técnico'
     docext = u'Extensión del Documento Técnico'
@@ -514,6 +515,9 @@ class inidcartog(models.Model):
     mapext_help = u'En caso que sea digital'
     infaso_help = u'Ver la coherencia de la información asociada en la \
             tabla de atributos del mapa temático'
+    metnit_help = u'Ej. 123456789-0'
+    fuenan_help = u'Valores sin separador de mil y serparados por coma ",". \
+            Ej: 1999,2010,2011'
     qualit_help = u'Topología y simbología. Ver formato de cartografía base'
     docext_help = mapext
 
@@ -544,17 +548,19 @@ class inidcartog(models.Model):
         null = True, blank = True)
     carmeaut = models.CharField(metaut, max_length = 125, 
         null = True, blank = True)
-    carmenit = models.NullBooleanField(metnit, max_length = 12, 
-        null = True, blank = True)
+    carmenit = models.CharField(metnit, max_length = 12, 
+        null = True, blank = True, help_text = metnit_help)
     carmedat = models.PositiveSmallIntegerField(metano, null = True, 
         blank = True, choices = lists.YearList(), default = lists.ThisYear())
-    carinaso = models.CharField(infaso, max_length = 125, null = True, 
+    carinaso = models.CharField(infaso, max_length = 1250, null = True, 
         blank = True, help_text = infaso_help)
     carinflo = models.NullBooleanField(infflo, null = True, blank = True)
     carleyen = models.NullBooleanField(mapley, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
     carfuent = models.CharField(fuente, max_length = 75, null = True, 
         blank = True)
+    carfueny = models.CharField(fuenan, max_length = 500, blank = True,
+        null = True, help_text = fuenan_help)
     carqualy = models.CharField(qualit, max_length = 1250, null = True, 
         blank = True, help_text = qualit_help)
     cardocfo = models.ForeignKey('documformat', verbose_name = docfor,
@@ -773,7 +779,7 @@ class inidcardatg(inicartogra):
         help_text = numero_help)
     icartres = models.CharField(respon, max_length = 125,
         help_text = respon_help)
-    icartcug = models.CharField(cubrim, max_length = 3500,
+    icartcug = models.CharField(cubrim, max_length = 5000,
         help_text = cubrim_help)
     incafore = models.ForeignKey('matpfileexte', verbose_name = archex,
         null = True, blank = True)
@@ -1289,6 +1295,7 @@ class ihlmethafor(models.Model):
 
     lists = SelectList()
  
+    inihlest = models.ForeignKey('inidhlestud')
     inihlmma = models.ForeignKey('inidhlmetod')
     inihlmpe = models.ForeignKey('hdlaforperi', verbose_name = period) 
     inihlmmp = models.FloatField(caperi, null = True, blank = True)
@@ -1742,6 +1749,8 @@ class inicainfoco(models.Model):
         choices = lists.BoolChoose(), default = False)
     iicaifca = models.BooleanField(capasim,
         choices = lists.BoolChoose(), default = False)
+    iicaifcy = models.CharField(capayea, max_length = 500,
+        null = True, blank =True, help_text = capayea_help)
     
     class Meta:
         verbose_name = '07.3 Información complementaria'
@@ -1749,6 +1758,7 @@ class inicainfoco(models.Model):
 
 class inicaicca(models.Model):
     '''
+    ## Pending to erase
     Calidad de agua
     Información complementaria- Estudios de capacidad de asimilación.
         o modelaciones
@@ -2061,7 +2071,7 @@ class inidcometho(models.Model):
     iicomsen = models.ManyToManyField('inidcosenso', verbose_name = sensor) 
     iicomseo = models.CharField(sensoo, max_length = 25, null  = True,
         blank = True)
-    iicomfot = models.ForeignKey('mapfileexte',verbose_name = fotfor, #CharField(fotfor, max_length = 9, 
+    iicomfot = models.ForeignKey('extpictform',verbose_name = fotfor, #CharField(fotfor, max_length = 9, 
         null= True, blank = True)
         #choices = lists.MapExtChoose(), null= True, blank = True)
     iicomfoo = models.CharField(fotfoo, max_length = 25, null  = True,
@@ -2322,13 +2332,12 @@ class inidpmecofo(models.Model):
     ipmformu = models.OneToOneField('inidpmestud')
     ipmfplan = models.ManyToManyField('pmecoplanma', verbose_name = planma,
         null = True, blank = True)
-    ipmfplao = models.CharField(planot, max_length = 500, 
+    ipmfplao = models.CharField(planot, max_length = 2500, 
         null = True, blank = True)
-    ipmfobje = models.CharField(objeto, max_length = 500)
+    ipmfobje = models.CharField(objeto, max_length = 2500)
     ipmfadop = models.BooleanField(planco, choices = lists.BoolChoose(), 
         default = False)
-    ipmfvige = models.PositiveSmallIntegerField(vigepl, 
-        choices = lists.YearList(), default = lists.ThisYear())
+    ipmfvige = models.CharField(vigepl, max_length = 200) 
     ipmfplae = models.BooleanField(planex, choices = lists.BoolChoose())
 
     class Meta:

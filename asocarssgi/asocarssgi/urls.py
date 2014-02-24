@@ -59,6 +59,9 @@ urlpatterns = patterns('',
     url(r'^reports/caracterizacion/Carto/$',
         'matriz_infoidentifi.views.ReportCartog',
         name = 'reports_infoident_cartog'),
+    # Budget
+    url(r'^matrix/budget/recieve', 'matriz_presupuestos.views.GetForm',
+        name = 'matriz_presupu_recieve'),
     # Users management
     url(r'^login/', 'usuarios.views.loginuser', name='start_session'),
     url(r'^logout/', 'usuarios.views.logoutuser', name='close_session'),

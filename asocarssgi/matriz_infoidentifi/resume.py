@@ -126,11 +126,12 @@ def GetSubtopicResume(subcompo, subtemas):
         u'Hidrologia' : (
             (u'Estaciones utilizadas dentro del estudio', u'Estaciones', 'ihlmethaest', True),
             (u'Metodología del estudio', u'Metodologia', 'inidhlmetod', False), 
+            (u'Aforos de caudal', u'AforosCaud', 'ihlmethafor', True),
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 
                 u'DocumYCarto', 'inidcartog', True),
-            #(u'Estudios de variabilidad climática', u'Variabilida', inidhlvarib, False), 
-            #(u'Cálculos de caudal ambiental', u'CalcuCaudal', inidhlcauda, False),
+            (u'Estudios de variabilidad climática', u'Variabilida', inidhlvarib, False), 
+            (u'Cálculos de caudal ambiental', u'CalcuCaudal', inidhlcauda, False),
         ),
         u'Variabilida' : (None),
         u'CalcuCaudal' : (None),
@@ -152,20 +153,18 @@ def GetSubtopicResume(subcompo, subtemas):
         ),
         u'Cobertura' : (
             (u'Metodología del estudio', u'Metodologia', 'inidcometho', False), 
-            (u'Información general cartográfica y documentos técnicos \
-                relacionados por cada tipo de amenaza en la cuenca', 
+            (u'Información general cartográfica y documento técnicos',
                 u'DocumYCarto', 'inidcartog', True),#inidcoinfog), 
             (u'Análisis multitemporales', u'AnaliMultit', 'inidcoanmul', False),
         ),
         u'FloraYFauna' : (
             (u'Metodología del estudio', u'Metodologia', 'inidffmeth', False), 
-            (u'Información general cartográfica y documentos técnicos \
-                relacionados por cada tipo de amenaza en la cuenca', 
+            (u'Información general del documento técnico y cartografía',
                 u'DocumYCarto', 'inidcartog', True),#inidffcart),
         ),
         u'PMEcosistemas' : (
-            (u'Formulación de los planes', u'Formulacion', 'inidpmecofo', False), 
-            (u'Información de los planes y resultados', u'InforPlanes',  'inidcartog', True),#inidpmecopm),
+            (u'Formulación del plan y resultados', u'Formulacion', 'inidpmecofo', False), 
+            (u'Información sobre los planes de manejo', u'InforPlanes',  'inidcartog', True),#inidpmecopm),
         ),
         u'Amenazas' : (
             (u'Actores involucrados', u'Actores', 'inriesameac', True),
