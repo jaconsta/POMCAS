@@ -136,6 +136,7 @@ def GetSubtopicResume(subcompo, subtemas):
         u'Variabilida' : (None),
         u'CalcuCaudal' : (None),
         u'Hidrogeologia' : (
+            (u'Fases que contempló el estudio', u'MetodoFases', 'inighgmetfa', True),
             (u'Metodología del estudio', u'Metodologia', 'inidhgmetho', False), 
             (u'Información general cartográfica y documentos técnicos \
                 relacionados por cada tipo de amenaza en la cuenca', 

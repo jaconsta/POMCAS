@@ -104,7 +104,7 @@ def resume(request, shared_id, subcompo):
             u'Hidrologia' : (u'Metodologia', u'DocumYCarto'),
             u'Variabilida': (None),
             u'CalcuCaudal': (None),
-            u'Hidrogeologia' : (u'Metodologia', u'DocumYCarto'),
+            u'Hidrogeologia' : (u'MetodoFases', u'Metodologia', u'DocumYCarto'),
             u'CalidadDeAgua' : (u'Metodologia', u'InfoEstudio', u'InfoComplem'),
             u'CargasContaminantes' :(u'Metodologia', u'InfoEstudio', 
                 u'InfoComplem'),
@@ -369,6 +369,8 @@ def subte_forms(request, subcompo, subtema, instance = None):
             u'Variabilida' : (None,None),
             u'CalcuCaudal' : (None,None),
             u'Hidrogeologia' : {
+                u'MetodoFases':
+                    forms.HidrogeoMetodoFasesForm(request.POST or None, instance = instance),
                 u'Metodologia': 
                     forms.HidrogeoMetodologiaForm(request.POST or None, instance = instance),
                 u'DocumYCarto': 

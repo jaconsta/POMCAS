@@ -1390,10 +1390,12 @@ class inighgmetfa(models.Model):
     fasesest = models.ForeignKey('inhdrefases', 
         verbose_name = u'Fase que contempló el estudio') 
     metodolo = models.CharField(u'Metodología usada en la fase', 
-        max_length = 500, null = True, blank = True)
+        max_length = 2000, null = True, blank = True)
     class Meta:
         verbose_name = u'Fase del estudio'
         verbose_name_plural = u'Fases del estudio'
+    def __unicode__(self):
+        return u'Fase: %s' % (self.fasesest)
         
 class inhdrefases(models.Model):
     '''
@@ -1458,7 +1460,7 @@ class inidhgmetho(models.Model):
     lists = SelectList()
 
     inihidge = models.OneToOneField('inidhgestud')
-    inhgdbpa = models.BooleanField(dbpunag,choices = lists.BoolChoose(), 
+    inhgdbpi = models.BooleanField(dbpunag,choices = lists.BoolChoose(), 
         default = False)
     inhgdbpu = models.CharField(dbpaubi, max_length = 150, 
         null = True, blank = True)
@@ -1467,14 +1469,14 @@ class inidhgmetho(models.Model):
     inhgdbac = models.NullBooleanField(dbpaaci, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
     inhgdbpa = models.FloatField(dbpaacp, null = True, blank = True)
-    inhgqual = models.BooleanField(dbpunag, choices = lists.BoolChoose(), 
+    inhgqual = models.BooleanField(quality, choices = lists.BoolChoose(), 
         default = False)
     inhgquye = models.PositiveSmallIntegerField(qualiye, 
         choices = lists.YearList(), default = lists.ThisYear(),
         null = True, blank = True)
     inhgqunc = models.PositiveSmallIntegerField(qualinc, 
         null = True, blank = True)
-    inhgqupa = models.CharField(qualipa, max_length = 500, 
+    inhgqupa = models.CharField(qualipa, max_length = 2000, 
         null = True, blank = True)
     inhgceah = models.BooleanField(balehgq, choices = lists.BoolChoose(), 
         default = False)
@@ -1489,7 +1491,7 @@ class inidhgmetho(models.Model):
         default = False)
     inhgeggn = models.PositiveSmallIntegerField(geosond, 
         null = True, blank = True)
-    inghegme = models.CharField(geometo, max_length = 500, 
+    inghegme = models.CharField(geometo, max_length = 2000, 
         null = True, blank = True)
     inghacui = models.BooleanField(acuigeo, choices = lists.BoolChoose(), 
         default = False)
@@ -1498,9 +1500,9 @@ class inidhgmetho(models.Model):
     inghacrs = models.FloatField(acuires, null = True, blank = True)
     inghchdr = models.BooleanField(carhidr , choices = lists.BoolChoose(), 
         default = False)
-    inghchme = models.CharField(cahimet, max_length = 500,   
+    inghchme = models.CharField(cahimet, max_length = 2000,   
         null = True, blank = True)
-    inghchpo = models.CharField(cahipar, max_length = 500,
+    inghchpo = models.CharField(cahipar, max_length = 2000,
         null = True, blank = True)
     inghries = models.BooleanField(riescon, choices = lists.BoolChoose(), 
         default = False)
@@ -1508,13 +1510,13 @@ class inidhgmetho(models.Model):
         default = False)
     inghvuln = models.BooleanField(vulneaq, choices = lists.BoolChoose(), 
         default = False)
-    inghvume = models.CharField(vulneme, max_length = 500,   
+    inghvume = models.CharField(vulneme, max_length = 2000,   
         null = True, blank = True)
-    inghcupr = models.CharField(vulnepr, max_length = 500,   
+    inghcupr = models.CharField(vulnepr, max_length = 2000,   
         null = True, blank = True)
     inghmhco = models.BooleanField(modhdrc, choices = lists.BoolChoose(), 
         default = False)
-    inghmhci = models.CharField(modhdin, max_length = 500,   
+    inghmhci = models.CharField(modhdin, max_length = 2000,   
         null = True, blank = True)
     inghtacu = models.ForeignKey('inhdrmeacui', verbose_name = acuiana, 
         null = True, blank = True)
@@ -1670,16 +1672,16 @@ class inicainfoes(models.Model):
 
     iicainfo = models.OneToOneField('inidcaestud', 
         verbose_name = u'Estudio de Calidad de Agua')
-    iicaiinf = models.CharField(inform, max_length = 500)
+    iicaiinf = models.CharField(inform, max_length = 2000)
     iicaiafa = models.BooleanField(aforac, choices = lists.BoolChoose(), 
         default = False)
     iicaiest = models.NullBooleanField(estaci, choices = lists.BoolChoose(), 
         default = False, null = True, blank = True)
-    iicaiobs = models.CharField(observ, max_length = 500, null = True, 
+    iicaiobs = models.CharField(observ, max_length = 2000, null = True, 
         blank = True)
     iicaipar = models.ManyToManyField('incainfpara', verbose_name = parame,
         null = True, blank = True)
-    iicaipao = models.CharField(paraot, max_length = 70, null = True,
+    iicaipao = models.CharField(paraot, max_length = 1000, null = True,
         blank = True)
     
     class Meta:
@@ -1815,8 +1817,8 @@ class inidccmetho(models.Model):
     lists = SelectList()
 
     iiccmeth = models.OneToOneField('inidccestud')
-    iiccmobj = models.CharField(objeto, max_length = 500)
-    iiccmmet = models.CharField(metodo, max_length = 500, help_text = metodo_help)
+    iiccmobj = models.CharField(objeto, max_length = 2000)
+    iiccmmet = models.CharField(metodo, max_length = 2000, help_text = metodo_help)
     iiccmest = models.ForeignKey('incameestim', verbose_name = estima,
         null = True, blank = True) 
     iiccmlin = models.ForeignKey('incamelineb', verbose_name = lineab) 
@@ -1913,7 +1915,7 @@ class inidccminfe(models.Model):
         default = False)
     iiccigeo = models.NullBooleanField(georef, choices = lists.BoolChoose(),
         default = False, null = True, blank = True)
-    iicciobs = models.CharField(observ, max_length = 500, blank = True,
+    iicciobs = models.CharField(observ, max_length = 2000, blank = True,
         null = True)
     iicciper = models.FloatField(percen, null = True, blank = True)
     iiccipar = models.ManyToManyField('incainfpara', verbose_name = parame,
@@ -1983,7 +1985,7 @@ class iniccicompl(models.Model):
         default = False)
     iicccpor = models.NullBooleanField(porhexi, choices = lists.BoolChoose(),
         default = False)
-    iicccpse = models.CharField(secporh, max_length = 500, blank = True,
+    iicccpse = models.CharField(secporh, max_length = 2000, blank = True,
         null = True) 
     iicccpur = models.NullBooleanField(pueaaes, choices = lists.BoolChoose(),
         default = False)
@@ -2214,19 +2216,19 @@ class inidffmeth(models.Model):
     lists = SelectList()
 
     iffmeto = models.OneToOneField('inidffestud')
-    iffmesm = models.CharField(metodo, max_length = 500)
-    iffmein = models.CharField(meinve, max_length = 500, 
+    iffmesm = models.CharField(metodo, max_length = 2000)
+    iffmein = models.CharField(meinve, max_length = 2000, 
         help_text = meinve_help)
-    ifftico = models.CharField(ticobe, max_length = 500)
+    ifftico = models.CharField(ticobe, max_length = 2000)
     iffvegi = models.ForeignKey('inffmeveget', verbose_name = vegete, #CharField(vegete, max_length = 4,
         null = True, blank = True)
         #choices = lists.FlofInveChoose(), blank = True)
     iffesli = models.NullBooleanField(ecoest, choices = lists.BoolNullChoose())
     iffnupa = models.PositiveSmallIntegerField(numpar, 
         null = True, blank = True)
-    iffmeif = models.CharField(metfau, max_length = 500,
+    iffmeif = models.CharField(metfau, max_length = 2000,
         null = True, blank = True, help_text = metfau_help)
-    iffclaj = models.CharField(clafau, max_length = 500, 
+    iffclaj = models.CharField(clafau, max_length = 2000, 
         null = True, blank = True, help_text = clafau_help)
     iffgeoi = models.ForeignKey('inffmegeore', verbose_name = georef, #CharField(georef, max_length = 4, 
         null = True, blank = True)
@@ -2405,33 +2407,33 @@ class inriesamepr(inididinden):
 
 #    amenazas = models.ForeignKey('inidriesame', verbose_name = u'Amenazas en la cuenca')
     ameniden = models.ForeignKey('amenaidenti', verbose_name = amenaz)
-    amenotra = models.CharField(amenao, max_length = 100, null = True,
+    amenotra = models.CharField(amenao, max_length = 2000, null = True,
         blank = True)
-    ubidepar = models.CharField(ubidep, max_length = 250, null = True, 
+    ubidepar = models.CharField(ubidep, max_length = 2000, null = True, 
         blank = True)
-    ubimunic = models.CharField(ubimun, max_length = 250, null = True, 
+    ubimunic = models.CharField(ubimun, max_length = 2000, null = True, 
         blank = True)
-    ubivered = models.CharField(ubiver, max_length = 250, null = True, 
+    ubivered = models.CharField(ubiver, max_length = 2000, null = True, 
         blank = True)
     eventocu = models.ManyToManyField('eventocurri', verbose_name = evento, 
         null = True, blank = True)
-    eventoot = models.CharField(eveotr, max_length = 250, null = True, 
+    eventoot = models.CharField(eveotr, max_length = 2000, null = True, 
         blank = True)
-    eventrec = models.CharField(recurr, max_length = 125, null = True,
+    eventrec = models.CharField(recurr, max_length = 2000, null = True,
         blank = True)
-    evencaus = models.CharField(causas, max_length = 250, null = True, 
+    evencaus = models.CharField(causas, max_length = 2000, null = True, 
         blank = True)
     elemento = models.ManyToManyField('elemenexpue', verbose_name = elemen, 
         null = True, blank = True)
-    elemotro = models.CharField(elemot, max_length = 250, null = True, 
+    elemotro = models.CharField(elemot, max_length = 2000, null = True, 
         blank = True)
     actosoci = models.BooleanField(actsoc, choices = lists.BoolChoose(),
         default = False)
-    activida = models.CharField(activi, max_length = 250, null = True, 
+    activida = models.CharField(activi, max_length = 2000, null = True, 
         blank = True)
     amenmapa = models.FileField(mapaam, upload_to = 'amen_map/',
         null = True, blank = True)
-    amengeor = models.CharField(georef, max_length = 250, null = True, 
+    amengeor = models.CharField(georef, max_length = 2000, null = True, 
         blank = True) 
 
     class Meta:

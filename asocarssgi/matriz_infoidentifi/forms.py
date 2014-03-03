@@ -514,6 +514,18 @@ class HidrogeologiaForm(ModelForm):
     def subtopic(self):
         return u'Identificación del estudio de hidrogeología'
 
+class HidrogeoMetodoFasesForm(ModelForm):
+    class Meta:
+        model = inighgmetfa
+        fields = ['fasesest', 'metodolo']
+        widgets = {
+            'metodolo': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
+    def names(self):
+        return u'Hidrogeología'
+    def subtopic(self):
+        return u'Fases que contempló el estudio'
+
 class HidrogeoMetodologiaForm(ModelForm):
     '''
     Hidrogeología
@@ -522,8 +534,8 @@ class HidrogeoMetodologiaForm(ModelForm):
     class Meta:
         model = inidhgmetho
         fields = [
-            'inhgdbpa', 'inhgdbpu', 'inhgdbat', 'inhgdbac', 'inhgdbpa',
-            'inhgquye', 'inhgqunc', 'inhgqupa', 'inhgceah', 'inhgahpo',
+            'inhgdbpi', 'inhgdbpu', 'inhgdbat', 'inhgdbac', 'inhgdbpa',
+            'inhgqual', 'inhgquye', 'inhgqunc', 'inhgqupa', 'inhgceah', 'inhgahpo',
             'inhglaba', 'inhglabn', 'inhglabi', 'inghesgg', 'inhgeggn', 
             'inghegme', 'inghacui', 'inghaces', 'inghacre', 'inghacrs', 
             'inghchdr', 'inghchme', 'inghchpo', 'inghries', 'inghcaco',

@@ -250,7 +250,7 @@ class MetHdgModeAdmin(admin.StackedInline):
 class MethoHidrgAdmin(admin.StackedInline):
     model = inidhgmetho
     fields = (
-        'inhgdbpa', ('inhgdbpu', 'inhgdbat'), ('inhgdbac', 'inhgdbpa'),
+        'inhgdbpi', ('inhgdbpu', 'inhgdbat'), ('inhgdbac', 'inhgdbpa'),
         'inhgquye', 'inhgqunc', 'inhgqupa', ('inhgceah', 'inhgahpo'),
         'inhglaba', ('inhglabn', 'inhglabi'), 'inghesgg', 'inhgeggn', 
         'inghegme', 'inghacui', ('inghaces', 'inghacre', 'inghacrs'), 
