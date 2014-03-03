@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% block naviside %}
+    <p><b>Total de cuencas:</b> {{ watersheeds_total }}</p>
+<table>
+  <tr>
+    <th>Cuenca</th><th>Oficial</th>
+    <th>Planchas 1:25.000</th><th>Porcentaje de cobertura</th>
+    <th>Planchas 1:10.000</th><th>Porcentaje de cobertura</th>
+  </tr>
+{% for i in watersheeds %}
+  <tr>
+    {%for j in i %}
+      <td>    
+        {{ j }}  
+      </td>
+    {% endfor %}
+  </tr>
+{% endfor %}
+</table>
+{% endblock %}

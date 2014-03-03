@@ -2089,7 +2089,7 @@ class inidcometho(models.Model):
         null= True, blank = True,
         help_text = interp_help)
         #choices = lists.CobeMetoChoose(), null = True, blank = True,
-    iicomver = models.CharField(verifi, max_length = 200, 
+    iicomver = models.CharField(verifi, max_length = 2000, 
         null = True, blank = True, help_text = verifi_help)
     iicomcfu = models.CharField(cartfu, max_length = 75)
     iicomces = models.IntegerField(cartes)
@@ -2187,7 +2187,7 @@ class inidffmeth(models.Model):
     vegetación y fauna.
     '''
     metodo = u'Método utilizado para selección de sitios de muestreo'
-    meinve = u'Metodología utilizada para inventario  de flora \
+    meinve = u'Metodología utilizada para inventario de flora \
         y/o características de la vegetación'
     ticobe = u'Tipo de coberturas vegetales  naturales inventariadas.'
     vegete = u'Tipo de vegetación en el área de estudio con inventario'
@@ -2235,7 +2235,7 @@ class inidffmeth(models.Model):
         #choices = lists.FlofPMEFuenChoose())
     iffamen = models.ForeignKey('inffmeamena', verbose_name = espame) #CharField(espame, max_length = 4,
         #choices = lists.FlofAmenChoose())
-    iffamec = models.CharField(espacu, max_length = 150, null = True, 
+    iffamec = models.CharField(espacu, max_length = 750, null = True, 
         blank = True)
     iffgeor = models.NullBooleanField(geoame, choices = lists.BoolChoose(),
         default = False)
