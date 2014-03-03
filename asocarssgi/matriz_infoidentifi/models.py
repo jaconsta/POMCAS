@@ -1606,8 +1606,8 @@ class inidcameth(models.Model):
     lists = SelectList()
 
     inidcala = models.OneToOneField('inidcaestud')
-    inicaobj = models.CharField(objeto, max_length = 500)
-    inicamet = models.CharField(metodo, max_length = 500, 
+    inicaobj = models.CharField(objeto, max_length = 2500)
+    inicamet = models.CharField(metodo, max_length = 2500, 
         help_text = metodo_help)
     inicaest = models.PositiveSmallIntegerField(estaci, null = True, 
         blank = True)
@@ -2551,23 +2551,23 @@ class inidseasdet(models.Model):
     isesocio = models.OneToOneField('inidseasinf')
     isemetho = models.BooleanField(method, choices = lists.BoolChoose(),
         default = False)
-    isemethd = models.CharField(methde, max_length = 500, 
+    isemethd = models.CharField(methde, max_length = 2500, 
         null = True, blank = True)
     isedocum = models.BooleanField(docume, choices = lists.BoolChoose(),
         default = False)
-    isedocud = models.CharField(docesp, max_length = 500, 
+    isedocud = models.CharField(docesp, max_length = 2500, 
         null = True, blank = True)
-    isedocas = models.CharField(docasp, max_length = 500, 
+    isedocas = models.CharField(docasp, max_length = 2500, 
         null = True, blank = True)
     iseactma = models.BooleanField(actmap, choices = lists.BoolChoose(),
         default = False)
     iseprior = models.BooleanField(priori, choices = lists.BoolChoose(),
         default = False)
-    isepride = models.CharField(priode, max_length = 500, 
+    isepride = models.CharField(priode, max_length = 2500, 
         null = True, blank = True)
     isedbact = models.BooleanField(dbacto, choices = lists.BoolChoose(),
         default = False)
-    isedbvar = models.CharField(dbvari, max_length = 500, 
+    isedbvar = models.CharField(dbvari, max_length = 2500, 
         null = True, blank = True)
 
     class Meta:
@@ -2623,25 +2623,25 @@ class inidseepdet(models.Model):
     iseestra = models.OneToOneField('inidseepinf')
     isepestr = models.BooleanField(estrat, choices = lists.BoolChoose(),
         default = False)
-    isepestg = models.CharField(estrwh, max_length = 500, 
+    isepestg = models.CharField(estrwh, max_length = 2500, 
         null = True, blank = True)
-    isepestd = models.CharField(estter, max_length = 500, 
+    isepestd = models.CharField(estter, max_length = 2500, 
         null = True, blank = True)
     iseppart = models.BooleanField(partic, choices = lists.BoolChoose(),
         default = False, help_text = partic_help)
-    isepparm = models.CharField(parmet, max_length = 500, 
+    isepparm = models.CharField(parmet, max_length = 2500, 
         null = True, blank = True)
     isepinst = models.BooleanField(instan, choices = lists.BoolChoose(),
         default = False, help_text = instan_help)
     isepcomu = models.BooleanField(comunic, choices = lists.BoolChoose(),
         default = False)
-    isepcomd = models.CharField(comudes, max_length = 500, 
+    isepcomd = models.CharField(comudes, max_length = 2500, 
         null = True, blank = True)
     isepiamb = models.BooleanField(iambien, choices = lists.BoolChoose(),
         default = False, help_text = iambien_help)
-    isepiamd = models.CharField(iamdes, max_length = 500, 
+    isepiamd = models.CharField(iamdes, max_length = 2500, 
         null = True, blank = True)
-    isepesta = models.CharField(estado, max_length = 500, 
+    isepesta = models.CharField(estado, max_length = 2500, 
         null = True, blank = True)
 
     class Meta:
@@ -2659,8 +2659,8 @@ class inidseepdin(models.Model):
 
     instanci = models.ForeignKey('inidseepdet', 
         verbose_name = u'Estrategias de participación')
-    descripc = models.CharField(descri, max_length = 500)
-    estadoac = models.CharField(acstat, max_length = 500)
+    descripc = models.CharField(descri, max_length = 2500)
+    estadoac = models.CharField(acstat, max_length = 2500)
 
     class Meta:
         verbose_name = u'Instancia de participación'
@@ -2699,13 +2699,13 @@ class inidsecedet(models.Model):
     iseparti = models.OneToOneField('inidseceinf')
     isepccar = models.BooleanField(caract, choices = lists.BoolChoose(),
         default = False)
-    isepccaw = models.CharField(carwho, max_length = 500, 
+    isepccaw = models.CharField(carwho, max_length = 2500, 
         null = True, blank = True)
     isepccer = models.BooleanField(certif, choices = lists.BoolChoose(),
         default = False)
     isepcdev = models.BooleanField(develp, choices = lists.BoolChoose(),
         default = False)
-    isepcded = models.CharField(devede, max_length = 500, 
+    isepcded = models.CharField(devede, max_length = 2500, 
         null = True, blank = True)
 
     class Meta:
@@ -2808,9 +2808,9 @@ class inidsdsedet(models.Model):
         blank = True)
     isedseal = models.BooleanField(segali, choices = lists.BoolChoose(),
         default = False, help_text = segali_help)
-    isedseai = models.CharField(segcob, max_length = 500, null = True, 
+    isedseai = models.CharField(segcob, max_length = 2500, null = True, 
         blank = True)
-    isedsede = models.CharField(segdes, max_length = 500, null = True, 
+    isedsede = models.CharField(segdes, max_length = 2500, null = True, 
         blank = True)
     isedacti = models.BooleanField(activi, choices = lists.BoolChoose(),
         default = False)
@@ -2820,27 +2820,27 @@ class inidsdsedet(models.Model):
         blank = True)
     isedsitu = models.BooleanField(situac, choices = lists.BoolChoose(),
         default = False)
-    isedsitd = models.CharField(situde, max_length = 500, null = True, 
+    isedsitd = models.CharField(situde, max_length = 2500, null = True, 
         blank = True)
     isedproy = models.BooleanField(proyec, choices = lists.BoolChoose(),
         default = False)
-    isedprod = models.CharField(proyde, max_length = 500, null = True, 
+    isedprod = models.CharField(proyde, max_length = 2500, null = True, 
         blank = True)
     isedconf = models.BooleanField(confli, choices = lists.BoolChoose(),
         default = False)
-    isedcond = models.CharField(confde, max_length = 500, null = True, 
+    isedcond = models.CharField(confde, max_length = 2500, null = True, 
         blank = True)
     isedpoli = models.BooleanField(politi, choices = lists.BoolChoose(),
         default = False)
-    isedpold = models.CharField(polide, max_length = 500, null = True, 
+    isedpold = models.CharField(polide, max_length = 2500, null = True, 
         blank = True)
     isedpred = models.BooleanField(predia, choices = lists.BoolChoose(),
         default = False)
-    isedprec = models.CharField(predco, max_length = 500, null = True, 
+    isedprec = models.CharField(predco, max_length = 2500, null = True, 
         blank = True)
     isedsegu = models.BooleanField(seguri, choices = lists.BoolChoose(),
         default = False)
-    isedsegd = models.CharField(seguco, max_length = 500, null = True, 
+    isedsegd = models.CharField(seguco, max_length = 2500, null = True, 
         blank = True, help_text = seguco_help)
 
     class Meta:
@@ -2933,17 +2933,17 @@ class inidseccdet(models.Model):
     isecarac = models.OneToOneField('inidseccinf')
     isecccul = models.BooleanField(cultur, choices = lists.BoolChoose(),
         default = False)
-    isecccuc = models.CharField(cultco, max_length = 500, null = True, 
+    isecccuc = models.CharField(cultco, max_length = 2500, null = True, 
         blank = True, help_text = cultco_help)
-    isecccuv = models.CharField(cultva, max_length = 500, null = True, 
+    isecccuv = models.CharField(cultva, max_length = 2500, null = True, 
         blank = True)
     iseccpat = models.BooleanField(patron, choices = lists.BoolChoose(),
         default = False)
-    iseccpad = models.CharField(cobert, max_length = 500, null = True, 
+    iseccpad = models.CharField(cobert, max_length = 2500, null = True, 
         blank = True, help_text = cobert_help)
     iseccdoc = models.BooleanField(docume, choices = lists.BoolChoose(),
         default = False)
-    iseccdcc = models.CharField(docuco, max_length = 500, null = True, 
+    iseccdcc = models.CharField(docuco, max_length = 2500, null = True, 
         blank = True, help_text = docuco_help)
 
     class Meta:
@@ -3001,14 +3001,14 @@ class inidsevsdet(models.Model):
     lists = SelectList()
 
     isevalor = models.OneToOneField('inidsevsinf')
-    isesemet = models.CharField(metodo, max_length = 500)
+    isesemet = models.CharField(metodo, max_length = 2500)
     iseseser = models.ManyToManyField('inidseserec', 
         verbose_name = servic, null = True, blank = True)
-    iseseseo = models.CharField(sercio, max_length = 500,
+    iseseseo = models.CharField(sercio, max_length = 2500,
         null = True, blank = True)
     isesepil = models.BooleanField(piloto, choices = lists.BoolChoose(),
         default = False)
-    isesepia = models.CharField(piloal, max_length = 500,
+    isesepia = models.CharField(piloal, max_length = 2500,
         null = True, blank = True)
 
     class Meta:
@@ -3062,15 +3062,15 @@ class inidserfdet(models.Model):
         default = False)
     infucone = models.BooleanField(conect, choices = lists.BoolChoose(),
         default = False)
-    infoconc = models.CharField(coneco, max_length = 500,
+    infoconc = models.CharField(coneco, max_length = 2500,
         null = True, blank = True)
-    infocona = models.CharField(coneal, max_length = 500,
+    infocona = models.CharField(coneal, max_length = 2500,
         null = True, blank = True)
     infocapa = models.BooleanField(capaci, choices = lists.BoolChoose(),
         default = False)
-    infocapo = models.CharField(capaco, max_length = 500,
+    infocapo = models.CharField(capaco, max_length = 2500,
         null = True, blank = True)
-    infocapl = models.CharField(capaal, max_length = 500,
+    infocapl = models.CharField(capaal, max_length = 2500,
         null = True, blank = True)
     
     class Meta:
@@ -3092,9 +3092,9 @@ class inidserfure(models.Model):
 
     inserela = models.ForeignKey('inidserfdet', 
         verbose_name = u'Estudio')
-    inseurco = models.CharField(cober, max_length = 500, null = True,
+    inseurco = models.CharField(cober, max_length = 2500, null = True,
         blank = True, help_text = cober_help)
-    inseural = models.CharField(alcan, max_length = 500, null = True,
+    inseural = models.CharField(alcan, max_length = 2500, null = True,
         blank = True)
 
     class Meta:
