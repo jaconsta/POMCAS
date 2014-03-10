@@ -13,7 +13,6 @@ from matriz_presupuestos import forms
 
 def GetForm(request):
     if request.method == 'POST':
-        print request.POST
         form = forms.presup_recieve(request.POST)
         if form.is_valid():
             form.save()
