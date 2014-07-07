@@ -1182,6 +1182,9 @@ class inidsumesue(models.Model):
     inisutge = models.BooleanField(georef, choices = lists.BoolChoose(), 
         default = False) 
 
+    def __unicode__(self):
+        return self.metodo 
+
     class Meta:
         verbose_name = u'04.2 Metodología uso de tierra'
         verbose_name_plural = verbose_name
@@ -1242,6 +1245,8 @@ class inidhlmetod(models.Model):
     inihlcad = models.CharField(procal, max_length = 2500, null = True, 
         blank = True)
     
+    def __unicode__(self):
+        return u'--Procedimiento parámetros meteorológicos: %s. -- Procedimiento cálculo de oferta y demanda: %s' %(self.inihlppa[:150], self.inihlphd[:150])
     class Meta:
         verbose_name = u'05.1 Metodología hidro/climatología'
         verbose_name_plural = verbose_name 
@@ -1276,6 +1281,9 @@ class ihlmethaest(models.Model):
     ihlmeese = models.ForeignKey('hlmetimesca', verbose_name = escate) #CharField(escate, max_length = 2, 
         #choices = lists.EscTempChoose())
 
+    def __unicode__(self):
+        return u'Estacion: %s. Código %s' % (self.ihlmeesn, self.ihlmeesc)
+
     class Meta:
         verbose_name = u'05.1.1 Estación dentro del estudio'
         verbose_name_plural = u'Estaciones dentro del estudio'
@@ -1304,6 +1312,9 @@ class ihlmethafor(models.Model):
     inihlmsc = models.CharField(subcue, max_length = 250)
     inihlmse = models.CharField(sector, max_length = 250, 
         null = True, blank = True)
+
+    def __unicode__(self):
+        return u'Caudal: %s, Nivel del Agua: %s' % (self.inihlmca, self.inihlmni)
 
     class Meta:
         verbose_name = u'05.1.2 Información de aforos'
@@ -1531,6 +1542,9 @@ class inidhgmetho(models.Model):
     inghmomo = models.CharField(modmato, max_length = 25, 
         null = True, blank = True)
 
+    def __unicode__(self):
+        return u'Base de datos de inventario de puntos de agua: %s' % (self.inhgdbpi)
+
     class Meta:
         verbose_name = u'06.1 Metodología utilizada'
         verbose_name_plural = u'06.1 Metodologías utilizadas'
@@ -1632,6 +1646,9 @@ class inidcameth(models.Model):
     inicaixo = models.CharField(icameo, max_length = 25,
         null = True, blank = True)
 
+    def __unicode__(self):
+        return self.inicaobj
+
     class Meta:
         verbose_name = u'07.1 Metodología del estudio'
         verbose_name_plural = verbose_name
@@ -1684,6 +1701,9 @@ class inicainfoes(models.Model):
     iicaipao = models.CharField(paraot, max_length = 1000, null = True,
         blank = True)
     
+    def __unicode__(self):
+        return self.iicaiinf 
+
     class Meta:
         verbose_name = '07.2 Información del estudio'
         verbose_name_plural = verbose_name
@@ -1754,6 +1774,9 @@ class inicainfoco(models.Model):
     iicaifcy = models.CharField(capayea, max_length = 500,
         null = True, blank =True, help_text = capayea_help)
     
+    def __unicode__(self):
+        return u'Objetivos de calidad de las corrientes: %s, estudios de \
+            capacidad de asimilación %s' % (self.iicaifoc, self.iicaifca)
     class Meta:
         verbose_name = '07.3 Información complementaria'
         verbose_name_plural = verbose_name
@@ -1829,6 +1852,9 @@ class inidccmetho(models.Model):
     iiccminv = models.ForeignKey('incamequinq', verbose_name = invent,
         null = True, blank = True)  
     iiccmsec = models.ForeignKey('incamediscr', verbose_name = carsec)  
+
+    def __unicode__(self):
+        return u'Objeto: %s' % self.iiccmobj 
 
     class Meta:
         verbose_name = '08.1 Metodología del estudio'
@@ -1923,6 +1949,10 @@ class inidccminfe(models.Model):
     iiccipao = models.CharField(paraot, max_length = 70, blank = True,
         null = True)
 
+    def __unicode__(self):
+        return u'Informes y resultados de Laboratorios: %s. Estaciones \
+            de muestreo georeferenciadas: %s' % (self.iicciinf, self.iiccigeo) 
+
     class Meta:
         verbose_name = u'08.2 Información del estudio'
         verbose_name_plural = verbose_name
@@ -1992,6 +2022,11 @@ class iniccicompl(models.Model):
     iicccpma = models.NullBooleanField(pmaaexi, choices = lists.BoolChoose(),
         default = False)
     
+    def __unicode__(self):
+        return u'Contra muestreos de vertimientos de aguas residuales: %s. \
+            Sistema de administración para la información de monitoreos: %s' \
+            % (self.iicccmue, self.iicccprm)
+
     class Meta:
         verbose_name = u'08.3 Información complementaria'
         verbose_name_plural = verbose_name
@@ -2143,6 +2178,9 @@ class inidcoanmul(models.Model):
     mulmetod = models.CharField(metodo, max_length = 500)
     mulescal = models.ForeignKey('inidcoanmue', verbose_name = escala)
 
+    def __unicode__(self):
+        return u'Periodo: %s. Metodología: %s.' % (self.mulperio, self.mulmetod[:150])  
+
     class Meta:
         verbose_name = u'Análisis multitemporal'
         verbose_name_plural = u'Análisis multitemporales'
@@ -2242,6 +2280,9 @@ class inidffmeth(models.Model):
     iffgeor = models.NullBooleanField(geoame, choices = lists.BoolChoose(),
         default = False)
     
+    def __unicode__(self):
+        return u'Metodología de selección de sitios de muestreo: %s. Metodología de inventario de flora y/o características de la vegetación: %s' % (self.iffmesm[:150], self.iffmein[:150])
+
     class Meta:
         verbose_name = u'10.1 Metodología de levantamiento'
         verbose_name_plural = verbose_name
@@ -2341,6 +2382,9 @@ class inidpmecofo(models.Model):
         default = False)
     ipmfvige = models.CharField(vigepl, max_length = 200) 
     ipmfplae = models.BooleanField(planex, choices = lists.BoolChoose())
+
+    def __unicode__(self):
+        return u'Objeto: %s' % self.ipmfobje[:200] 
 
     class Meta:
         verbose_name = u'11.1 Formulación del plan y resultados'
@@ -2572,6 +2616,9 @@ class inidseasdet(models.Model):
     isedbvar = models.CharField(dbvari, max_length = 2500, 
         null = True, blank = True)
 
+    def __unicode__(self):
+        return u'Metodología: %s' % self.isemethd[:200] 
+
     class Meta:
         verbose_name = u'13.1.2 Detalle de la información'
         verbose_name_plural = u'13.1.2 Detalles de la información'
@@ -2646,6 +2693,9 @@ class inidseepdet(models.Model):
     isepesta = models.CharField(estado, max_length = 2500, 
         null = True, blank = True)
 
+    def __unicode__(self):
+        return u'Descripción de las estratégias: %s. Medios de comunicación: %s' % (self.isepestg, self.isepcomd)
+
     class Meta:
         verbose_name = u'13.2.1 Detalle de la información'
         verbose_name_plural = u'13.2.1 Detalles de la información'
@@ -2709,6 +2759,9 @@ class inidsecedet(models.Model):
         default = False)
     isepcded = models.CharField(devede, max_length = 2500, 
         null = True, blank = True)
+
+    def __unicode__(self):
+        return u'Grupos étnicos: %s. Descripción de las estrategias de participación: %s' % (self.isepccaw[:200], self.isepcded[:200]) 
 
     class Meta:
         verbose_name = u'13.3.1 Detalle de la información'
@@ -2845,6 +2898,10 @@ class inidsdsedet(models.Model):
     isedsegd = models.CharField(seguco, max_length = 2500, null = True, 
         blank = True, help_text = seguco_help)
 
+    def __unicode__(self):
+        return u'Análisis de dinámica poblacional: %s. Caracterización de \
+            servicios sociales: %s. Documentos sobre Seguridad Alimentaria\
+            : %s.' % (self.iseddina, self.servso, self.isedseal) 
     class Meta:
         verbose_name = u'13.4.1 Detalle de la información'
         verbose_name_plural = u'13.4.1 Detalles de la información'
@@ -2948,6 +3005,11 @@ class inidseccdet(models.Model):
     iseccdcc = models.CharField(docuco, max_length = 2500, null = True, 
         blank = True, help_text = docuco_help)
 
+    def __unicode__(self):
+        return u'Documentos de caracterización cultural: %s. Documentos con \
+            la caracterización de patrones de uso del territorio : %s. \
+            Documentos de caracterización de las prácticas culturales: %s' \
+            % (self.isecccul, self.iseccpat, self.iseccdoc)
     class Meta:
         verbose_name = u'13.5.1 Detalle de la información'
         verbose_name_plural = u'13.5.1 Detalles de la información'
@@ -3013,6 +3075,9 @@ class inidsevsdet(models.Model):
     isesepia = models.CharField(piloal, max_length = 2500,
         null = True, blank = True)
 
+    def __unicode__(self):
+        return u'Metodología del estudio: %s.' % self.isesemet[:200] 
+
     class Meta:
         verbose_name = u'13.6.1 Detalle de la información'
         verbose_name_plural = u'13.6.1 Detalles de la información'
@@ -3075,6 +3140,9 @@ class inidserfdet(models.Model):
     infocapl = models.CharField(capaal, max_length = 2500,
         null = True, blank = True)
     
+    def __unicode__(self):
+        return u'Cobertura del estudio: %s.' % self.infoconc 
+
     class Meta:
         verbose_name = u'13.7.1 Detalle de la información'
         verbose_name_plural = u'13.7.1 Detalles de la información'

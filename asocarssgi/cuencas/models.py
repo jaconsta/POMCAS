@@ -24,6 +24,7 @@ class cuencadescr(models.Model):
     cuenarea = models.FloatField(u'Área')
     cuencomp = models.NullBooleanField(u'Compartida', default = False, null = True, blank = True)
     cuenobse = models.CharField(u'Observaciones', max_length = 500, null = True, blank = True)
+    cuenmuni = models.IntegerField(u'Cantidad de municipios', null = True, blank = True)
 
     def __unicode__(self):
         if self.cuensubc == None:

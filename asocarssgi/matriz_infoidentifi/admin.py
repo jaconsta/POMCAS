@@ -198,6 +198,8 @@ class SuelosAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(SuelosAdmin, self).queryset(request).filter(inidsubc = 'Suelos')
     
 # Hidrología
 class MethoHidroAdmin(admin.StackedInline):
@@ -237,6 +239,8 @@ class HidrolAdmin(admin.ModelAdmin):
             ),
         }),
     )
+    def queryset(self, request):
+        return super(HidrolAdmin, self).queryset(request).filter(inidsubc = 'Hidrologia')
 
 class MethHidrAdmin(admin.ModelAdmin):
     inlines = [AforMethAdmin]
@@ -275,6 +279,9 @@ class HidrgAdmin(admin.ModelAdmin):
         'inidresp', 'inidumun', 'inidcare', 'inidcper', 
         'inidauth', 'inidanit', 'inidanor', 'inidanop',
     )
+    def queryset(self, request):
+        return super(HidrgAdmin, self).queryset(request).filter(inidsubc = 'Hidrogeologia')
+
 class HdgMethAdmin(admin.ModelAdmin):
     pass
 #    list_display = ['inhgdbpa', 'inhgquye', 'inhgceah',  
@@ -317,6 +324,9 @@ class CalAguaAdmin(admin.ModelAdmin):
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',)
         }),
     )
+    def queryset(self, request):
+        return super(CalAguaAdmin, self).queryset(request).filter(inidsubc = 'CalidadDeAgua')
+
 class CAMetoAdmin(admin.ModelAdmin):
     inlines = [CalACampaAdmin]
     fieldsets = (
@@ -331,6 +341,7 @@ class CAMetoAdmin(admin.ModelAdmin):
              )
         }),
     )
+    
 class CAInfoeAdmin(admin.ModelAdmin):
     inlines = [CalAGeoAdmin, CalALaborAdmin]
 class CAInfocAdmin(admin.ModelAdmin):
@@ -365,6 +376,9 @@ class CargContAdmin(admin.ModelAdmin):
             'inidcper', 'inidauth', 'inidanit', 'inidanor', 'inidanop',)
         }),
     )
+    def queryset(self, request):
+        return super(CargContAdmin, self).queryset(request).filter(inidsubc = 'CargasContaminantes')
+    
 class CacoInfeAdmin(admin.ModelAdmin):
     inlines = [CaCoLabAdmin, CacoGeoAdmin]
 class CacoInfcAdmin(admin.ModelAdmin):
@@ -404,6 +418,9 @@ class CoberAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(CoberAdmin, self).queryset(request).filter(inidsubc = 'Cobertura')
+    
 
 # Flora y Fauna
 class FloraMetoAdmin(admin.StackedInline):
@@ -431,6 +448,9 @@ class FloraAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(FloraAdmin, self).queryset(request).filter(inidsubc = 'FloraYFauna')
+    
 
 # PM Ecosistemas
 class FormuPlanAdmin(admin.StackedInline):
@@ -460,6 +480,9 @@ class PMEcoAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(PMEcoAdmin, self).queryset(request).filter(inidsubc = 'PMEcosistemas')
+    
 
 #class PMEFormAdmin(admin.ModelAdmin):
 #    inlines = [PlaManEjeAdmin]
@@ -473,6 +496,7 @@ class AmenActoAdmi(admin.TabularInline):
     model = inriesameac
 
 class AmenazAdmin(admin.ModelAdmin):
+    list_display = ['iniescor', 'iniescue', 'ameniden']
     inlines = [AmenActoAdmi]
     fieldsets = (
         (u'Cuenca y corporación', {
@@ -520,6 +544,8 @@ class RiesgoAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(RiesgoAdmin, self).queryset(request).filter(inidsubc = 'Riesgos')
 
 #Socioeconómico - Actores Sociales
 class DetaActSocAdmin(admin.StackedInline):
@@ -543,6 +569,9 @@ class ActSocAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(ActSocAdmin, self).queryset(request).filter(inidsubc = 'seActoresSoc')
+    
 
 #Socioeconómico - Estrategia de Participación
 class DetaEstrParAdmin(admin.StackedInline):
@@ -566,6 +595,9 @@ class EstrParAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(EstrParAdmin, self).queryset(request).filter(inidsubc = 'seEstrParticip')
+    
 class EstPaDeAdmin(admin.ModelAdmin):
     inlines = [DetEstPaInsAdmin]
     fieldsets = (
@@ -604,6 +636,9 @@ class ComEtnAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(ComEtnAdmin, self).queryset(request).filter(inidsubc = 'seParticComuEtnicas')
+    
 class CoEtDeAdmin(admin.ModelAdmin):
     inlines = [CertComEtnAdmin]
     fields = ('iseparti',
@@ -636,6 +671,8 @@ class DiagSocAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(DiagSocAdmin, self).queryset(request).filter(inidsubc = 'seDiagSocioEconom')
 
 #Socioeconómico - Caracterización Cultural
 class DetaCarCultAdmin(admin.StackedInline):
@@ -662,6 +699,9 @@ class CarCultAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(CarCultAdmin, self).queryset(request).filter(inidsubc = 'seCaractCultural')
+    
 class CaCUDetAdmin(admin.ModelAdmin):
     inlines = [DetDCarCultAdmin]
     fields = ('isecarac', 
@@ -690,6 +730,8 @@ class ValorAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(ValorAdmin, self).queryset(request).filter(inidsubc = 'seValorServicEcos')
 
 #Socioeconómico - Relaciones funcionales urbano- regionales
 class DetaRelacAdmin(admin.StackedInline):
@@ -717,6 +759,9 @@ class RelacAdmin(admin.ModelAdmin):
             )
         }),
     )
+    def queryset(self, request):
+        return super(RelacAdmin, self).queryset(request).filter(inidsubc = 'seRelaFuncUrbaRegio')
+    
 class RelacDetaAdmin(admin.ModelAdmin):
     inlines = [DeCompRelacAdmin]
     fields = ('infuurre',
