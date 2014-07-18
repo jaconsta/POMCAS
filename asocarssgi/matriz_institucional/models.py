@@ -643,6 +643,9 @@ class minsrhvinpomc(models.Model):
     mirhpote = models.CharField(u'Temática a la que se encuentra adscrito', 
                          max_length = 120, null = True, blank = True) 
 
+    def __unicode__(self):
+        return u''
+
     class Meta:
         verbose_name = u'8.1 Personal vinculado con el proceso de POMCAS'
         verbose_name_plural = verbose_name
