@@ -17,7 +17,7 @@ class matrcartogb(models.Model):
     cartvali = models.BooleanField(u'La matriz es valida', default = False)
 
 class cartoginven(models.Model):
-    cartuser = models.ForeignKey(User)
+    cartuser = models.ForeignKey(User, verbose_name = u'Corporación')
     cartplan = models.CharField(u'Numeración de la plancha', max_length = 50)
     cartform = models.CharField(u'Formato', max_length = 10)
     cartesca = models.IntegerField(u'Escala')
@@ -43,16 +43,19 @@ class cartonargis(models.Model):
     repetida = models.IntegerField(null = True, blank = True)
     disponib = models.CharField(max_length = 3, null = True, blank = True)
 
+    def __unicode__(self):
+        return self.planchav
+
 class nargisyearc(models.Model):
     archgrid = models.ForeignKey('cartonargis', verbose_name=u'Plancha ArcGIS', unique = True)
-    yeafeigh = models.NullBooleanField(u'Años Fuente Menores al año 1990')
-    yeafnine = models.NullBooleanField(u'Años Fuente entre 1990 y 2000')
-    yeaftwen = models.NullBooleanField(u'Años Fuente entre 2000 y 2010')
-    yeaftwte = models.NullBooleanField(u'Años Fuente mayores al 2010')
-    yeaeeigh = models.NullBooleanField(u'Años Elaboracion Menores al año 1990')
-    yeaenine = models.NullBooleanField(u'Años Elaboracion entre 1990 y 2000')
-    yeaetwen = models.NullBooleanField(u'Años Elaboracion entre 2000 y 2010')
-    yeaetwte = models.NullBooleanField(u'Años Elaboracion mayores al 2010')
+    yeafeigh = models.NullBooleanField(u'Fuente Menores al año 1990')
+    yeafnine = models.NullBooleanField(u'Fuente entre 1990 y 2000')
+    yeaftwen = models.NullBooleanField(u'Fuente entre 2000 y 2010')
+    yeaftwte = models.NullBooleanField(u'Fuente mayores al 2010')
+    yeaeeigh = models.NullBooleanField(u'Elab. Menores al año 1990')
+    yeaenine = models.NullBooleanField(u'Elab. entre 1990 y 2000')
+    yeaetwen = models.NullBooleanField(u'Elab. entre 2000 y 2010')
+    yeaetwte = models.NullBooleanField(u'Elab. mayores al 2010')
 
     class Meta:
         verbose_name = u'Clasificación cartografía [2010, 2000, 1990]'
